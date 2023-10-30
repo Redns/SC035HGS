@@ -396,3 +396,21 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+docs/*
+
+code/.vscode
+code/2_ARM
+code/03 前置基础：摄像头传图
+code/12_vdma_hdmi_out
+code/14_ov5640_single
+code/20220731ygACd6Xc
+code/blank
+code/esp32-camera
+code/k230_sdk
+code/vhes
+code/sc_camera_dvp/sc_camera_dvp.cache
+code/sc_camera_dvp/sc_camera_dvp.gen
+code/sc_camera_dvp/sc_camera_dvp.runs
+
+*.log

@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sun Mar 14 15:09:38 2021
+# Process ID: 254648
+# Current directory: G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.runs/synth_1
+# Command line: vivado.exe -log uiFDMA.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source uiFDMA.tcl
+# Log file: G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.runs/synth_1/uiFDMA.vds
+# Journal file: G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source uiFDMA.tcl -notrace

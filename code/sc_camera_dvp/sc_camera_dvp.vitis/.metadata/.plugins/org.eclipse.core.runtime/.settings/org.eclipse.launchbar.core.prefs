@@ -1,0 +1,17 @@
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:Debugger_sc_camera_dvp-Default,org.eclipse.launchbar.core.descriptorType.default\:sc_camera_dvp
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_lwip_tcp_client-Default/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_lwip_tcp_client-Default/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_sc_camera_dvp-Default/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_sc_camera_dvp-Default/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_sc_camera_dvp_test-Default/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:Debugger_sc_camera_dvp_test-Default/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:lwip_tcp_client/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:lwip_tcp_client/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:sc_camera_dvp/activeLaunchMode=debug
+org.eclipse.launchbar.core.descriptorType.default\:sc_camera_dvp/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:sc_camera_dvp_test/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:sc_camera_init/activeLaunchMode=run

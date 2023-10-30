@@ -1,0 +1,34 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Mon Feb 24 13:42:24 2020
+# Process ID: 24032
+# Current directory: D:/Boards/KU040/CH26/fpga_prj/uisrc/03_ip/uihdmitx/project_1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent22484 D:\Boards\KU040\CH26\fpga_prj\uisrc\03_ip\uihdmitx\project_1\project_1.xpr
+# Log file: D:/Boards/KU040/CH26/fpga_prj/uisrc/03_ip/uihdmitx/project_1/vivado.log
+# Journal file: D:/Boards/KU040/CH26/fpga_prj/uisrc/03_ip/uihdmitx/project_1\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/Boards/KU040/CH26/fpga_prj/uisrc/03_ip/uihdmitx/project_1/project_1.xpr
+update_compile_order -fileset sources_1
+add_files -norecurse G:/V2020/S01/CH26/fpga_prj/uisrc/03_ip/uihdmitx/uihdmitx.v.v
+update_compile_order -fileset sources_1
+export_ip_user_files -of_objects  [get_files D:/Boards/KU040/CH26/fpga_prj/uisrc/03_ip/uihdmitx/uihdmitx.v.v] -no_script -reset -force -quiet
+remove_files  D:/Boards/KU040/CH26/fpga_prj/uisrc/03_ip/uihdmitx/uihdmitx.v.v
+export_ip_user_files -of_objects  [get_files G:/V2020/S01/CH26/fpga_prj/uisrc/03_ip/uihdmitx/uihdmitx.v.v] -no_script -reset -force -quiet
+remove_files  G:/V2020/S01/CH26/fpga_prj/uisrc/03_ip/uihdmitx/uihdmitx.v.v
+update_compile_order -fileset sources_1
+add_files -norecurse D:/Boards/KU040/CH26/fpga_prj/uisrc/03_ip/uihdmitx/uihdmitx.v
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+ipx::package_project -root_dir D:/Boards/KU040/CH26/fpga_prj/uisrc/03_ip/uihdmitx -vendor xilinx.com -library user -taxonomy /UserIP -force
+set_property widget {comboBox} [ipgui::get_guiparamspec -name "FAMILY" -component [ipx::current_core] ]
+set_property value_validation_type list [ipx::get_user_parameters FAMILY -of_objects [ipx::current_core]]
+set_property value_validation_list {UFAMILY 7FAMILY} [ipx::get_user_parameters FAMILY -of_objects [ipx::current_core]]
+set_property core_revision 2 [ipx::current_core]
+ipx::create_xgui_files [ipx::current_core]
+ipx::update_checksums [ipx::current_core]
+ipx::save_core [ipx::current_core]
+set_property  ip_repo_paths  {d:/Boards/KU040/CH26/fpga_prj/uisrc/03_ip/uihdmitx g:/v2020/s01/ch26/fpga_prj/uisrc/03_ip/uihdmitx} [current_project]
+update_ip_catalog

@@ -1,0 +1,22 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sat Feb  6 21:32:31 2021
+# Process ID: 1223896
+# Current directory: G:/V2020/S02/02_example_fdma_ddr_20/02_fdma_3buf_test/prj_normal/uisrc/03_ip/uifdma/project_1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent1262792 G:\V2020\S02\02_example_fdma_ddr_20\02_fdma_3buf_test\prj_normal\uisrc\03_ip\uifdma\project_1\project_1.xpr
+# Log file: G:/V2020/S02/02_example_fdma_ddr_20/02_fdma_3buf_test/prj_normal/uisrc/03_ip/uifdma/project_1/vivado.log
+# Journal file: G:/V2020/S02/02_example_fdma_ddr_20/02_fdma_3buf_test/prj_normal/uisrc/03_ip/uifdma/project_1\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project G:/V2020/S02/02_example_fdma_ddr_20/02_fdma_3buf_test/prj_normal/uisrc/03_ip/uifdma/project_1/project_1.xpr
+update_compile_order -fileset sources_1
+ipx::open_ipxact_file {G:\v2020\s02\02_example_fdma_ddr_20\02_fdma_3buf_test\prj_normal\uisrc\03_ip\uifdma\component.xml}
+ipx::merge_project_changes hdl_parameters [ipx::current_core]
+set_property core_revision 3 [ipx::current_core]
+ipx::create_xgui_files [ipx::current_core]
+ipx::update_checksums [ipx::current_core]
+ipx::check_integrity [ipx::current_core]
+ipx::save_core [ipx::current_core]
+update_ip_catalog -rebuild -repo_path g:/v2020/s02/02_example_fdma_ddr_20/02_fdma_3buf_test/prj_normal/uisrc/03_ip/uifdma

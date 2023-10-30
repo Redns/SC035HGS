@@ -1,0 +1,128 @@
+timestamp=[2023-10-19 08:43:51], mode=WORKBENCH_START, duration=0:00:08.297, duration_ms=8297, data={}
+timestamp=[2023-10-19 08:43:51], mode=WORKBENCH_UI_INIT, duration=0:00:00.697, duration_ms=697, data={editors_count=0, platform_editors_count=0, projects_count=0, platform_projects_count=0, active_platform_editor=false, projects=}
+timestamp=[2023-10-19 08:43:54], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:00.057, duration_ms=57, data={}
+timestamp=[2023-10-19 15:42:31], mode=APP_CREATION, duration=0:00:24.163, duration_ms=24163, data={name=sc_camera_dvp, project_type=sdk, os=standalone, processor=ps7_cortexa9, runtime=cpp, platform=system_wrapper, application_type=application}
+timestamp=[2023-10-19 15:43:17], mode=PLATFORM_GENERATION, duration=0:00:40.725, duration_ms=40725, data={name=system_wrapper}
+timestamp=[2023-10-19 15:43:21], mode=BUILD, duration=0:00:03.584, duration_ms=3584, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-24 08:43:09], mode=WORKBENCH_START, duration=0:00:17.145, duration_ms=17145, data={}
+timestamp=[2023-10-24 08:43:10], mode=WORKBENCH_UI_INIT, duration=0:00:01.323, duration_ms=1323, data={editors_count=3, platform_editors_count=1, projects_count=4, platform_projects_count=1, active_platform_editor=false, projects=RemoteSystemsTempFiles,sc_camera_dvp,sc_camera_dvp_system,system_wrapper}
+timestamp=[2023-10-24 08:43:11], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:00.111, duration_ms=111, data={}
+timestamp=[2023-10-24 09:43:13], mode=APP_CREATION, duration=0:00:26.173, duration_ms=26173, data={name=sc_camera_dvp, project_type=sdk, os=freertos10_xilinx, processor=ps7_cortexa9, runtime=cpp, platform=system_wrapper_1, application_type=application}
+timestamp=[2023-10-25 08:22:17], mode=WORKBENCH_START, duration=0:00:13.797, duration_ms=13797, data={}
+timestamp=[2023-10-25 08:22:18], mode=WORKBENCH_UI_INIT, duration=0:00:01.181, duration_ms=1181, data={editors_count=9, platform_editors_count=3, projects_count=4, platform_projects_count=1, active_platform_editor=false, projects=RemoteSystemsTempFiles,sc_camera_dvp,sc_camera_dvp_system,system_wrapper_1}
+timestamp=[2023-10-25 08:22:22], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:00.244, duration_ms=244, data={}
+timestamp=[2023-10-25 08:23:47], mode=APP_CREATION, duration=0:00:34.776, duration_ms=34776, data={name=lwip_tcp_client, project_type=sdk, os=freertos10_xilinx, processor=ps7_cortexa9, runtime=cpp, platform=system_wrapper, application_type=application}
+timestamp=[2023-10-25 08:25:30], mode=PLATFORM_GENERATION, duration=0:00:52.973, duration_ms=52973, data={name=system_wrapper}
+timestamp=[2023-10-25 08:25:37], mode=BUILD, duration=0:00:06.757, duration_ms=6757, data={name=lwip_tcp_client, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 08:25:54], mode=BUILD, duration=0:00:16.414, duration_ms=16414, data={name=lwip_tcp_client_system, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 08:44:12], mode=APP_CREATION, duration=0:00:08.271, duration_ms=8271, data={name=lwip_tcp_client, project_type=sdk, os=freertos10_xilinx, processor=cortex-a9, runtime=C/C++, platform=system_wrapper, application_type=application}
+timestamp=[2023-10-25 08:46:17], mode=BUILD, duration=0:00:02.803, duration_ms=2803, data={name=lwip_tcp_client, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 08:46:29], mode=BUILD, duration=0:00:11.175, duration_ms=11175, data={name=lwip_tcp_client_system, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 08:48:01], mode=PLATFORM_GENERATION, duration=0:00:13.464, duration_ms=13464, data={name=system_wrapper}
+timestamp=[2023-10-25 08:48:11], mode=BUILD, duration=0:00:01.702, duration_ms=1702, data={name=lwip_tcp_client, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 08:48:21], mode=BUILD, duration=0:00:09.662, duration_ms=9662, data={name=lwip_tcp_client_system, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 09:00:54], mode=APP_CREATION, duration=0:00:07.763, duration_ms=7763, data={name=lwip_tcp_server, project_type=sdk, os=freertos10_xilinx, processor=cortex-a9, runtime=C/C++, platform=system_wrapper, application_type=application}
+timestamp=[2023-10-25 09:01:47], mode=BUILD, duration=0:00:01.732, duration_ms=1732, data={name=lwip_tcp_server, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 09:01:56], mode=BUILD, duration=0:00:08.871, duration_ms=8871, data={name=lwip_tcp_server_system, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 09:05:28], mode=BUILD, duration=0:00:00.519, duration_ms=519, data={name=lwip_tcp_server, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 09:44:05], mode=PLATFORM_GENERATION, duration=0:00:44.597, duration_ms=44597, data={name=system_wrapper}
+timestamp=[2023-10-25 09:47:23], mode=BUILD, duration=0:00:02.073, duration_ms=2073, data={name=lwip_tcp_server, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 09:47:42], mode=BUILD, duration=0:00:09.972, duration_ms=9972, data={name=lwip_tcp_server_system, configuration=Debug, clean_build=false}
+timestamp=[2023-10-25 14:28:16], mode=WORKBENCH_START, duration=0:00:12.755, duration_ms=12755, data={}
+timestamp=[2023-10-25 14:28:18], mode=WORKBENCH_UI_INIT, duration=0:00:01.573, duration_ms=1573, data={editors_count=6, platform_editors_count=1, projects_count=8, platform_projects_count=1, active_platform_editor=false, projects=RemoteSystemsTempFiles,lwip_tcp_client,lwip_tcp_client_system,lwip_tcp_server,lwip_tcp_server_system,sc_camera_dvp,sc_camera_dvp_system,system_wrapper}
+timestamp=[2023-10-25 14:28:32], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:00.140, duration_ms=140, data={}
+timestamp=[2023-10-25 14:30:48], mode=APP_CREATION, duration=0:00:20.140, duration_ms=20140, data={name=lwip_tcp_client, project_type=sdk, os=standalone, processor=ps7_cortexa9, runtime=cpp, platform=system_wrapper_standalone, application_type=application}
+timestamp=[2023-10-25 14:32:21], mode=APP_CREATION, duration=0:00:18.958, duration_ms=18958, data={name=sc_camera_dvp, project_type=sdk, os=freertos10_xilinx, processor=ps7_cortexa9, runtime=cpp, platform=system_wrapper_freertos, application_type=application}
+timestamp=[2023-10-27 09:07:13], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:00.089, duration_ms=89, data={}
+timestamp=[2023-10-27 09:07:14], mode=WORKBENCH_START, duration=0:00:15.114, duration_ms=15114, data={}
+timestamp=[2023-10-27 09:07:16], mode=WORKBENCH_UI_INIT, duration=0:00:02.047, duration_ms=2047, data={editors_count=5, platform_editors_count=0, projects_count=7, platform_projects_count=2, active_platform_editor=false, projects=RemoteSystemsTempFiles,lwip_tcp_client,lwip_tcp_client_system,sc_camera_dvp,sc_camera_dvp_system,system_wrapper_freertos,system_wrapper_standalone}
+timestamp=[2023-10-27 09:11:38], mode=PLATFORM_GENERATION, duration=0:00:47.724, duration_ms=47724, data={name=system_wrapper_freertos}
+timestamp=[2023-10-27 09:11:48], mode=BUILD, duration=0:00:03.322, duration_ms=3322, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:15:58], mode=PLATFORM_GENERATION, duration=0:00:06.219, duration_ms=6219, data={name=system_wrapper_freertos}
+timestamp=[2023-10-27 09:15:58], mode=BUILD, duration=0:00:00.208, duration_ms=208, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-27 09:17:01], mode=PLATFORM_GENERATION, duration=0:00:40.750, duration_ms=40750, data={name=system_wrapper_freertos}
+timestamp=[2023-10-27 09:19:55], mode=BUILD, duration=0:00:00.250, duration_ms=250, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-27 09:19:56], mode=BUILD, duration=0:00:00.865, duration_ms=865, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:20:50], mode=BUILD, duration=0:00:00.480, duration_ms=480, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:22:05], mode=BUILD, duration=0:00:00.200, duration_ms=200, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-27 09:22:06], mode=BUILD, duration=0:00:00.885, duration_ms=885, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:23:28], mode=BUILD, duration=0:00:00.186, duration_ms=186, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-27 09:23:29], mode=BUILD, duration=0:00:00.830, duration_ms=830, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:25:30], mode=BUILD, duration=0:00:00.177, duration_ms=177, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-27 09:25:31], mode=BUILD, duration=0:00:01.165, duration_ms=1165, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:28:39], mode=BUILD, duration=0:00:00.784, duration_ms=784, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:29:22], mode=BUILD, duration=0:00:00.840, duration_ms=840, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:32:21], mode=PLATFORM_GENERATION, duration=0:00:05.447, duration_ms=5447, data={name=system_wrapper_freertos}
+timestamp=[2023-10-27 09:32:21], mode=BUILD, duration=0:00:00.205, duration_ms=205, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-27 09:33:34], mode=PLATFORM_GENERATION, duration=0:00:34.890, duration_ms=34890, data={name=system_wrapper_freertos}
+timestamp=[2023-10-27 09:33:37], mode=BUILD, duration=0:00:03.010, duration_ms=3010, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:40:22], mode=BUILD, duration=0:00:00.170, duration_ms=170, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-27 09:40:22], mode=BUILD, duration=0:00:00.435, duration_ms=435, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:41:26], mode=BUILD, duration=0:00:00.423, duration_ms=423, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:42:31], mode=APP_CREATION, duration=0:00:06.560, duration_ms=6560, data={name=lwip_tcp_client_freertos, project_type=sdk, os=freertos10_xilinx, processor=cortex-a9, runtime=C/C++, platform=system_wrapper_freertos, application_type=application}
+timestamp=[2023-10-27 09:43:45], mode=BUILD, duration=0:00:00.246, duration_ms=246, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-27 09:43:48], mode=BUILD, duration=0:00:02.535, duration_ms=2535, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 09:47:09], mode=APP_CREATION, duration=0:00:22.160, duration_ms=22160, data={name=sc_camera_dvp_test, project_type=sdk, os=freertos10_xilinx, processor=ps7_cortexa9, runtime=cpp, platform=system_wrapper, application_type=application}
+timestamp=[2023-10-27 09:48:59], mode=PLATFORM_GENERATION, duration=0:00:38.570, duration_ms=38570, data={name=system_wrapper}
+timestamp=[2023-10-27 09:49:04], mode=BUILD, duration=0:00:05.438, duration_ms=5438, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:11:31], mode=BUILD, duration=0:00:01.045, duration_ms=1045, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:11:47], mode=BUILD, duration=0:00:00.880, duration_ms=880, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:14:21], mode=BUILD, duration=0:00:01.021, duration_ms=1021, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:19:51], mode=BUILD, duration=0:00:00.986, duration_ms=986, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:21:00], mode=BUILD, duration=0:00:00.923, duration_ms=923, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:22:09], mode=BUILD, duration=0:00:01.041, duration_ms=1041, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:22:25], mode=BUILD, duration=0:00:00.356, duration_ms=356, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:24:31], mode=BUILD, duration=0:00:00.905, duration_ms=905, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:26:13], mode=BUILD, duration=0:00:01.190, duration_ms=1190, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:26:34], mode=BUILD, duration=0:00:00.851, duration_ms=851, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:26:55], mode=BUILD, duration=0:00:01.101, duration_ms=1101, data={name=sc_camera_dvp_test, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:33:46], mode=APP_CREATION, duration=0:00:22.869, duration_ms=22869, data={name=sc_camera_dvp, project_type=sdk, os=standalone, processor=ps7_cortexa9, runtime=cpp, platform=system_wrapper_standalone, application_type=application}
+timestamp=[2023-10-27 10:39:52], mode=PLATFORM_GENERATION, duration=0:00:46.498, duration_ms=46498, data={name=system_wrapper_standalone}
+timestamp=[2023-10-27 10:41:06], mode=BUILD, duration=0:00:04.150, duration_ms=4150, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:41:16], mode=BUILD, duration=0:00:00.933, duration_ms=933, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:41:39], mode=BUILD, duration=0:00:01.096, duration_ms=1096, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:47:00], mode=PLATFORM_GENERATION, duration=0:00:31.174, duration_ms=31174, data={name=system_wrapper_standalone}
+timestamp=[2023-10-27 10:47:14], mode=BUILD, duration=0:00:04.960, duration_ms=4960, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:51:09], mode=BUILD, duration=0:00:00.524, duration_ms=524, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:51:21], mode=BUILD, duration=0:00:00.559, duration_ms=559, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:51:28], mode=BUILD, duration=0:00:00.682, duration_ms=682, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:52:52], mode=BUILD, duration=0:00:00.545, duration_ms=545, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:53:02], mode=BUILD, duration=0:00:00.795, duration_ms=795, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:53:21], mode=BUILD, duration=0:00:00.565, duration_ms=565, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:54:08], mode=PLATFORM_GENERATION, duration=0:00:05.730, duration_ms=5730, data={name=system_wrapper_standalone}
+timestamp=[2023-10-27 10:54:08], mode=BUILD, duration=0:00:00.296, duration_ms=296, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-27 10:54:53], mode=PLATFORM_GENERATION, duration=0:00:41.966, duration_ms=41966, data={name=system_wrapper_standalone}
+timestamp=[2023-10-27 10:55:01], mode=BUILD, duration=0:00:07.450, duration_ms=7450, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 10:57:01], mode=APP_CREATION, duration=0:00:06.264, duration_ms=6264, data={name=sc_camera_init, project_type=sdk, os=standalone, processor=cortex-a9, runtime=C/C++, platform=system_wrapper_standalone, application_type=application}
+timestamp=[2023-10-27 11:00:10], mode=BUILD, duration=0:00:02.175, duration_ms=2175, data={name=sc_camera_init, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 11:00:42], mode=BUILD, duration=0:00:00.350, duration_ms=350, data={name=sc_camera_init, configuration=Debug, clean_build=false}
+timestamp=[2023-10-27 22:16:21], mode=WORKBENCH_START, duration=0:00:10.647, duration_ms=10647, data={}
+timestamp=[2023-10-27 22:16:22], mode=WORKBENCH_UI_INIT, duration=0:00:01.084, duration_ms=1084, data={editors_count=7, platform_editors_count=0, projects_count=9, platform_projects_count=2, active_platform_editor=false, projects=RemoteSystemsTempFiles,sc_camera_dvp,sc_camera_dvp_system,sc_camera_dvp_test,sc_camera_dvp_test_system,sc_camera_init,sc_camera_init_system,system_wrapper,system_wrapper_standalone}
+timestamp=[2023-10-27 22:16:37], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:00.201, duration_ms=201, data={}
+timestamp=[2023-10-30 16:57:11], mode=PLATFORM_GENERATION, duration=0:00:38.884, duration_ms=38884, data={name=system_wrapper_standalone}
+timestamp=[2023-10-30 16:58:12], mode=BUILD, duration=0:00:01.720, duration_ms=1720, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 16:59:30], mode=BUILD, duration=0:00:04.868, duration_ms=4868, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:00:15], mode=BUILD, duration=0:00:00.903, duration_ms=903, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:01:15], mode=PLATFORM_GENERATION, duration=0:00:07.007, duration_ms=7007, data={name=system_wrapper_standalone}
+timestamp=[2023-10-30 17:01:15], mode=BUILD, duration=0:00:00.274, duration_ms=274, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-30 17:02:14], mode=PLATFORM_GENERATION, duration=0:00:55.962, duration_ms=55962, data={name=system_wrapper_standalone}
+timestamp=[2023-10-30 17:02:24], mode=BUILD, duration=0:00:09.781, duration_ms=9781, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:20:13], mode=PLATFORM_GENERATION, duration=0:00:30.998, duration_ms=30998, data={name=system_wrapper_standalone}
+timestamp=[2023-10-30 17:20:14], mode=BUILD, duration=0:00:01.195, duration_ms=1195, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:25:28], mode=APP_CREATION, duration=0:00:08.170, duration_ms=8170, data={name=sc_camera_dvp, project_type=sdk, os=standalone, processor=cortex-a9, runtime=C/C++, platform=system_wrapper_standalone, application_type=application}
+timestamp=[2023-10-30 17:26:30], mode=BUILD, duration=0:00:04.008, duration_ms=4008, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:27:19], mode=BUILD, duration=0:00:00.583, duration_ms=583, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:28:54], mode=APP_CREATION, duration=0:00:37.768, duration_ms=37768, data={name=sc_camera_dvp, project_type=sdk, os=standalone, processor=ps7_cortexa9, runtime=cpp, platform=system_wrapper, application_type=application}
+timestamp=[2023-10-30 17:29:49], mode=PLATFORM_GENERATION, duration=0:00:48.351, duration_ms=48351, data={name=system_wrapper}
+timestamp=[2023-10-30 17:29:55], mode=BUILD, duration=0:00:06.124, duration_ms=6124, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:32:17], mode=BUILD, duration=0:00:00.256, duration_ms=256, data={name=sc_camera_dvp, configuration=Debug, clean_build=true}
+timestamp=[2023-10-30 17:32:18], mode=BUILD, duration=0:00:00.968, duration_ms=968, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:33:02], mode=BUILD, duration=0:00:00.540, duration_ms=540, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:33:15], mode=BUILD, duration=0:00:00.583, duration_ms=583, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:33:40], mode=BUILD, duration=0:00:03.518, duration_ms=3518, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:33:50], mode=BUILD, duration=0:00:01.200, duration_ms=1200, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:43:46], mode=BUILD, duration=0:00:01.130, duration_ms=1130, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:53:21], mode=BUILD, duration=0:00:01.028, duration_ms=1028, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:54:53], mode=BUILD, duration=0:00:01.032, duration_ms=1032, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 17:58:29], mode=BUILD, duration=0:00:00.987, duration_ms=987, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}
+timestamp=[2023-10-30 18:01:24], mode=BUILD, duration=0:00:01.118, duration_ms=1118, data={name=sc_camera_dvp, configuration=Debug, clean_build=false}

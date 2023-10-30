@@ -1,0 +1,219 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sun Mar 14 15:09:38 2021
+# Process ID: 254648
+# Current directory: G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.runs/synth_1
+# Command line: vivado.exe -log uiFDMA.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source uiFDMA.tcl
+# Log file: G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.runs/synth_1/uiFDMA.vds
+# Journal file: G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source uiFDMA.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'g:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma'.
+WARNING: [IP_Flow 19-3656] If you move the project, the path for repository 'g:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma' may become invalid. A better location for the repository would be in a path adjacent to the project. (Current project location is 'g:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.runs/synth_1'.)
+WARNING: [IP_Flow 19-3685] Ignored loading user repository 'g:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/v2020/s02/02_example_fdma_ddr_20/02_fdma_3buf_test/prj_normal/uisrc/03_ip/uifdma'. The path is contained within another repository.
+WARNING: [IP_Flow 19-2248] Failed to load user IP repository 'g:/v2020/s01/ch31/fpga_prj/uisrc/03_ip/uiuart'; Can't find the specified path.
+If this directory should no longer be in your list of user repositories, go to the IP Settings dialog and remove it.
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'g:/V2020/S02/02_example_fdma_ddr_20/02_fdma_3buf_test/prj_normal/uisrc/03_ip/uitpg/ip_repo'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Xilinx/Vivado/2020.2/data/ip'.
+WARNING: [IP_Flow 19-4995] The host OS only allows 260 characters in a normal path. The IP cache path is more than 80 characters. If you experience issues with IP caching, please consider changing the IP cache to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. 
+Current IP cache path is g:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.cache/ip 
+Command: synth_design -top uiFDMA -part xc7z100ffv1156-2
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z100'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z100'
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 118604
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1099.273 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'uiFDMA' [G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/uiFDMA.v:24]
+	Parameter M_AXI_ID_WIDTH bound to: 1 - type: integer 
+	Parameter M_AXI_ID bound to: 0 - type: integer 
+	Parameter M_AXI_ADDR_WIDTH bound to: 32 - type: integer 
+	Parameter M_AXI_DATA_WIDTH bound to: 128 - type: integer 
+	Parameter AXI_BYTES bound to: 16 - type: integer 
+WARNING: [Synth 8-6104] Input port 'bit_depth' has an internal driver [G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/uiFDMA.v:99]
+WARNING: [Synth 8-6104] Input port 'bit_depth' has an internal driver [G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/uiFDMA.v:99]
+WARNING: [Synth 8-6104] Input port 'bit_depth' has an internal driver [G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/uiFDMA.v:99]
+WARNING: [Synth 8-6104] Input port 'bit_depth' has an internal driver [G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/uiFDMA.v:99]
+INFO: [Synth 8-6155] done synthesizing module 'uiFDMA' (1#1) [G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/uiFDMA.v:24]
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:05 ; elapsed = 00:00:04 . Memory (MB): peak = 1099.273 ; gain = 0.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1099.273 ; gain = 0.000
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z100ffv1156-2
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1099.273 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7z100ffv1156-2
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1099.273 ; gain = 0.000
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   16 Bit       Adders := 2     
+	   3 Input   16 Bit       Adders := 2     
+	   2 Input    9 Bit       Adders := 2     
+	   2 Input    8 Bit       Adders := 2     
++---Registers : 
+	               32 Bit    Registers := 2     
+	               16 Bit    Registers := 4     
+	                9 Bit    Registers := 4     
+	                1 Bit    Registers := 10    
++---Muxes : 
+	   2 Input   32 Bit        Muxes := 1     
+	   2 Input   16 Bit        Muxes := 2     
+	   9 Input    8 Bit        Muxes := 2     
+	   2 Input    1 Bit        Muxes := 4     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 2020 (col length:140)
+BRAMs: 1510 (col length: RAMB18 140 RAMB36 70)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 1186.605 ; gain = 87.332
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1192.027 ; gain = 92.754
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1201.234 ; gain = 101.961
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1201.234 ; gain = 101.961
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1201.234 ; gain = 101.961
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1201.234 ; gain = 101.961
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1201.234 ; gain = 101.961
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1201.234 ; gain = 101.961
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1201.234 ; gain = 101.961
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |    34|
+|3     |LUT1   |    24|
+|4     |LUT2   |    47|
+|5     |LUT3   |    87|
+|6     |LUT4   |    39|
+|7     |LUT5   |    16|
+|8     |LUT6   |    24|
+|9     |FDRE   |   170|
+|10    |FDSE   |     4|
+|11    |IBUF   |   362|
+|12    |OBUF   |   398|
+|13    |OBUFT  |     1|
++------+-------+------+
+
+Report Instance Areas: 
++------+---------+-------+------+
+|      |Instance |Module |Cells |
++------+---------+-------+------+
+|1     |top      |       |  1207|
++------+---------+-------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1201.234 ; gain = 101.961
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 4 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1201.234 ; gain = 101.961
+Synthesis Optimization Complete : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 1201.234 ; gain = 101.961
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.009 . Memory (MB): peak = 1206.059 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 34 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+WARNING: [Netlist 29-101] Netlist 'uiFDMA' is not ideal for floorplanning, since the cellview 'uiFDMA' contains a large number of primitives.  Please consider enabling hierarchy in synthesis if you want to do floorplanning.
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1319.320 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+18 Infos, 9 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 1319.320 ; gain = 220.047
+INFO: [Common 17-1381] The checkpoint 'G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.runs/synth_1/uiFDMA.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file uiFDMA_utilization_synth.rpt -pb uiFDMA_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Sun Mar 14 15:10:02 2021...
