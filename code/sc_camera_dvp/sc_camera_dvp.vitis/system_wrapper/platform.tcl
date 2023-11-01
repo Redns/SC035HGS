@@ -20,3 +20,21 @@ domain active {zynq_fsbl}
 domain active {standalone_ps7_cortexa9_0}
 platform generate -quick
 platform generate
+platform active {system_wrapper}
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+platform active {system_wrapper}
+domain active {zynq_fsbl}
+domain active {standalone_ps7_cortexa9_0}
+bsp reload
+bsp reload
+bsp config stdin "ps7_coresight_comp_0"
+bsp config stdout "ps7_coresight_comp_0"
+bsp config dhcp_does_arp_check "false"
+bsp config lwip_dhcp "false"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0,zynq_fsbl 
+platform active {system_wrapper}
+platform generate -domains 

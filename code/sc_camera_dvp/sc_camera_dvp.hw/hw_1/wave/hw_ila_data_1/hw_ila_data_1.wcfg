@@ -11,54 +11,54 @@
    <zoom_setting>
       <ZoomStartTime time="0"></ZoomStartTime>
       <ZoomEndTime time="1,025"></ZoomEndTime>
-      <Cursor1Time time="190"></Cursor1Time>
+      <Cursor1Time time="602"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="447"></NameColumnWidth>
-      <ValueColumnWidth column_width="135"></ValueColumnWidth>
+      <ValueColumnWidth column_width="130"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="6" />
    <wave_markers>
    </wave_markers>
-   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_3_IIC_scl_i_1" type="logic">
+   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_0_IIC_scl_i_1" type="logic">
       <obj_property name="DisplayName">FullPathName</obj_property>
-      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_3_IIC_scl_i_1</obj_property>
-      <obj_property name="ObjectShortName">SLOT_3_IIC_scl_i_1</obj_property>
+      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_0_IIC_scl_i_1</obj_property>
+      <obj_property name="ObjectShortName">SLOT_0_IIC_scl_i_1</obj_property>
       <obj_property name="LABELRADIX">true</obj_property>
       <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>
-   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_3_IIC_scl_o_1" type="logic">
+   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_0_IIC_scl_o_1" type="logic">
       <obj_property name="DisplayName">FullPathName</obj_property>
-      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_3_IIC_scl_o_1</obj_property>
-      <obj_property name="ObjectShortName">SLOT_3_IIC_scl_o_1</obj_property>
+      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_0_IIC_scl_o_1</obj_property>
+      <obj_property name="ObjectShortName">SLOT_0_IIC_scl_o_1</obj_property>
       <obj_property name="LABELRADIX">true</obj_property>
       <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>
-   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_3_IIC_scl_t_1" type="logic">
+   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_0_IIC_scl_t_1" type="logic">
       <obj_property name="DisplayName">FullPathName</obj_property>
-      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_3_IIC_scl_t_1</obj_property>
-      <obj_property name="ObjectShortName">SLOT_3_IIC_scl_t_1</obj_property>
+      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_0_IIC_scl_t_1</obj_property>
+      <obj_property name="ObjectShortName">SLOT_0_IIC_scl_t_1</obj_property>
       <obj_property name="LABELRADIX">true</obj_property>
       <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>
-   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_3_IIC_sda_i_1" type="logic">
+   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_0_IIC_sda_i_1" type="logic">
       <obj_property name="DisplayName">FullPathName</obj_property>
-      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_3_IIC_sda_i_1</obj_property>
-      <obj_property name="ObjectShortName">SLOT_3_IIC_sda_i_1</obj_property>
+      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_0_IIC_sda_i_1</obj_property>
+      <obj_property name="ObjectShortName">SLOT_0_IIC_sda_i_1</obj_property>
       <obj_property name="LABELRADIX">true</obj_property>
       <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>
-   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_3_IIC_sda_o_1" type="logic">
+   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_0_IIC_sda_o_1" type="logic">
       <obj_property name="DisplayName">FullPathName</obj_property>
-      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_3_IIC_sda_o_1</obj_property>
-      <obj_property name="ObjectShortName">SLOT_3_IIC_sda_o_1</obj_property>
+      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_0_IIC_sda_o_1</obj_property>
+      <obj_property name="ObjectShortName">SLOT_0_IIC_sda_o_1</obj_property>
       <obj_property name="LABELRADIX">true</obj_property>
       <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>
-   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_3_IIC_sda_t_1" type="logic">
+   <wvobject fp_name="system_i/system_ila_0/inst/SLOT_0_IIC_sda_t_1" type="logic">
       <obj_property name="DisplayName">FullPathName</obj_property>
-      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_3_IIC_sda_t_1</obj_property>
-      <obj_property name="ObjectShortName">SLOT_3_IIC_sda_t_1</obj_property>
+      <obj_property name="ElementShortName">system_i/system_ila_0/inst/SLOT_0_IIC_sda_t_1</obj_property>
+      <obj_property name="ObjectShortName">SLOT_0_IIC_sda_t_1</obj_property>
       <obj_property name="LABELRADIX">true</obj_property>
       <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>

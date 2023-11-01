@@ -2,14 +2,18 @@
 
 /**
  * @brief 初始化 AXI_IIC 设备实例
- * @param InstPtr   设备实例
  * @param DeviceId  设备地址
- * @return *
+ * @return 设备实例
 */
-void AXI_IIC_Init(XIic *InstPtr, uint16_t DeviceId)
+XIic* AXI_IIC_Init(uint16_t DeviceId)
 {
-	XIic_Config *ConfigPtr = XIic_LookupConfig(DeviceId);
-	XIic_CfgInitialize(InstPtr, ConfigPtr, ConfigPtr->BaseAddress);
+    XIic* InstPtr = (XIic*)malloc(sizeof(XIic));
+    if(InstPtr != NULL)
+    {
+        XIic_Config *ConfigPtr = XIic_LookupConfig(DeviceId);
+	    XIic_CfgInitialize(InstPtr, ConfigPtr, ConfigPtr->BaseAddress);
+    }
+    return InstPtr;
 }
 
 
@@ -67,9 +71,10 @@ uint8_t AXI_IIC_Read_Reg(XIic *InstPtr, uint8_t SlaveAddr, uint16_t RegAddr)
 */
 void AXI_IIC_Write_Regs(XIic *InstPtr, uint8_t SlaveAddr, RegValuePair *RegValuePairs)
 {
-    uint16_t RegValuePairLength = sizeof(RegValuePairs) / sizeof(RegValuePair);
-	for(int RegWriteIndex = 0; RegWriteIndex < RegValuePairLength; RegWriteIndex++)
+    uint16_t RegWriteIndex = 0;
+    while(RegValuePairs[RegWriteIndex].Addr != REG_NULL_ADDR)
     {
         AXI_IIC_Write_Reg(InstPtr, SlaveAddr, RegValuePairs[RegWriteIndex].Addr, RegValuePairs[RegWriteIndex].Value);
+        RegWriteIndex++;
     }
 }

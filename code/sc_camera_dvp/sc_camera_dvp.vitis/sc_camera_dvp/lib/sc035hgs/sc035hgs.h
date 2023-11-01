@@ -2,82 +2,79 @@
 #define __SC035HGS_H__
 
 #include <malloc.h>
+#include "sleep.h"
 #include "axi_iic.h"
 
 #define ENABLE                                  1
 #define DISABLE                                 0
 
-/* 摄像头信息 */
-#define SLAVE_ADDR                              0x30        // 摄像头从机地址（DVP 接口下不可更改）
+/* ???????? */
+#define SLAVE_ADDR                              0x30        // ?????????????DVP ????????????
 #define REG_CHIP_ID_HIGH_ADDR                   0x3107      // CHIP ID
 #define REG_CHIP_ID_LOW_ADDR                    0x3108
 
-/* 软复位 & 休眠 */
-#define REG_SOFTWARE_RESET_ADDR                 0x0103      // 软复位（写 1 复位）
-#define REG_SLEEP_MODE_CTRL_ADDR                0x0100      // 休眠模式（写 0 休眠）
+/* ????λ & ???? */
+#define REG_SOFTWARE_RESET_ADDR                 0x0103      // ????λ??д 1 ??λ??
+#define REG_SLEEP_MODE_CTRL_ADDR                0x0100      // ????????д 0 ?????
 
-/* 输出窗口 */
-#define REG_FRAME_WIDTH_HIGH_ADDR               0x3208      // 帧宽度（以像素为单位）
+/* ??????? */
+#define REG_FRAME_WIDTH_HIGH_ADDR               0x3208      // ???????????????λ??
 #define REG_FRAME_WIDTH_LOW_ADDR                0x3209
-#define REG_FRAME_HEIGHT_HIGH_ADDR              0x320a      // 帧高度（以行为单位）
+#define REG_FRAME_HEIGHT_HIGH_ADDR              0x320a      // ????????????λ??
 #define REG_FRAME_HEIGHT_LOW_ADDR               0x320b
-#define REG_FRAME_LINE_WIDTH_HIGH_ADDR          0x320c      // 行长（帧宽度 + 水平消隐区）
+#define REG_FRAME_LINE_WIDTH_HIGH_ADDR          0x320c      // ?г???????? + ??????????
 #define REG_FRAME_LINE_WIDTH_LOW_ADDR           0x320d      
-#define REG_FRAME_LENGTH_HIGH_ADDR              0x320e      // 帧长（帧高度 + 垂直消隐区）
+#define REG_FRAME_LENGTH_HIGH_ADDR              0x320e      // ????????? + ???????????
 #define REG_FRAME_LENGTH_LOW_ADDR               0x320f
-#define REG_FRAME_COL_START_HIGH_ADDR           0x3210      // 输出窗口列起始位置
+#define REG_FRAME_COL_START_HIGH_ADDR           0x3210      // ????????????λ??
 #define REG_FRAME_COL_START_LOW_ADDR            0x3211
-#define REG_FRAME_ROW_START_HIGH_ADDR           0x3212      // 输出窗口行起始位置
+#define REG_FRAME_ROW_START_HIGH_ADDR           0x3212      // ????????????λ??
 #define REG_FRAME_ROW_START_LOW_ADDR            0x3213
 
-/* 外触发全局曝光 */
-#define REG_EXT_EXPOSURE_BLANK_ROWS_ADDR        0x3218      // 曝光后读出芯片图像数据之后的消隐时间（以行为单位）
-#define REG_EXT_EXPOSURE_TRIG_DELAY_ADDR        0x3226      // 曝光延迟（以行为单位）
-#define REG_EXT_EXPOSURE_EXP_ROWS_HIGH_ADDR     0x3e01      // 曝光时间（以行为单位）
+/* ?????????? */
+#define REG_EXT_EXPOSURE_BLANK_ROWS_ADDR        0x3218      // ???????о??????????????????????????λ??
+#define REG_EXT_EXPOSURE_TRIG_DELAY_ADDR        0x3226      // ??????????????λ??
+#define REG_EXT_EXPOSURE_EXP_ROWS_HIGH_ADDR     0x3e01      // ?????????????λ??
 #define REG_EXT_EXPOSURE_EXP_ROWS_LOW_ADDR      0x3e02 
 
 /* HDR */
-#define REG_HDR_ENABLE_CTRL_ADDR                0x3220      // HDR 使能控制
+#define REG_HDR_ENABLE_CTRL_ADDR                0x3220      // HDR ??????
 
 /* BLC */
-#define REG_BLC_ENABLE_ADDR                     0x3900      // BLC 使能
-#define REG_BLC_MODE_CTRL_ADDR                  0x3902      // BLC 模式控制（自动/手动）
-#define REG_BLC_CHANNEL_HIGH_ADDR               0x3928      // BLC 通道选择
+#define REG_BLC_ENABLE_ADDR                     0x3900      // BLC ???
+#define REG_BLC_MODE_CTRL_ADDR                  0x3902      // BLC ??????????/?????
+#define REG_BLC_CHANNEL_HIGH_ADDR               0x3928      // BLC ??????
 #define REG_BLC_CHANNEL_LOW_ADDR                0x3905
-#define REG_BLC_TARGET_VALUE_HIGH_ADDR          0x3907      // BLC 目标值（自动模式无需设置）
+#define REG_BLC_TARGET_VALUE_HIGH_ADDR          0x3907      // BLC ????????????????????
 #define REG_BLC_TARGET_VALUE_LOW_ADDR           0x3908
 
 /* DVP */
-#define REG_DVP_POL_CTRL_ADDR                   0x3d08      // DVP 信号极性 
+#define REG_DVP_POL_CTRL_ADDR                   0x3d08      // DVP ?????? 
 
 /* AGC */
-#define REG_AGC_MODE_CTRL_ADDR                  0x3e03      // AGC 模式控制
-#define REG_AGC_GAIN_MAPPING_HIGH_ADDR          0x3e08      // Gain Mapping 模式下的增益
+#define REG_AGC_MODE_CTRL_ADDR                  0x3e03      // AGC ??????
+#define REG_AGC_GAIN_MAPPING_HIGH_ADDR          0x3e08      // Gain Mapping ?????????
 #define REG_AGC_GAIN_MAPPING_LOW_ADDR           0x3e09
-#define REG_DIGITAL_COARSE_GAIN_ADDR            0x3e06      // 数字粗调增益
-#define REG_DIGITAL_FINE_GAIN_ADDR              0x3e07      // 数字细调增益
-#define REG_ANALOG_COARSE_GAIN_ADDR             0x3e08      // 模拟增益粗调
-#define REG_ANALOG_FINE_GAIN_ADDR               0x3e09      // 模拟增益细调
+#define REG_DIGITAL_COARSE_GAIN_ADDR            0x3e06      // ??????????
+#define REG_DIGITAL_FINE_GAIN_ADDR              0x3e07      // ???????????
+#define REG_ANALOG_COARSE_GAIN_ADDR             0x3e08      // ?????????
+#define REG_ANALOG_FINE_GAIN_ADDR               0x3e09      // ??????????
 
 /* AEC */
-#define REG_AEC_TOTAL_EXPOSURE_TIME_HIGH_ADDR   0x3e01      // 总曝光时间（以 1/16 行为单位）
+#define REG_AEC_TOTAL_EXPOSURE_TIME_HIGH_ADDR   0x3e01      // ?????????? 1/16 ?????λ??
 #define REG_AEC_TOTAL_EXPOSURE_TIME_LOW_ADDR    0x3e02
-#define REG_HDR_EXPOSURE_TIME_HIGH_ADDR         0x3e31      // HDR 曝光时间（以 1/16 行为单位）
+#define REG_HDR_EXPOSURE_TIME_HIGH_ADDR         0x3e31      // HDR ???????? 1/16 ?????λ??
 #define REG_HDR_EXPOSURE_TIME_LOW_ADDR          0x3e32
 
-/* 图像处理 */
-#define REG_MIRROR_ENABLE_ADDR                  0x3221      // 水平镜像使能（Bit[2:1]）
-#define REG_FLIP_ENABLE_ADDR                    0x3221      // 垂直翻转使能（Bit[6:5]）
+/* ????? */
+#define REG_MIRROR_ENABLE_ADDR                  0x3221      // ??????????Bit[2:1]??
+#define REG_FLIP_ENABLE_ADDR                    0x3221      // ??????????Bit[6:5]??
 
-/* 测试模式 */
-#define REG_INCREMENT_PATTERN_ENABLE_ADDR       0x4501      // 灰度渐变模式使能
+/* ?????? */
+#define REG_INCREMENT_PATTERN_ENABLE_ADDR       0x4501      // ???????????
 
-/* 特殊寄存器地址 */
-#define REG_NULL_ADDR                           0xffff      // 空地址（表明寄存器序列结尾）
-#define REG_DELAY_ADDR                          0x0000      // 延迟地址（表明此处需要延时）
-
-/* AGC 增益控制 */
-// 模拟粗调
+/* AGC ??????? */
+// ?????
 typedef enum
 {
     ANALOG_COARSE_GAIN_X1               =   0x0,
@@ -86,7 +83,7 @@ typedef enum
     ANALOG_COARSE_GAIN_X8               =   0x7,
 } analog_coarse_gain;
 
-// 模拟精调
+// ?????
 typedef enum
 {
     ANALOG_FINE_GAIN_X1                 =   0x10,
@@ -107,7 +104,7 @@ typedef enum
     ANALOG_FINE_GAIN_1X9375             =   0x1f
 } analog_fine_gain;
 
-// 数字粗调
+// ??????
 typedef enum
 {
     DIGITAL_COARSE_GAIN_X1              =   0x0,
@@ -115,7 +112,7 @@ typedef enum
     DIGITAL_COARSE_GAIN_X4              =   0x3
 } digital_coarse_gain;
 
-// 数字精调
+// ???????
 typedef enum
 {
     DIGITAL_FINE_GAIN_X1                =   0x80,
@@ -136,8 +133,8 @@ typedef enum
     DIGITAL_FINE_GAIN_1X9375            =   0xf8
 } digital_fine_gain;
 
-/* BLC 配置 */
-// BLC 通道选择
+/* BLC ???? */
+// BLC ??????
 typedef enum 
 {
     BLC_CHANNEL_OFFSET_8                =   0,
@@ -146,23 +143,23 @@ typedef enum
     BLC_CHANNEL_ENABLE_1
 } blc_channel;
 
-// BLC 配置参数
+// BLC ???ò???
 typedef struct
 {
-    uint8_t enable;                 // BLC 使能
-    uint8_t auto_mode_enable;       // 自动模式使能
-    blc_channel channel;            // 通道选择
-    uint16_t target_value;          // 目标值
+    uint8_t enable;                 // BLC ???
+    uint8_t auto_mode_enable;       // ????????
+    blc_channel channel;            // ??????
+    uint16_t target_value;          // ????
 } blc_args;
 
-// 曝光模式
+// ?????
 typedef enum 
 {
     EXPOSURE_NORMAL_MODE                =   0,
     EXPOSURE_HDR_MODE     
 } exposure_mode;
 
-// 复位寄存器列表
+// ??λ??????б?
 static const RegValuePair REGS_SOFTWARE_RESET[] = {
 	{REG_SOFTWARE_RESET_ADDR, 0x01},
 	{REG_DELAY_ADDR, 10},
@@ -171,7 +168,7 @@ static const RegValuePair REGS_SOFTWARE_RESET[] = {
 
 // 640*480, xclk=24M, fps=60fps
 static const RegValuePair REGS_INIT_640_480_60FPS_24M_XCLK[] = {
-	{REG_SLEEP_MODE_CTRL_ADDR, 0x00},                   // 进入睡眠模式
+	{REG_SLEEP_MODE_CTRL_ADDR, 0x00},                   // ?????????
 	{0x36e9, 0x80},
 	{0x36f9, 0x80},
 	{0x300f, 0x0f},
@@ -188,19 +185,19 @@ static const RegValuePair REGS_INIT_640_480_60FPS_24M_XCLK[] = {
 	{0x3205, 0x8f},
 	{0x3206, 0x01},
 	{0x3207, 0xf7},
-	{REG_FRAME_WIDTH_HIGH_ADDR, 0x02},                  // 帧宽（0x0280 = 640）
+	{REG_FRAME_WIDTH_HIGH_ADDR, 0x02},                  // ?????0x0280 = 640??
 	{REG_FRAME_WIDTH_LOW_ADDR, 0x80},
-	{REG_FRAME_HEIGHT_HIGH_ADDR, 0x01},                 // 帧高（0x01e0 = 480）
+	{REG_FRAME_HEIGHT_HIGH_ADDR, 0x01},                 // ????0x01e0 = 480??
 	{REG_FRAME_HEIGHT_LOW_ADDR, 0xe0},
-    {REG_FRAME_LINE_WIDTH_HIGH_ADDR, 0x03},             // 行长（0x036e = 878）
+    {REG_FRAME_LINE_WIDTH_HIGH_ADDR, 0x03},             // ?г???0x036e = 878??
 	{REG_FRAME_LINE_WIDTH_LOW_ADDR, 0x6e},
-	{REG_FRAME_LENGTH_HIGH_ADDR, 0x04},                 // 帧长（0x0472 = 1138）
+	{REG_FRAME_LENGTH_HIGH_ADDR, 0x04},                 // ?????0x0472 = 1138??
 	{REG_FRAME_LENGTH_LOW_ADDR, 0x72},
-	{REG_FRAME_COL_START_HIGH_ADDR, 0x00},              // 输出列起始位置
+	{REG_FRAME_COL_START_HIGH_ADDR, 0x00},              // ????????λ??
 	{REG_FRAME_COL_START_LOW_ADDR, 0x08},
-	{REG_FRAME_ROW_START_HIGH_ADDR, 0x00},              // 输出行起始位置
+	{REG_FRAME_ROW_START_HIGH_ADDR, 0x00},              // ????????λ??
 	{REG_FRAME_ROW_START_LOW_ADDR, 0x08},
-	{REG_HDR_ENABLE_CTRL_ADDR, 0x10},                   // 关闭 HDR 模式
+	{REG_HDR_ENABLE_CTRL_ADDR, 0x10},                   // ??? HDR ??
 	{0x3223, 0x50},
 	{0x3250, 0xf0},
 	{0x3251, 0x02},
@@ -279,19 +276,18 @@ static const RegValuePair REGS_INIT_640_480_60FPS_24M_XCLK[] = {
 	{REG_NULL_ADDR, 0x00}
 };
 
-// 摄像头句柄
+// ????????
 typedef struct _camera camera_t;
 typedef struct _camera{
-    uint16_t slv_addr;              // IIC 从机地址
+    uint16_t slv_addr;              // IIC ??????
     uint16_t chip_id;               // CHIP ID
-    uint16_t axi_device_id;
 
-    XIic *instance;                 // AXI_IIC 句柄
+    XIic* instance;                 // AXI_IIC ???
 
-    exposure_mode exposure_mode;    // 曝光模式
+    exposure_mode exposure_mode;    // ?????
 
-    void    (*reset)                    (camera_t *camera, const void (*delay) (uint8_t ms));
-    uint16_t(*get_chip_id)              (uint16_t device_id);
+    void    (*reset)                    (camera_t *camera);
+    uint16_t(*get_chip_id)              (camera_t *camera);
     void    (*set_sleep_mode)           (camera_t *camera, int enable);
     void    (*set_output_window)        (camera_t *camera, int offset_x, int offset_y, int w, int h);
     void    (*set_agc)                  (camera_t *camera, int gain);
@@ -300,9 +296,8 @@ typedef struct _camera{
     void    (*set_hmirror)              (camera_t *camera, int enable);
     void    (*set_vflip)                (camera_t *camera, int enable);
     void    (*set_increment_pattern)    (camera_t *camera, int enable);
-    void    (*delay)                    (uint8_t ms);
 } camera_t;
 
-void sc035hgs_init(camera_t *camera);
+void sc035hgs_init(camera_t *camera, uint16_t device_id);
 
 #endif

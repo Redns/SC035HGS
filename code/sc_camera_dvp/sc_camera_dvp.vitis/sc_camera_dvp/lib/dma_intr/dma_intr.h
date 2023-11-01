@@ -44,6 +44,7 @@
 void DMA_DisableIntrSystem(XScuGic * IntcInstancePtr, u16 RxIntrId);
 int  DMA_Setup_Intr_System(XScuGic * IntcInstancePtr,XAxiDma * AxiDmaPtr,  u16 RxIntrId);
 int  DMA_Intr_Enable(XScuGic * IntcInstancePtr,XAxiDma *DMAPtr);
-int  DMA_Intr_Init(XAxiDma *DMAPtr,u32 DeviceId);
+int  DMA_Intr_Init(XAxiDma *DMAPtr, u32 DeviceId);
+void DMA_Handler_Init(const void *tx_interrupt_handler, const void *rx_interrupt_handler, const void *err_handler);
 
 #endif

@@ -51,7 +51,11 @@
                                 								
                                 <option id="xilinx.gnu.compiler.option.debugging.level.1480405512" name="Debug Level" superClass="xilinx.gnu.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
                                 								
-                                <option id="xilinx.gnu.compiler.inferred.swplatform.includes.1535141193" name="Software Platform Include Path" superClass="xilinx.gnu.compiler.inferred.swplatform.includes" valueType="includePath"/>
+                                <option id="xilinx.gnu.compiler.inferred.swplatform.includes.1535141193" name="Software Platform Include Path" superClass="xilinx.gnu.compiler.inferred.swplatform.includes" valueType="includePath">
+                                    									
+                                    <listOptionValue builtIn="false" value="${resolvePlatformFile:project=sc_camera_dvp,fileType=bspInclude}"/>
+                                    								
+                                </option>
                                 								
                                 <option id="xilinx.gnu.compiler.inferred.swplatform.flags.774935452" name="Software Platform Inferred Flags" superClass="xilinx.gnu.compiler.inferred.swplatform.flags" value=" " valueType="string"/>
                                 								

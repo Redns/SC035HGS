@@ -1,7 +1,7 @@
 /*
  * @Author:         Redns
  * @Date: 	2023-05-15 21:10:11
- * @LastEditTime: 	2023-05-15 21:10:11
+ * @LastEditTime: 	2023-10-30 20:23:24
  * @Description: 
  */
 /*******************************MILIANKE*******************************
@@ -26,10 +26,11 @@
 
 #include "dma_intr.h"
 
-volatile int TxDone;
-volatile int RxDone;
-volatile int Error;
 volatile int RX_success;
+
+void (*tx_interrupt_handler) ();
+void (*rx_interrupt_handler) ();
+void (*err_handler) ();
 
 /*****************************************************************************/
 /**
@@ -102,7 +103,7 @@ static void DMA_TxIntrHandler(void *Callback)
 	 */
 	if ((IrqStatus & XAXIDMA_IRQ_ERROR_MASK)) {
 
-		Error = 1;
+		err_handler();
 
 		/*
 		 * Reset should never fail for transmit channel
@@ -126,8 +127,7 @@ static void DMA_TxIntrHandler(void *Callback)
 	 * If Completion interrupt is asserted, then set the TxDone flag
 	 */
 	if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
-
-		TxDone = 1;
+        tx_interrupt_handler();
 	}
 }
 
@@ -173,7 +173,7 @@ static void DMA_RxIntrHandler(void *Callback)
 	 */
 	if ((IrqStatus & XAXIDMA_IRQ_ERROR_MASK)) {
 
-		Error = 1;
+		err_handler();
 
 		/* Reset could fail and hang
 		 * NEED a way to handle this or do not call it??
@@ -197,9 +197,8 @@ static void DMA_RxIntrHandler(void *Callback)
 	 * If completion interrupt is asserted, then set RxDone flag
 	 */
 	if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
-
 		RX_success++;
-		RxDone = 1;
+        rx_interrupt_handler();
 	}
 }
 
@@ -275,7 +274,7 @@ int DMA_Intr_Enable(XScuGic * IntcInstancePtr,XAxiDma *DMAPtr)
 }
 
 
-int DMA_Intr_Init(XAxiDma *DMAPtr,u32 DeviceId)
+int DMA_Intr_Init(XAxiDma *DMAPtr, u32 DeviceId)
 {
 	int Status;
 	XAxiDma_Config *Config=NULL;
@@ -302,3 +301,10 @@ int DMA_Intr_Init(XAxiDma *DMAPtr,u32 DeviceId)
 
 }
 
+
+void DMA_Handler_Init(const void *tx_interrupt_handler, const void *rx_interrupt_handler, const void *err_handler)
+{
+    tx_interrupt_handler = tx_interrupt_handler;
+    rx_interrupt_handler = rx_interrupt_handler;
+    err_handler = err_handler;
+}

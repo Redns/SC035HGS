@@ -117,6 +117,9 @@
   "../../../bd/system/ip/system_axi_gpio_0_6/sim/system_axi_gpio_0_6.vhd" \
 -endlib
 -makelib xcelium_lib/xil_defaultlib \
+  "../../../bd/system/ip/system_system_ila_0_4/bd_0/ip/ip_0/sim/bd_16b9_ila_lib_0.v" \
+  "../../../bd/system/ip/system_system_ila_0_4/bd_0/sim/bd_16b9.v" \
+  "../../../bd/system/ip/system_system_ila_0_4/sim/system_system_ila_0_4.v" \
   "../../../bd/system/sim/system.v" \
 -endlib
 -makelib xcelium_lib/axi_protocol_converter_v2_1_25 \
@@ -137,9 +140,6 @@
 -endlib
 -makelib xcelium_lib/xil_defaultlib \
   "../../../bd/system/ip/system_auto_us_0/sim/system_auto_us_0.v" \
-  "../../../bd/system/ip/system_system_ila_0_4/bd_0/ip/ip_0/sim/bd_16b9_ila_lib_0.v" \
-  "../../../bd/system/ip/system_system_ila_0_4/bd_0/sim/bd_16b9.v" \
-  "../../../bd/system/ip/system_system_ila_0_4/sim/system_system_ila_0_4.v" \
 -endlib
 -makelib xcelium_lib/xil_defaultlib \
   glbl.v

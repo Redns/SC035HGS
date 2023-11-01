@@ -6,8 +6,8 @@ BEGIN OS
  PARAMETER OS_NAME = standalone
  PARAMETER OS_VER = 7.6
  PARAMETER PROC_INSTANCE = ps7_cortexa9_0
- PARAMETER stdin = ps7_uart_0
- PARAMETER stdout = ps7_uart_0
+ PARAMETER stdin = ps7_coresight_comp_0
+ PARAMETER stdout = ps7_coresight_comp_0
 END
 
 
@@ -233,8 +233,6 @@ BEGIN LIBRARY
  PARAMETER LIBRARY_NAME = lwip211
  PARAMETER LIBRARY_VER = 1.6
  PARAMETER PROC_INSTANCE = ps7_cortexa9_0
- PARAMETER dhcp_does_arp_check = true
- PARAMETER lwip_dhcp = true
  PARAMETER mem_size = 524288
  PARAMETER memp_n_pbuf = 1024
  PARAMETER memp_n_tcp_seg = 1024

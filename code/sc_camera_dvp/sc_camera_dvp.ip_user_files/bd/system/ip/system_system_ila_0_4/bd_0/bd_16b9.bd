@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xE48AC775A54023FA",
+      "boundary_crc": "0x3C865983DF7EFAE9",
       "design_src": "SBD",
       "device": "xc7z100ffg900-2",
       "name": "bd_16b9",
@@ -13,6 +13,39 @@
     },
     "design_tree": {
       "ila_lib": ""
+    },
+    "interface_ports": {
+      "SLOT_0_IIC": {
+        "mode": "Monitor",
+        "vlnv_bus_definition": "xilinx.com:interface:iic:1.0",
+        "vlnv": "xilinx.com:interface:iic_rtl:1.0",
+        "port_maps": {
+          "SCL_I": {
+            "physical_name": "SLOT_0_IIC_scl_i",
+            "direction": "I"
+          },
+          "SCL_O": {
+            "physical_name": "SLOT_0_IIC_scl_o",
+            "direction": "I"
+          },
+          "SCL_T": {
+            "physical_name": "SLOT_0_IIC_scl_t",
+            "direction": "I"
+          },
+          "SDA_I": {
+            "physical_name": "SLOT_0_IIC_sda_i",
+            "direction": "I"
+          },
+          "SDA_O": {
+            "physical_name": "SLOT_0_IIC_sda_o",
+            "direction": "I"
+          },
+          "SDA_T": {
+            "physical_name": "SLOT_0_IIC_sda_t",
+            "direction": "I"
+          }
+        }
+      }
     },
     "ports": {
       "clk": {
@@ -71,15 +104,23 @@
         "left": "0",
         "right": "0"
       },
-      "probe6": {
-        "direction": "I",
-        "left": "0",
-        "right": "0"
+      "SLOT_0_IIC_scl_i": {
+        "direction": "I"
       },
-      "probe7": {
-        "direction": "I",
-        "left": "0",
-        "right": "0"
+      "SLOT_0_IIC_scl_o": {
+        "direction": "I"
+      },
+      "SLOT_0_IIC_scl_t": {
+        "direction": "I"
+      },
+      "SLOT_0_IIC_sda_i": {
+        "direction": "I"
+      },
+      "SLOT_0_IIC_sda_o": {
+        "direction": "I"
+      },
+      "SLOT_0_IIC_sda_t": {
+        "direction": "I"
       }
     },
     "components": {
@@ -99,7 +140,7 @@
             "value": "FALSE"
           },
           "C_DATA_DEPTH": {
-            "value": "1024"
+            "value": "65536"
           },
           "C_EN_STRG_QUAL": {
             "value": "0"
@@ -117,7 +158,7 @@
             "value": "Native"
           },
           "C_NUM_OF_PROBES": {
-            "value": "8"
+            "value": "12"
           },
           "C_PROBE0_MU_CNT": {
             "value": "1"
@@ -126,6 +167,18 @@
             "value": "0"
           },
           "C_PROBE0_WIDTH": {
+            "value": "1"
+          },
+          "C_PROBE10_TYPE": {
+            "value": "0"
+          },
+          "C_PROBE10_WIDTH": {
+            "value": "1"
+          },
+          "C_PROBE11_TYPE": {
+            "value": "0"
+          },
+          "C_PROBE11_WIDTH": {
             "value": "1"
           },
           "C_PROBE1_MU_CNT": {
@@ -173,22 +226,28 @@
           "C_PROBE5_WIDTH": {
             "value": "1"
           },
-          "C_PROBE6_MU_CNT": {
-            "value": "1"
-          },
           "C_PROBE6_TYPE": {
             "value": "0"
           },
           "C_PROBE6_WIDTH": {
             "value": "1"
           },
-          "C_PROBE7_MU_CNT": {
-            "value": "1"
-          },
           "C_PROBE7_TYPE": {
             "value": "0"
           },
           "C_PROBE7_WIDTH": {
+            "value": "1"
+          },
+          "C_PROBE8_TYPE": {
+            "value": "0"
+          },
+          "C_PROBE8_WIDTH": {
+            "value": "1"
+          },
+          "C_PROBE9_TYPE": {
+            "value": "0"
+          },
+          "C_PROBE9_WIDTH": {
             "value": "1"
           },
           "C_TIME_TAG_WIDTH": {
@@ -207,6 +266,42 @@
       }
     },
     "nets": {
+      "SLOT_0_IIC_scl_i_1": {
+        "ports": [
+          "SLOT_0_IIC_scl_i",
+          "ila_lib/probe6"
+        ]
+      },
+      "SLOT_0_IIC_scl_o_1": {
+        "ports": [
+          "SLOT_0_IIC_scl_o",
+          "ila_lib/probe7"
+        ]
+      },
+      "SLOT_0_IIC_scl_t_1": {
+        "ports": [
+          "SLOT_0_IIC_scl_t",
+          "ila_lib/probe8"
+        ]
+      },
+      "SLOT_0_IIC_sda_i_1": {
+        "ports": [
+          "SLOT_0_IIC_sda_i",
+          "ila_lib/probe9"
+        ]
+      },
+      "SLOT_0_IIC_sda_o_1": {
+        "ports": [
+          "SLOT_0_IIC_sda_o",
+          "ila_lib/probe10"
+        ]
+      },
+      "SLOT_0_IIC_sda_t_1": {
+        "ports": [
+          "SLOT_0_IIC_sda_t",
+          "ila_lib/probe11"
+        ]
+      },
       "clk_1": {
         "ports": [
           "clk",
@@ -247,18 +342,6 @@
         "ports": [
           "probe5",
           "ila_lib/probe5"
-        ]
-      },
-      "probe6_1": {
-        "ports": [
-          "probe6",
-          "ila_lib/probe6"
-        ]
-      },
-      "probe7_1": {
-        "ports": [
-          "probe7",
-          "ila_lib/probe7"
         ]
       }
     }

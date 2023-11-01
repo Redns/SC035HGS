@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x7A7F7C6F83E4A644",
+      "boundary_crc": "0x8A65FC99BBEC4607",
       "device": "xc7z100ffg900-2",
       "gen_directory": "../../../../sc_camera_dvp.gen/sources_1/bd/system",
       "name": "system",
@@ -112,11 +112,6 @@
           }
         }
       },
-      "o_camera_iic": {
-        "mode": "Master",
-        "vlnv_bus_definition": "xilinx.com:interface:iic:1.0",
-        "vlnv": "xilinx.com:interface:iic_rtl:1.0"
-      },
       "i_clk_200M": {
         "mode": "Slave",
         "vlnv_bus_definition": "xilinx.com:interface:diff_clock:1.0",
@@ -130,6 +125,11 @@
             "value": "200000000"
           }
         }
+      },
+      "o_camera_iic": {
+        "mode": "Master",
+        "vlnv_bus_definition": "xilinx.com:interface:iic:1.0",
+        "vlnv": "xilinx.com:interface:iic_rtl:1.0"
       }
     },
     "ports": {
@@ -3127,11 +3127,17 @@
         "xci_path": "ip\\system_system_ila_0_4\\system_system_ila_0_4.xci",
         "inst_hier_path": "system_ila_0",
         "parameters": {
+          "C_DATA_DEPTH": {
+            "value": "65536"
+          },
           "C_MON_TYPE": {
-            "value": "NATIVE"
+            "value": "MIX"
+          },
+          "C_NUM_MONITOR_SLOTS": {
+            "value": "1"
           },
           "C_NUM_OF_PROBES": {
-            "value": "8"
+            "value": "6"
           },
           "C_PROBE0_TYPE": {
             "value": "0"
@@ -3156,6 +3162,19 @@
           },
           "C_PROBE7_TYPE": {
             "value": "0"
+          },
+          "C_SLOT_0_INTF_TYPE": {
+            "value": "xilinx.com:interface:iic_rtl:1.0"
+          },
+          "C_SLOT_0_TYPE": {
+            "value": "0"
+          }
+        },
+        "interface_ports": {
+          "SLOT_0_IIC": {
+            "mode": "Monitor",
+            "vlnv_bus_definition": "xilinx.com:interface:iic:1.0",
+            "vlnv": "xilinx.com:interface:iic_rtl:1.0"
           }
         }
       }
@@ -3170,8 +3189,17 @@
       "axi_iic_0_IIC": {
         "interface_ports": [
           "o_camera_iic",
-          "camera_iic/IIC"
-        ]
+          "camera_iic/IIC",
+          "system_ila_0/SLOT_0_IIC"
+        ],
+        "hdl_attributes": {
+          "DEBUG": {
+            "value": "true"
+          },
+          "MARK_DEBUG": {
+            "value": "true"
+          }
+        }
       },
       "axi_mem_intercon_M00_AXI": {
         "interface_ports": [
@@ -3438,34 +3466,6 @@
           "camera_pwdn/s_axi_aresetn",
           "camera_reset/s_axi_aresetn"
         ]
-      },
-      "scl_o": {
-        "ports": [
-          "camera_iic/scl_o",
-          "system_ila_0/probe6"
-        ],
-        "hdl_attributes": {
-          "DEBUG": {
-            "value": "true"
-          },
-          "MARK_DEBUG": {
-            "value": "true"
-          }
-        }
-      },
-      "sda_o": {
-        "ports": [
-          "camera_iic/sda_o",
-          "system_ila_0/probe7"
-        ],
-        "hdl_attributes": {
-          "DEBUG": {
-            "value": "true"
-          },
-          "MARK_DEBUG": {
-            "value": "true"
-          }
-        }
       }
     },
     "addressing": {

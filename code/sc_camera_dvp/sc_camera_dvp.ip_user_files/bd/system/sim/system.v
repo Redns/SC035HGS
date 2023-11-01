@@ -1,7 +1,7 @@
 //Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2021.2 (win64) Build 3367213 Tue Oct 19 02:48:09 MDT 2021
-//Date        : Mon Oct 30 19:10:13 2023
+//Date        : Tue Oct 31 08:59:42 2023
 //Host        : JingDevice running 64-bit major release  (build 9200)
 //Command     : generate_target system.bd
 //Design      : system
@@ -1803,8 +1803,10 @@ module system
     i_pclk,
     i_pixel,
     o_camera_iic_scl_i,
+    o_camera_iic_scl_o,
     o_camera_iic_scl_t,
     o_camera_iic_sda_i,
+    o_camera_iic_sda_o,
     o_camera_iic_sda_t,
     o_camera_pwdn,
     o_camera_reset,
@@ -1839,8 +1841,10 @@ module system
   input i_pclk;
   input [7:0]i_pixel;
   (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 o_camera_iic SCL_I" *) input o_camera_iic_scl_i;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 o_camera_iic SCL_O" *) output o_camera_iic_scl_o;
   (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 o_camera_iic SCL_T" *) output o_camera_iic_scl_t;
   (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 o_camera_iic SDA_I" *) input o_camera_iic_sda_i;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 o_camera_iic SDA_O" *) output o_camera_iic_sda_o;
   (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 o_camera_iic SDA_T" *) output o_camera_iic_sda_t;
   output [0:0]o_camera_pwdn;
   output [0:0]o_camera_reset;
@@ -1868,10 +1872,12 @@ module system
   wire [3:0]axi_dma_0_M_AXI_S2MM_WSTRB;
   wire axi_dma_0_M_AXI_S2MM_WVALID;
   wire axi_dma_0_s2mm_introut;
-  wire axi_iic_0_IIC_SCL_I;
-  wire axi_iic_0_IIC_SCL_T;
-  wire axi_iic_0_IIC_SDA_I;
-  wire axi_iic_0_IIC_SDA_T;
+  (* CONN_BUS_INFO = "axi_iic_0_IIC xilinx.com:interface:iic:1.0 None SCL_I" *) (* DEBUG = "true" *) (* MARK_DEBUG *) wire axi_iic_0_IIC_SCL_I;
+  (* CONN_BUS_INFO = "axi_iic_0_IIC xilinx.com:interface:iic:1.0 None SCL_O" *) (* DEBUG = "true" *) (* MARK_DEBUG *) wire axi_iic_0_IIC_SCL_O;
+  (* CONN_BUS_INFO = "axi_iic_0_IIC xilinx.com:interface:iic:1.0 None SCL_T" *) (* DEBUG = "true" *) (* MARK_DEBUG *) wire axi_iic_0_IIC_SCL_T;
+  (* CONN_BUS_INFO = "axi_iic_0_IIC xilinx.com:interface:iic:1.0 None SDA_I" *) (* DEBUG = "true" *) (* MARK_DEBUG *) wire axi_iic_0_IIC_SDA_I;
+  (* CONN_BUS_INFO = "axi_iic_0_IIC xilinx.com:interface:iic:1.0 None SDA_O" *) (* DEBUG = "true" *) (* MARK_DEBUG *) wire axi_iic_0_IIC_SDA_O;
+  (* CONN_BUS_INFO = "axi_iic_0_IIC xilinx.com:interface:iic:1.0 None SDA_T" *) (* DEBUG = "true" *) (* MARK_DEBUG *) wire axi_iic_0_IIC_SDA_T;
   wire [31:0]axi_mem_intercon_M00_AXI_AWADDR;
   wire [1:0]axi_mem_intercon_M00_AXI_AWBURST;
   wire [3:0]axi_mem_intercon_M00_AXI_AWCACHE;
@@ -2079,8 +2085,6 @@ module system
   wire [3:0]ps7_0_axi_periph_M08_AXI_WSTRB;
   wire ps7_0_axi_periph_M08_AXI_WVALID;
   wire [0:0]rst_ps7_0_50M_peripheral_aresetn;
-  (* CONN_BUS_INFO = "axi_iic_0_IIC xilinx.com:interface:iic:1.0 None SCL_O" *) (* DEBUG = "true" *) (* MARK_DEBUG *) wire scl_o;
-  (* CONN_BUS_INFO = "axi_iic_0_IIC xilinx.com:interface:iic:1.0 None SDA_O" *) (* DEBUG = "true" *) (* MARK_DEBUG *) wire sda_o;
   wire [31:0]ui_axisbufw_0_axis_m_TDATA;
   wire [3:0]ui_axisbufw_0_axis_m_TKEEP;
   wire ui_axisbufw_0_axis_m_TLAST;
@@ -2095,7 +2099,9 @@ module system
   assign diff_clock_rtl_0_1_CLK_N = i_clk_200M_clk_n;
   assign diff_clock_rtl_0_1_CLK_P = i_clk_200M_clk_p;
   assign gpio_io_i_0_1 = i_camera_vsync[0];
+  assign o_camera_iic_scl_o = axi_iic_0_IIC_SCL_O;
   assign o_camera_iic_scl_t = axi_iic_0_IIC_SCL_T;
+  assign o_camera_iic_sda_o = axi_iic_0_IIC_SDA_O;
   assign o_camera_iic_sda_t = axi_iic_0_IIC_SDA_T;
   assign o_camera_pwdn[0] = camera_pwdn_gpio_io_o;
   assign o_camera_reset[0] = camera_reset_gpio_io_o;
@@ -2233,10 +2239,10 @@ module system
         .s_axi_wstrb(ps7_0_axi_periph_M00_AXI_WSTRB),
         .s_axi_wvalid(ps7_0_axi_periph_M00_AXI_WVALID),
         .scl_i(axi_iic_0_IIC_SCL_I),
-        .scl_o(scl_o),
+        .scl_o(axi_iic_0_IIC_SCL_O),
         .scl_t(axi_iic_0_IIC_SCL_T),
         .sda_i(axi_iic_0_IIC_SDA_I),
-        .sda_o(sda_o),
+        .sda_o(axi_iic_0_IIC_SDA_O),
         .sda_t(axi_iic_0_IIC_SDA_T));
   system_axi_gpio_1_0 camera_pwdn
        (.gpio_io_o(camera_pwdn_gpio_io_o),
@@ -2623,15 +2629,19 @@ module system
         .peripheral_aresetn(rst_ps7_0_50M_peripheral_aresetn),
         .slowest_sync_clk(processing_system7_0_FCLK_CLK0));
   system_system_ila_0_4 system_ila_0
-       (.clk(processing_system7_0_FCLK_CLK0),
+       (.SLOT_0_IIC_scl_i(axi_iic_0_IIC_SCL_I),
+        .SLOT_0_IIC_scl_o(axi_iic_0_IIC_SCL_O),
+        .SLOT_0_IIC_scl_t(axi_iic_0_IIC_SCL_T),
+        .SLOT_0_IIC_sda_i(axi_iic_0_IIC_SDA_I),
+        .SLOT_0_IIC_sda_o(axi_iic_0_IIC_SDA_O),
+        .SLOT_0_IIC_sda_t(axi_iic_0_IIC_SDA_T),
+        .clk(processing_system7_0_FCLK_CLK0),
         .probe0(pixel_transmit_enable_gpio_io_o),
         .probe1(W_data_i_0_1),
         .probe2(W_wren_i_0_1),
         .probe3(camera_pwdn_gpio_io_o),
         .probe4(camera_reset_gpio_io_o),
-        .probe5(phy_reset_gpio_io_o),
-        .probe6(scl_o),
-        .probe7(sda_o));
+        .probe5(phy_reset_gpio_io_o));
   system_ui_axisbufw_0_0 ui_axisbufw_0
        (.W_FS_i(pixel_transmit_enable_gpio_io_o),
         .W_data_i(W_data_i_0_1),

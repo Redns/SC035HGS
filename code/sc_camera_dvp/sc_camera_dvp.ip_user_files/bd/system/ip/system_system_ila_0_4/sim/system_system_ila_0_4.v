@@ -61,8 +61,12 @@ module system_system_ila_0_4 (
   probe3,
   probe4,
   probe5,
-  probe6,
-  probe7
+  SLOT_0_IIC_scl_i,
+  SLOT_0_IIC_scl_o,
+  SLOT_0_IIC_scl_t,
+  SLOT_0_IIC_sda_i,
+  SLOT_0_IIC_sda_o,
+  SLOT_0_IIC_sda_t
 );
 
 (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.clk, FREQ_HZ 1e+08, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN system_processing_system7_0_0_FCLK_CLK0, INSERT_VIP 0" *)
@@ -74,8 +78,18 @@ input wire [0 : 0] probe2;
 input wire [0 : 0] probe3;
 input wire [0 : 0] probe4;
 input wire [0 : 0] probe5;
-input wire [0 : 0] probe6;
-input wire [0 : 0] probe7;
+(* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 SLOT_0_IIC SCL_I" *)
+input wire SLOT_0_IIC_scl_i;
+(* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 SLOT_0_IIC SCL_O" *)
+input wire SLOT_0_IIC_scl_o;
+(* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 SLOT_0_IIC SCL_T" *)
+input wire SLOT_0_IIC_scl_t;
+(* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 SLOT_0_IIC SDA_I" *)
+input wire SLOT_0_IIC_sda_i;
+(* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 SLOT_0_IIC SDA_O" *)
+input wire SLOT_0_IIC_sda_o;
+(* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 SLOT_0_IIC SDA_T" *)
+input wire SLOT_0_IIC_sda_t;
 
   bd_16b9 inst (
     .clk(clk),
@@ -85,7 +99,11 @@ input wire [0 : 0] probe7;
     .probe3(probe3),
     .probe4(probe4),
     .probe5(probe5),
-    .probe6(probe6),
-    .probe7(probe7)
+    .SLOT_0_IIC_scl_i(SLOT_0_IIC_scl_i),
+    .SLOT_0_IIC_scl_o(SLOT_0_IIC_scl_o),
+    .SLOT_0_IIC_scl_t(SLOT_0_IIC_scl_t),
+    .SLOT_0_IIC_sda_i(SLOT_0_IIC_sda_i),
+    .SLOT_0_IIC_sda_o(SLOT_0_IIC_sda_o),
+    .SLOT_0_IIC_sda_t(SLOT_0_IIC_sda_t)
   );
 endmodule

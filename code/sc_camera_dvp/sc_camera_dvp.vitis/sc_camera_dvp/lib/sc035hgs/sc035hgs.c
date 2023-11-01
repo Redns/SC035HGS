@@ -57,7 +57,7 @@ static void write_regs(camera_t *camera, const RegValuePair *reg_value_pairs)
     {
         if(reg_value_pairs[i].Addr == REG_DELAY_ADDR)
         {
-            camera->delay(reg_value_pairs[i].Value);
+            usleep(reg_value_pairs[i].Value * 1000);
         }
         else
         {
@@ -248,71 +248,6 @@ static void reset(camera_t *camera)
     write_regs(camera, REGS_SOFTWARE_RESET);
 }
 
-static void set_output_window(camera_t *camera, int offset_x, int offset_y, int w, int h)
-{
-    // int ret = 0;
-    // //sc:H_start={0x3212[1:0],0x3213},H_length={0x3208[1:0],0x3209},
-
-    // WRITE_REG_OR_RETURN(SC031GS_OUTPUT_WINDOW_WIDTH_H_REG, ((w>>8) & 0x03));
-    // WRITE_REG_OR_RETURN(SC031GS_OUTPUT_WINDOW_WIDTH_L_REG, w & 0xff);
-
-    // //sc:V_start={0x3210[1:0],0x3211},V_length={0x320a[1:0],0x320b},
-    // WRITE_REG_OR_RETURN(SC031GS_OUTPUT_WINDOW_HIGH_H_REG, ((h>>8) & 0x03));
-    // WRITE_REG_OR_RETURN(SC031GS_OUTPUT_WINDOW_HIGH_L_REG, h & 0xff);
-
-    // vTaskDelay(10 / portTICK_PERIOD_MS);
-
-    // return ret;
-}
-
-// static void set_framesize(camera_t *camera, framesize_t framesize)
-// {
-//     uint16_t w = resolution[framesize].width;
-//     uint16_t h = resolution[framesize].height;
-
-//     struct sc031gs_regval const *framesize_regs = sc031gs_200x200_init_regs;
-//     if(framesize > FRAMESIZE_VGA) {
-//         goto err; 
-//     } else if(framesize > FRAMESIZE_QVGA) {
-//         framesize_regs = sc031gs_640x480_50fps_init_regs;
-//     }
-
-//     uint16_t offset_x = (640-w) /2 + 4;   
-//     uint16_t offset_y = (480-h) /2 + 4;
-
-//     int ret = write_regs(camera->slv_addr, framesize_regs);
-//     if (ret) {
-//         ESP_LOGE(TAG, "reset fail");
-//     }
-    
-//     if(set_output_window(camera, offset_x, offset_y, w, h)) {
-//         goto err; 
-//     }
-    
-//     camera->status.framesize = framesize;
-//     return 0;
-// err:
-//     ESP_LOGE(TAG, "frame size err");
-//     return -1;
-// }
-
-
-// int sc031gs_detect(int slv_addr, camera_id_t *id)
-// {
-//     if (SC031GS_SCCB_ADDR == slv_addr) {
-//         uint8_t MIDL = SCCB_Read16(slv_addr, SC031GS_PID_HIGH_REG);
-//         uint8_t MIDH = SCCB_Read16(slv_addr, SC031GS_PID_LOW_REG);
-//         uint16_t PID = MIDH << 8 | MIDL;
-//         if (SC031GS_PID == PID) {
-//             id->PID = PID;
-//             return PID;
-//         } else {
-//             ESP_LOGI(TAG, "Mismatch PID=0x%x", PID);
-//         }
-//     }
-//     return 0;
-// }
-
 
 /**
  * @brief 获取摄像头驱动芯片序列化
@@ -329,13 +264,12 @@ static uint16_t get_chip_id(camera_t *camera)
 
 /**
  * @brief 检测摄像头
- * @param device_id     摄像头 AXI_IIC 设备地址
- * @return 摄像头 AXI_IIC 句柄
+ * @param 摄像头 AXI_IIC 设备 ID
+ * @return 摄像头 AXI_IIC 设备句柄
 */
 static XIic* detect(uint16_t device_id)
 {
-    XIic* instance = (XIic*)malloc(sizeof(XIic));
-    AXI_IIC_Init(instance, device_id);
+    return AXI_IIC_Init(device_id);
 }
 
 
@@ -344,23 +278,22 @@ static XIic* detect(uint16_t device_id)
  * @param camera    摄像头句柄
  * @return *
 */
-void sc035hgs_init(camera_t *camera)
+void sc035hgs_init(camera_t *camera, uint16_t device_id)
 {
+    // 初始化摄像头信息
+    camera->slv_addr = SLAVE_ADDR;
+    camera->instance = detect(device_id);
+    camera->chip_id = get_chip_id(camera);
     // 初始化摄像头操作函数
     camera->reset = reset;
     camera->get_chip_id = get_chip_id;
     camera->set_sleep_mode = set_sleep_mode;
-    camera->set_output_window = set_output_window;
     camera->set_agc = set_agc;
     camera->set_aec = set_aec;
     camera->set_blc = set_blc;
     camera->set_hmirror = set_hmirror;
     camera->set_vflip = set_vflip;
     camera->set_increment_pattern = set_increment_pattern;
-    // 初始化摄像头信息
-    camera->instance = detect(camera->axi_device_id);
-    camera->slv_addr = SLAVE_ADDR;
-    camera->chip_id = get_chip_id(camera);
     // 初始化摄像头寄存器
     write_regs(camera, REGS_INIT_640_480_60FPS_24M_XCLK);
 }
