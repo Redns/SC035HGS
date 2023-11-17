@@ -39,7 +39,6 @@
 
 /* 相关外设 ID */
 #define IIC_CAMERA                  XPAR_PS7_I2C_0_DEVICE_ID
-// #define IIC_CAMERA                  XPAR_CAMERA_IIC_DEVICE_ID               // SC035HGS AXI_IIC
 #define GPIO_LED                    XPAR_LED_DEVICE_ID
 #define GPIO_CAMERA_PWDN            XPAR_CAMERA_PWDN_DEVICE_ID              // SC035HGS 休眠控制（正常工作需设置为低电平）
 #define GPIO_CAMERA_VSYNC           XPAR_CAMERA_VSYNC_DEVICE_ID             // SC035HGS DVP 输出场同步信号
@@ -214,19 +213,18 @@ void init_camera()
     // 初始化时钟输入锁定引脚
     XGpio_Initialize(&gpio_camera_xclk_locked, GPIO_CAMERA_XCLK_LOCKED);
 	XGpio_SetDataDirection(&gpio_camera_xclk_locked, 1, 0x1);
-    while(XGpio_DiscreteRead(&gpio_camera_xclk_locked, 1) == 0)
-    {
-        // 等待摄像头输入时钟锁定
-    }
+    // 等待摄像头输入时钟锁定
+    while(XGpio_DiscreteRead(&gpio_camera_xclk_locked, 1) == 0);
     // 初始化场信号输入引脚
     XGpio_Initialize(&gpio_camera_vsync, GPIO_CAMERA_VSYNC);
 	XGpio_SetDataDirection(&gpio_camera_vsync, 1, 0x1);
-    // 上电时序
+    // 拉高 PWDN 引脚启用摄像头
     XGpio_DiscreteWrite(&gpio_camera_pwdn, 1, 0x1);
-    // 至少等待 4ms 才能访问寄存器
+    // 拉高 PWDN 后至少等待 4ms 才能访问寄存器
     usleep(20 * 1000);
     // 初始化摄像头寄存器
     sc035hgs_init(&camera, IIC_CAMERA);
+    
     xil_printf("[SUCCESS] Init camera done\n");
 }
 

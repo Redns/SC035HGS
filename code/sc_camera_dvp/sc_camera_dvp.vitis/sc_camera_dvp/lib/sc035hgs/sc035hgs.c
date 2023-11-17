@@ -8,11 +8,7 @@
 */
 static uint8_t get_reg(camera_t *camera, uint16_t reg_addr)
 {
-    #ifdef PS_IIC
-        return PS_IIC_Read_Reg(camera->ps_iic_inst, camera->slv_addr, reg_addr);
-    #else
-        return AXI_IIC_Read_Reg(camera->axi_iic_inst, camera->slv_addr, reg_addr);
-    #endif
+    return PS_IIC_Read_Reg(camera->iic_inst, camera->slv_addr, reg_addr);
 }
 
 
@@ -26,11 +22,7 @@ static uint8_t get_reg(camera_t *camera, uint16_t reg_addr)
 */
 static void set_reg(camera_t *camera, uint16_t reg_addr, uint8_t value)
 {
-    #ifdef PS_IIC
-        PS_IIC_Write_Reg(camera->ps_iic_inst, camera->slv_addr, reg_addr, value);
-    #else
-        AXI_IIC_Write_Reg(camera->axi_iic_inst, camera->slv_addr, reg_addr, value);
-    #endif
+    PS_IIC_Write_Reg(camera->iic_inst, camera->slv_addr, reg_addr, value);
 }
 
 
@@ -45,17 +37,10 @@ static void set_reg(camera_t *camera, uint16_t reg_addr, uint8_t value)
 */
 static void set_reg_bits(camera_t *camera, uint16_t reg_addr, uint8_t offset, uint8_t length, uint8_t value)
 {
-    #ifdef PS_IIC
-        uint8_t ret = PS_IIC_Read_Reg(camera->ps_iic_inst, camera->slv_addr, reg_addr);
-        uint8_t mask = ((1 << length) - 1) << offset;
-        value = (ret & ~mask) | ((value << offset) & mask);
-        PS_IIC_Write_Reg(camera->ps_iic_inst, camera->slv_addr, reg_addr, value);
-    #else
-        uint8_t ret = AXI_IIC_Read_Reg(camera->axi_iic_inst, camera->slv_addr, reg_addr);
-        uint8_t mask = ((1 << length) - 1) << offset;
-        value = (ret & ~mask) | ((value << offset) & mask);
-        AXI_IIC_Write_Reg(camera->axi_iic_inst, camera->slv_addr, reg_addr, value);
-    #endif
+    uint8_t ret = PS_IIC_Read_Reg(camera->iic_inst, camera->slv_addr, reg_addr);
+    uint8_t mask = ((1 << length) - 1) << offset;
+    value = (ret & ~mask) | ((value << offset) & mask);
+    PS_IIC_Write_Reg(camera->iic_inst, camera->slv_addr, reg_addr, value);
 }
 
 
@@ -77,12 +62,8 @@ static void write_regs(camera_t *camera, const RegValuePair *reg_value_pairs)
         }
         else
         {
-            #ifdef PS_IIC
-                PS_IIC_Write_Reg(camera->ps_iic_inst, camera->slv_addr, reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
-            #else
-                AXI_IIC_Write_Reg(camera->axi_iic_inst, camera->slv_addr, reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
-            #endif
-            xil_printf("[INFO] Write camera's reg {0x%x} << 0x%x\n", reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
+            PS_IIC_Write_Reg(camera->iic_inst, camera->slv_addr, reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
+            xil_printf("[INFO] Write camera's reg {0x%4x} << 0x%2x\n", reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
         }
         i++;
     }
@@ -183,7 +164,7 @@ static void set_blc(camera_t *camera, blc_args *args)
 }
 
 /**
- * TODO 增益控制
+ * // TODO 增益控制
 */
 static void set_agc(camera_t *camera, int gain)
 {
@@ -291,14 +272,11 @@ void sc035hgs_init(camera_t *camera, uint16_t device_id)
 {
     // 初始化摄像头信息
     camera->slv_addr = SLAVE_ADDR;
+    camera->iic_inst = PS_IIC_Init(device_id, 400000);
+    // 获取摄像头 ID
     xil_printf("[INFO] Start to get camera's id...\n");
-    #ifdef PS_IIC
-        camera->ps_iic_inst = PS_IIC_Init(device_id, 400000);
-    #else
-        camera.axi_iic_inst = AXI_IIC_Init(device_id);
-    #endif
     camera->chip_id = get_chip_id(camera);
-    xil_printf("[INFO] Camera's id is %u\n", camera->chip_id);
+    xil_printf("[INFO] Camera's id is 0x%4x\n", camera->chip_id);
     // 初始化摄像头操作函数
     camera->reset = reset;
     camera->set_sleep_mode = set_sleep_mode;

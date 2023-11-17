@@ -6,8 +6,6 @@
 #include "ps_iic.h"
 #include "axi_iic.h"
 
-#define PS_IIC
-
 #define ENABLE                                  1
 #define DISABLE                                 0
 
@@ -15,6 +13,7 @@
 #define SLAVE_ADDR                              0x30        // 摄像头从机地址（DVP 接口下不可更改）
 #define REG_CHIP_ID_HIGH_ADDR                   0x3107      // CHIP ID
 #define REG_CHIP_ID_LOW_ADDR                    0x3108
+#define IIC_FRQ_HZ                              100000
 
 /* 软复位 & 休眠 */
 #define REG_SOFTWARE_RESET_ADDR                 0x0103      // 软复位（写 1 复位）
@@ -404,9 +403,7 @@ typedef struct _camera camera_t;
 typedef struct _camera{
     uint16_t slv_addr;              // Slave address
     uint16_t chip_id;               // Chip id
-
-    XIic* axi_iic_inst;  
-    XIicPs* ps_iic_inst;              
+    XIicPs* iic_inst;               // IIC instance
 
     exposure_mode exposure_mode;    
 
