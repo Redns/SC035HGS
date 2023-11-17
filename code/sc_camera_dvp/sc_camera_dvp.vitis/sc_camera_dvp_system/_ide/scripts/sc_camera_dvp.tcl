@@ -25,4 +25,5 @@ rst -processor
 targets -set -nocase -filter {name =~ "*A9*#0"}
 dow E:/Project/sc_camera/code/sc_camera_dvp/sc_camera_dvp.vitis/sc_camera_dvp/Debug/sc_camera_dvp.elf
 configparams force-mem-access 0
-bpadd -addr &main
+targets -set -nocase -filter {name =~ "*A9*#0"}
+con

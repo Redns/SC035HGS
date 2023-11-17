@@ -397,8 +397,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-docs/*
-
 code/.vscode
 code/2_ARM
 code/03 前置基础：摄像头传图
