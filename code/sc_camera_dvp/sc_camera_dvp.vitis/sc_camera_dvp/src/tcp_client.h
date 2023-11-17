@@ -16,7 +16,7 @@
 typedef struct tcp_pcb tcp_pcb;
 
 void tcp_client_init();
-uint32_t tcp_client_send(uint8_t* data, uint32_t size);
+uint32_t tcp_client_send(void* data, uint32_t size);
 void tcp_client_close();
 
 #endif

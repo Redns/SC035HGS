@@ -5,6 +5,10 @@
       <applications name="sc_camera_dvp" domainName="standalone_ps7_cortexa9_0" domainPrettyName="standalone_ps7_cortexa9_0" appBuildConfig="Debug"/>
       <options xsi:type="sdkproject:SdkOptions" generateSdCard="true"/>
     </configBuildOptions>
+    <lastBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="sc_camera_dvp" domainName="standalone_ps7_cortexa9_0" domainPrettyName="standalone_ps7_cortexa9_0" appBuildConfig="Debug"/>
+      <options xsi:type="sdkproject:SdkOptions" generateSdCard="true"/>
+    </lastBuildOptions>
   </configuration>
   <configuration name="Release" id="com.xilinx.sdx.system.managedbuilder.releaseConfiguration.513158712">
     <configBuildOptions xsi:type="systemproject:SystemOptions">

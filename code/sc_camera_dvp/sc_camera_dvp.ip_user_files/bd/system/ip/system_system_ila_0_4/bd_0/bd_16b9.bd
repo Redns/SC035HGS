@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x3C865983DF7EFAE9",
+      "boundary_crc": "0xE46424B6F4896E5",
       "design_src": "SBD",
       "device": "xc7z100ffg900-2",
       "name": "bd_16b9",
@@ -104,6 +104,16 @@
         "left": "0",
         "right": "0"
       },
+      "probe6": {
+        "direction": "I",
+        "left": "0",
+        "right": "0"
+      },
+      "probe7": {
+        "direction": "I",
+        "left": "0",
+        "right": "0"
+      },
       "SLOT_0_IIC_scl_i": {
         "direction": "I"
       },
@@ -158,7 +168,7 @@
             "value": "Native"
           },
           "C_NUM_OF_PROBES": {
-            "value": "12"
+            "value": "14"
           },
           "C_PROBE0_MU_CNT": {
             "value": "1"
@@ -179,6 +189,18 @@
             "value": "0"
           },
           "C_PROBE11_WIDTH": {
+            "value": "1"
+          },
+          "C_PROBE12_TYPE": {
+            "value": "0"
+          },
+          "C_PROBE12_WIDTH": {
+            "value": "1"
+          },
+          "C_PROBE13_TYPE": {
+            "value": "0"
+          },
+          "C_PROBE13_WIDTH": {
             "value": "1"
           },
           "C_PROBE1_MU_CNT": {
@@ -226,10 +248,16 @@
           "C_PROBE5_WIDTH": {
             "value": "1"
           },
+          "C_PROBE6_MU_CNT": {
+            "value": "1"
+          },
           "C_PROBE6_TYPE": {
             "value": "0"
           },
           "C_PROBE6_WIDTH": {
+            "value": "1"
+          },
+          "C_PROBE7_MU_CNT": {
             "value": "1"
           },
           "C_PROBE7_TYPE": {
@@ -269,37 +297,37 @@
       "SLOT_0_IIC_scl_i_1": {
         "ports": [
           "SLOT_0_IIC_scl_i",
-          "ila_lib/probe6"
+          "ila_lib/probe8"
         ]
       },
       "SLOT_0_IIC_scl_o_1": {
         "ports": [
           "SLOT_0_IIC_scl_o",
-          "ila_lib/probe7"
+          "ila_lib/probe9"
         ]
       },
       "SLOT_0_IIC_scl_t_1": {
         "ports": [
           "SLOT_0_IIC_scl_t",
-          "ila_lib/probe8"
+          "ila_lib/probe10"
         ]
       },
       "SLOT_0_IIC_sda_i_1": {
         "ports": [
           "SLOT_0_IIC_sda_i",
-          "ila_lib/probe9"
+          "ila_lib/probe11"
         ]
       },
       "SLOT_0_IIC_sda_o_1": {
         "ports": [
           "SLOT_0_IIC_sda_o",
-          "ila_lib/probe10"
+          "ila_lib/probe12"
         ]
       },
       "SLOT_0_IIC_sda_t_1": {
         "ports": [
           "SLOT_0_IIC_sda_t",
-          "ila_lib/probe11"
+          "ila_lib/probe13"
         ]
       },
       "clk_1": {
@@ -342,6 +370,18 @@
         "ports": [
           "probe5",
           "ila_lib/probe5"
+        ]
+      },
+      "probe6_1": {
+        "ports": [
+          "probe6",
+          "ila_lib/probe6"
+        ]
+      },
+      "probe7_1": {
+        "ports": [
+          "probe7",
+          "ila_lib/probe7"
         ]
       }
     }

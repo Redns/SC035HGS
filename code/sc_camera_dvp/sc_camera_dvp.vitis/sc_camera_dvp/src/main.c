@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "xgpio.h"
 #include "xparameters.h"
 #include "netif/xadapter.h"
@@ -14,31 +13,39 @@
 #include "sc035hgs.h"
 #include "dma_intr.h"
 #include "sys_intr.h"
+#include "open_image.h"
+#include "vofa.h"
 
 
-/* »º³åÇøÏà¹ØÉèÖÃ */
-#define FRAME_WIDTH                 640                                     // Ö¡¿í¶È
-#define FRAME_HEIGHT                480                                     // Ö¡¸ß¶È
-#define CAMERA_IGNORE_FRAME_NUMS    10                                      // ÉãÏñÍ·ÎÈ¶¨ËùĞèÖ¡Êı£¨³õÊ¼»¯ºóÒ»¶ÎÊ±¼äÄÚÊä³ö²»ÎÈ¶¨£©
-#define FRAME_CACHE_SIZE            FRAME_WIDTH * FRAME_HEIGHT              // Ö¡»º³åÇø´óĞ¡£¨µ¥Î»£º×Ö½Ú£©
-#define FRAME_CACHE_NUMS            3                                       // Ö¡»º³åÇøÊıÁ¿
+/* ç¼“å†²åŒºç›¸å…³è®¾ç½® */
+#define FRAME_WIDTH                 640                                     // å¸§å®½åº¦
+#define FRAME_HEIGHT                480                                     // å¸§é«˜åº¦
+#define CAMERA_IGNORE_FRAME_NUMS    10                                      // æ‘„åƒå¤´ç¨³å®šæ‰€éœ€å¸§æ•°ï¼ˆåˆå§‹åŒ–åä¸€æ®µæ—¶é—´å†…è¾“å‡ºä¸ç¨³å®šï¼‰
+#define FRAME_CACHE_SIZE            FRAME_WIDTH * FRAME_HEIGHT              // å¸§ç¼“å†²åŒºå¤§å°ï¼ˆå•ä½ï¼šå­—èŠ‚ï¼‰
+#define FRAME_CACHE_NUMS            3                                       // å¸§ç¼“å†²åŒºæ•°é‡
 
-/* IP Ïà¹ØÉèÖÃ */
-#define DEFAULT_IP_ADDRESS	        "192.168.1.10"                          // ±¾»ú IP
-#define DEFAULT_IP_MASK		        "255.255.255.0"                         // ÑÚÂë
-#define DEFAULT_GW_ADDRESS	        "192.168.1.1"                           // Íø¹Ø
+/* IP ç›¸å…³è®¾ç½® */
+#define DEFAULT_IP_ADDRESS	        "192.168.1.10"                          // æœ¬æœº IP
+#define DEFAULT_IP_MASK		        "255.255.255.0"                         // æ©ç 
+#define DEFAULT_GW_ADDRESS	        "192.168.1.1"                           // ç½‘å…³
 
-/* AXIS ´«ÊäÊ¹ÄÜ±êÖ¾ */
-#define AXIS_TRANSMIT_ENABLE        1                                       // Ê¹ÄÜ
-#define AXIS_TRANSMIT_DISABLE       0                                       // ½ûÓÃ
+/* AXIS ä¼ è¾“ä½¿èƒ½æ ‡å¿— */
+#define AXIS_TRANSMIT_ENABLE        1                                       // ä½¿èƒ½
+#define AXIS_TRANSMIT_DISABLE       0                                       // ç¦ç”¨
 
-/* Ïà¹ØÍâÉè ID */
-#define IIC_CAMERA                  XPAR_CAMERA_IIC_DEVICE_ID               // SC035HGS AXI_IIC
-#define GPIO_CAMERA_PWDN            XPAR_CAMERA_PWDN_DEVICE_ID              // SC035HGS ĞİÃß¿ØÖÆ£¨Õı³£¹¤×÷ĞèÉèÖÃÎªµÍµçÆ½£©
-#define GPIO_CAMERA_RESET           XPAR_CAMERA_RESET_DEVICE_ID             // SC035HGS Ó²¼ş¸´Î»£¨µÍµçÆ½ÓĞĞ§£©
-#define GPIO_CAMERA_VSYNC           XPAR_CAMERA_VSYNC_DEVICE_ID             // SC035HGS DVP Êä³ö³¡Í¬²½ĞÅºÅ
-#define GPIO_ETH_PHY_RESET          XPAR_PHY_RESET_DEVICE_ID                // ETH ¸´Î»£¨¸ßµçÆ½ÓĞĞ§£©
-#define GPIO_AXIS_TRANSMIT_ENABLE   XPAR_AXIS_TRANSMIT_ENABLE_DEVICE_ID     // AXIS Êı¾İ×ª»»Ê¹ÄÜ£¨¸ßµçÆ½ÓĞĞ§£©
+/* LED çŠ¶æ€*/
+#define LED_ON                      1
+#define LED_OFF                     0
+
+/* ç›¸å…³å¤–è®¾ ID */
+#define IIC_CAMERA                  XPAR_PS7_I2C_0_DEVICE_ID
+// #define IIC_CAMERA                  XPAR_CAMERA_IIC_DEVICE_ID               // SC035HGS AXI_IIC
+#define GPIO_LED                    XPAR_LED_DEVICE_ID
+#define GPIO_CAMERA_PWDN            XPAR_CAMERA_PWDN_DEVICE_ID              // SC035HGS ä¼‘çœ æ§åˆ¶ï¼ˆæ­£å¸¸å·¥ä½œéœ€è®¾ç½®ä¸ºä½ç”µå¹³ï¼‰
+#define GPIO_CAMERA_VSYNC           XPAR_CAMERA_VSYNC_DEVICE_ID             // SC035HGS DVP è¾“å‡ºåœºåŒæ­¥ä¿¡å·
+#define GPIO_CAMERA_XCLK_LOCKED     XPAR_XCLK_LOCKED_DEVICE_ID              // SC035HGS åƒç´ æ—¶é’Ÿè¾“å…¥é”å®š
+#define GPIO_ETH_PHY_RESET          XPAR_PHY_RESET_DEVICE_ID                // ETH å¤ä½ï¼ˆé«˜ç”µå¹³æœ‰æ•ˆï¼‰
+#define GPIO_AXIS_TRANSMIT_ENABLE   XPAR_AXIS_TRANSMIT_ENABLE_DEVICE_ID     // AXIS æ•°æ®è½¬æ¢ä½¿èƒ½ï¼ˆé«˜ç”µå¹³æœ‰æ•ˆï¼‰
 #define DMA_CAMERA_OUTPUT_TRANSMIT  XPAR_AXI_DMA_0_DEVICE_ID                // DMA
 
 extern volatile int TcpFastTmrFlag;
@@ -47,22 +54,27 @@ extern volatile int TcpSlowTmrFlag;
 uint8_t MAC_ETHERNET_ADDRESS[] = { 0x00, 0x0a, 0x35, 0x00, 0x01, 0x02 };
 struct netif server_netif;
 
-/* Êı¾İ»º³åÇø */
-u32 FrameCachePtrReceiveIndex;                                              // ½ÓÊÕ»º´æË÷Òı
-u32 FrameCachePtrTransmitIndex;                                             // ·¢ËÍ»º´æË÷Òı
-u32 FrameCachePtrLastReceiveIndex;                                          // ÉÏÒ»¸ö½ÓÊÕ»º´æË÷Òı
-u32 FrameCachePtr[FRAME_CACHE_NUMS + 1];                                    // Ö¡»º³åÇø
+/* æ•°æ®ç¼“å†²åŒº */
+u32 FrameCachePtrReceiveIndex;                                              // æ¥æ”¶ç¼“å­˜ç´¢å¼•
+u32 FrameCachePtrTransmitIndex;                                             // å‘é€ç¼“å­˜ç´¢å¼•
+u32 FrameCachePtrLastReceiveIndex;                                          // ä¸Šä¸€ä¸ªæ¥æ”¶ç¼“å­˜ç´¢å¼•
+u32 FrameCachePtr[FRAME_CACHE_NUMS + 1];                                    // å¸§ç¼“å†²åŒºï¼ˆRAW, RAW...ã€RAW, RGBï¼‰
 
-/* ÍâÉè¾ä±ú */
+uint8_t EthTransmitCache[FRAME_CACHE_SIZE + 1];                             // TCP å‘é€ç¼“å†²åŒº
+
+/* å¤–è®¾å¥æŸ„ */
 XScuGic Intc;
 XAxiDma AxiDma;
 camera_t camera;
+XGpio gpio_led;
 XGpio gpio_camera_pwdn;
-XGpio gpio_camera_rstn;
+XGpio gpio_camera_xclk_locked;
 XGpio gpio_camera_vsync;
 XGpio gpio_eth_phy_rstn;
 XGpio gpio_axis_transmit_enable;
 
+void init_led();
+void set_led(uint8_t on);
 void init_system();
 void init_camera();
 void init_axis_transmit();
@@ -71,13 +83,20 @@ void init_tcp();
 void set_axis_transmit(int start);
 void dma_rx_handler();
 void wait_camera_ready();
-uint8_t rgb2grayscale(uint8_t r, uint8_t g, uint8_t b);
-uint8_t **ptr_converter(uint8_t *ptr, uint32_t width, uint32_t height);
-void bayer2grayscale(uint8_t **bayer, uint8_t **grayscale, uint16_t image_width, uint16_t image_height);
 
 int main(void)
 {
     init_system();
+
+    for(uint8_t i = 0; i < 5; i++)
+    {
+        set_led(LED_ON);
+        usleep(200 * 1000);
+        set_led(LED_OFF);
+        usleep(200 * 1000);
+    }
+    set_led(LED_ON);
+
 	while(1)
 	{
         if(TcpFastTmrFlag) 
@@ -93,12 +112,17 @@ int main(void)
         xemacif_input(&server_netif);
         if(FrameCachePtrTransmitIndex != FrameCachePtrLastReceiveIndex)
         {
-            // ½« Bayer ×ª»»Îª»Ò¶ÈÍ¼Ïñ
+            // å°† Bayer è½¬æ¢ä¸ºç°åº¦å›¾åƒ
             FrameCachePtrTransmitIndex = FrameCachePtrLastReceiveIndex;
             bayer2grayscale(ptr_converter((uint8_t*)FrameCachePtr[FrameCachePtrTransmitIndex], FRAME_WIDTH, FRAME_HEIGHT), 
                 ptr_converter((uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], FRAME_WIDTH, FRAME_HEIGHT), FRAME_WIDTH, FRAME_HEIGHT);
-            // TCP ·¢ËÍ
-            tcp_client_send((uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], FRAME_CACHE_SIZE);
+            // å‘é€å‰å¯¼å¸§
+            char *image_front_frame = generate_image_front_frame(0, FRAME_CACHE_SIZE, FRAME_WIDTH, FRAME_HEIGHT, Format_Grayscalec8);
+            tcp_client_send(image_front_frame, strlen(image_front_frame));
+            // TODO å›¾ç‰‡æ•°æ®å‘é€
+            memset(EthTransmitCache, '\n', sizeof(EthTransmitCache));
+            memcpy(EthTransmitCache, (uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], sizeof(uint8_t) * FRAME_CACHE_SIZE);
+            tcp_client_send(EthTransmitCache, sizeof(EthTransmitCache));
         }
 	}
     cleanup_platform();
@@ -107,28 +131,31 @@ int main(void)
 
 
 /**
- * @brief:ÏµÍ³³õÊ¼»¯º¯Êı
+ * @brief:ç³»ç»Ÿåˆå§‹åŒ–å‡½æ•°
  * @return *
  */
 void init_system()
 {
-    // ³õÊ¼»¯Æ½Ì¨
+    // åˆå§‹åŒ–å¹³å°
     init_platform();
-    // ³õÊ¼»¯Íø¿Ú
-    init_eth_phy();
-    init_tcp();
-    // ³õÊ¼»¯ AXIS Êı¾İ×ª»»Ä£¿é
+    // åˆå§‹åŒ– LED
+    init_led();
+    // åˆå§‹åŒ– AXIS æ•°æ®è½¬æ¢æ¨¡å—
     init_axis_transmit();
-    // ³õÊ¼»¯ÉãÏñÍ·
+    // åˆå§‹åŒ–æ‘„åƒå¤´
     init_camera();
-    // ³õÊ¼»¯ DMA
+    // åˆå§‹åŒ–ç½‘å£
+    init_eth_phy();
+    // åˆå§‹åŒ– TCP è¿æ¥
+    // TODO init_tcp();
+    // åˆå§‹åŒ– DMA
     DMA_Intr_Init(&AxiDma, 0);
 	Init_Intr_System(&Intc);
 	Setup_Intr_Exception(&Intc);
 	DMA_Setup_Intr_System(&Intc, &AxiDma, RX_INTR_ID);
     DMA_Handler_Init(NULL, dma_rx_handler, NULL);
 	DMA_Intr_Enable(&Intc, &AxiDma);
-    // ³õÊ¼»¯Ö¡»º³åÇø
+    // åˆå§‹åŒ–å¸§ç¼“å†²åŒº
     FrameCachePtrReceiveIndex  = 0;
     FrameCachePtrLastReceiveIndex = 0;
     FrameCachePtrTransmitIndex = 0;
@@ -136,48 +163,76 @@ void init_system()
     {
         FrameCachePtr[i] = RX_BUFFER_BASE + FRAME_CACHE_NUMS * i;
     }
-    // µÈ´ıÉãÏñÍ·Êä³öÎÈ¶¨
+    // ç­‰å¾…æ‘„åƒå¤´è¾“å‡ºç¨³å®š
     wait_camera_ready();
     set_axis_transmit(AXIS_TRANSMIT_ENABLE);
 }
 
 
 /**
- * @brief ³õÊ¼»¯ÉãÏñÍ·
+ * @brief åˆå§‹åŒ– LED
  * @return *
 */
-void init_camera()
+void init_led()
 {
-    xil_printf("[INFO] Init camera sc035hgs...\n");
-
-    // ³õÊ¼»¯ĞİÃßÊä³öÒı½Å
-    // TODO ÓëÊÖ²áÃèÊö²»·û£¨ÊÖ²áÖ¸Ã÷Õı³£¹¤×÷Ó¦À­¸ß£©
-    XGpio_Initialize(&gpio_camera_pwdn, GPIO_CAMERA_PWDN);
-    XGpio_SetDataDirection(&gpio_camera_pwdn, 1, 0x0);
-    XGpio_DiscreteWrite(&gpio_camera_pwdn, 1, 0x1);
-    // ³õÊ¼»¯¸´Î»Êä³öÒı½Å
-    XGpio_Initialize(&gpio_camera_rstn, GPIO_CAMERA_RESET);
-	XGpio_SetDataDirection(&gpio_camera_rstn, 1, 0x0);
-    XGpio_DiscreteWrite(&gpio_camera_rstn, 1, 0x0);
-    // ³õÊ¼»¯³¡ĞÅºÅÊäÈëÒı½Å
-    XGpio_Initialize(&gpio_camera_vsync, GPIO_CAMERA_VSYNC);
-	XGpio_SetDataDirection(&gpio_camera_vsync, 1, 0x1);
-    // ÉÏµçÊ±Ğò
-    usleep(6 * 1000);
-    XGpio_DiscreteWrite(&gpio_camera_pwdn, 1, 0x0);
-    usleep(2 * 1000);
-    XGpio_DiscreteWrite(&gpio_camera_rstn, 1, 0x1);
-    usleep(21 * 1000);
-    xil_printf("[SUCCESS] Camera sc035hgs init done\n");
-    // ³õÊ¼»¯ÉãÏñÍ·¼Ä´æÆ÷
-    xil_printf("[INFO] Get sc035hgs's chip id...\n");
-    sc035hgs_init(&camera, IIC_CAMERA);
-    xil_printf("[SUCCESS] Camera sc035hgs's chip id is %u\n", camera.chip_id);
+    XGpio_Initialize(&gpio_led, GPIO_LED);
+    XGpio_SetDataDirection(&gpio_led, 1, 0x0);
+    set_led(LED_OFF);
 }
 
 
 /**
- * @brief ³õÊ¼»¯ AXIS Êı¾İ´«ÊäÄ£¿é
+ * @brief è®¾ç½® LED çŠ¶æ€
+ * @param on å»ºè®®ä½¿ç”¨ LED_ON/LED_OFF æ§åˆ¶
+ * @return *
+*/
+void set_led(uint8_t on)
+{
+	if(on)
+	{
+        XGpio_DiscreteClear(&gpio_led, 1, 0x0);
+	}
+    else
+    {
+        XGpio_DiscreteClear(&gpio_led, 1, 0x1);
+    }
+}
+
+
+/**
+ * @brief åˆå§‹åŒ–æ‘„åƒå¤´
+ * @return *
+*/
+void init_camera()
+{
+    xil_printf("[INFO] Start to init camera...\n");
+
+    // åˆå§‹åŒ–ä¼‘çœ è¾“å‡ºå¼•è„š
+    XGpio_Initialize(&gpio_camera_pwdn, GPIO_CAMERA_PWDN);
+    XGpio_SetDataDirection(&gpio_camera_pwdn, 1, 0x0);
+    XGpio_DiscreteWrite(&gpio_camera_pwdn, 1, 0x0);
+    // åˆå§‹åŒ–æ—¶é’Ÿè¾“å…¥é”å®šå¼•è„š
+    XGpio_Initialize(&gpio_camera_xclk_locked, GPIO_CAMERA_XCLK_LOCKED);
+	XGpio_SetDataDirection(&gpio_camera_xclk_locked, 1, 0x1);
+    while(XGpio_DiscreteRead(&gpio_camera_xclk_locked, 1) == 0)
+    {
+        // ç­‰å¾…æ‘„åƒå¤´è¾“å…¥æ—¶é’Ÿé”å®š
+    }
+    // åˆå§‹åŒ–åœºä¿¡å·è¾“å…¥å¼•è„š
+    XGpio_Initialize(&gpio_camera_vsync, GPIO_CAMERA_VSYNC);
+	XGpio_SetDataDirection(&gpio_camera_vsync, 1, 0x1);
+    // ä¸Šç”µæ—¶åº
+    XGpio_DiscreteWrite(&gpio_camera_pwdn, 1, 0x1);
+    // è‡³å°‘ç­‰å¾… 4ms æ‰èƒ½è®¿é—®å¯„å­˜å™¨
+    usleep(20 * 1000);
+    // åˆå§‹åŒ–æ‘„åƒå¤´å¯„å­˜å™¨
+    sc035hgs_init(&camera, IIC_CAMERA);
+    xil_printf("[SUCCESS] Init camera done\n");
+}
+
+
+/**
+ * @brief åˆå§‹åŒ– AXIS æ•°æ®ä¼ è¾“æ¨¡å—
  * @return *
 */
 void init_axis_transmit()
@@ -189,7 +244,7 @@ void init_axis_transmit()
 
 
 /**
- * @brief ³õÊ¼»¯ÒÔÌ«Íø PHY Ğ¾Æ¬
+ * @brief åˆå§‹åŒ–ä»¥å¤ªç½‘ PHY èŠ¯ç‰‡
  * @return *
 */
 void init_eth_phy()
@@ -203,10 +258,10 @@ void init_eth_phy()
 
 
 /**
- * @brief ÎªÍø¿¨°ó¶¨ IP µØÖ·
- * @param ip    IP µØÖ·
- * @param mask  Ä¬ÈÏÑÚÂë
- * @param gw    Ä¬ÈÏÍø¹Ø
+ * @brief ä¸ºç½‘å¡ç»‘å®š IP åœ°å€
+ * @param ip    IP åœ°å€
+ * @param mask  é»˜è®¤æ©ç 
+ * @param gw    é»˜è®¤ç½‘å…³
  * @return *
 */
 static void assign_default_ip(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
@@ -237,33 +292,33 @@ static void assign_default_ip(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
 
 
 /**
- * @brief ³õÊ¼»¯ TCP
+ * @brief åˆå§‹åŒ– TCP
  * @return *
 */
 void init_tcp()
 {
-    // ³õÊ¼»¯ LWIP
+    // åˆå§‹åŒ– LWIP
 	lwip_init();
-    // Ìí¼ÓÍø¿¨½Ó¿ÚÖÁÍøÂçÁĞ±í
+    // æ·»åŠ ç½‘å¡æ¥å£è‡³ç½‘ç»œåˆ—è¡¨
 	if(!xemac_add(&server_netif, NULL, NULL, NULL, MAC_ETHERNET_ADDRESS, PLATFORM_EMAC_BASEADDR)) 
     {
 		xil_printf("Error adding N/W interface\r\n"); return;
 	}
-    // ÉèÖÃÄ¬ÈÏÍø¿¨
+    // è®¾ç½®é»˜è®¤ç½‘å¡
 	netif_set_default(&server_netif);
-    // Ê¹ÄÜÖĞ¶Ï
+    // ä½¿èƒ½ä¸­æ–­
 	platform_enable_interrupts();
-    // ÆôÓÃÍø¿¨
+    // å¯ç”¨ç½‘å¡
 	netif_set_up(&server_netif);
-    // ÉèÖÃÍø¿¨ IP
+    // è®¾ç½®ç½‘å¡ IP
 	assign_default_ip(&(server_netif.ip_addr), &(server_netif.netmask), &(server_netif.gw));
-	// ³õÊ¼»¯¿Í»§¶Ë
+	// åˆå§‹åŒ–å®¢æˆ·ç«¯
     tcp_client_init();
 }
 
 
 /**
- * @brief Ê¹ÄÜ AXIS Êı¾İ´«Êä
+ * @brief ä½¿èƒ½ AXIS æ•°æ®ä¼ è¾“
  * @param start AXIS_TRANSMIT_ENABLE/AXIS_TRANSMIT_DISABLE
  * @return *
 */
@@ -281,27 +336,28 @@ void set_axis_transmit(int start)
 
 
 /**
- * @brief DMA ½ÓÊÕÖĞ¶Ïº¯Êı
+ * @brief DMA æ¥æ”¶ä¸­æ–­å‡½æ•°
  * @return *
 */
 void dma_rx_handler()
 {
-    // È·±£Êı¾İ¾ùÔÚ DDR ÖĞ
+    xil_printf("[INFO] DMA receive interrupt\n");
+    // ç¡®ä¿æ•°æ®å‡åœ¨ DDR ä¸­
     Xil_DCacheInvalidateRange((u32)FrameCachePtr[FrameCachePtrReceiveIndex], FRAME_CACHE_SIZE);
-    // ¸üĞÂÖ¡»º³åÇøË÷Òı
+    // æ›´æ–°å¸§ç¼“å†²åŒºç´¢å¼•
     FrameCachePtrLastReceiveIndex = FrameCachePtrReceiveIndex;
     FrameCachePtrReceiveIndex = (FrameCachePtrReceiveIndex + 1) % FRAME_CACHE_NUMS;
     if(FrameCachePtrReceiveIndex == FrameCachePtrTransmitIndex)
     {
         FrameCachePtrReceiveIndex = (FrameCachePtrTransmitIndex + 1) % FRAME_CACHE_NUMS;
     }
-    // Æô¶¯ÏÂÒ»´Î DMA ´«Êä
+    // å¯åŠ¨ä¸‹ä¸€æ¬¡ DMA ä¼ è¾“
     XAxiDma_SimpleTransfer(&AxiDma, (u32)FrameCachePtr[FrameCachePtrReceiveIndex], (u32)(FRAME_CACHE_SIZE), XAXIDMA_DEVICE_TO_DMA);
 }
 
 
 /**
- * @brief µÈ´ıÉãÏñÍ·×¼±¸ºÃ
+ * @brief ç­‰å¾…æ‘„åƒå¤´å‡†å¤‡å¥½
  * @return *
 */
 void wait_camera_ready()
@@ -309,124 +365,9 @@ void wait_camera_ready()
     uint16_t frame_count = 0;
     while(frame_count < CAMERA_IGNORE_FRAME_NUMS)
     {
+        xil_printf("[INFO] Camera output %u frame\n", frame_count);
         while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x0);
         while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x1);
         frame_count++;
-    }
-}
-
-
-/**
- * @brief RGB ×ª»Ò¶È
- * @param r R Í¨µÀÏñËØÖµ
- * @param g G Í¨µÀÏñËØÖµ
- * @param b B Í¨µÀÏñËØÖµ
- * @return »Ò¶ÈÏñËØÖµ
-*/
-uint8_t rgb2grayscale(uint8_t r, uint8_t g, uint8_t b)
-{
-    return (r + g + b) / 3;
-}
-
-
-/**
- * @brief Ò»Î¬Ö¸Õë×ª»»Îª¶şÎ¬
- * @param ptr       ´ı×ª»»µÄÒ»Î¬Ö¸Õë
- * @param width     ¶şÎ¬Êı×éĞĞ³¤
- * @param height    ¶şÎ¬Êı×éÁĞÊı
- * @return ×ª»»ºóµÄ¶şÎ¬Êı×é
-*/
-uint8_t **ptr_converter(uint8_t *ptr, uint32_t width, uint32_t height)
-{
-    uint8_t **convertPtr = (uint8_t**)malloc(sizeof(uint8_t*) * height);
-    for(uint32_t i = 0; i < height; i++)
-    {
-        convertPtr[i] = &ptr[width * i];
-    } 
-    return convertPtr;
-}
-
-
-/**
- * @brief ½« bayer BG_GR ×ª»»Îª»Ò¶ÈÍ¼
- * @param bayer bayer Í¼Ïñ»º³åÇø
- * @param grayscale »Ò¶ÈÍ¼Ïñ»º³åÇø
- * @param image_width Í¼Ïñ¿í¶È
- * @param image_height Í¼Ïñ¸ß¶È
-*/
-void bayer2grayscale(uint8_t **bayer, uint8_t **grayscale, uint16_t image_width, uint16_t image_height)
-{
-    if((image_width < 2) || (image_height < 2))
-    {
-        return;
-    }
-
-    if((image_width % 2 != 0) || (image_height % 2 != 0))
-    {
-        return;
-    }
-
-    // ´¦Àí×îÍâÎ§ÏñËØ
-    for(uint16_t row = 0; row < image_height; row++)
-    {
-        if(row == 0)
-        {
-            grayscale[0][0] = rgb2grayscale(bayer[1][1], (bayer[0][1] + bayer[1][0]) / 2, bayer[0][0]);
-            grayscale[0][image_width - 1] = rgb2grayscale(bayer[1][image_width - 1], bayer[0][image_width - 1], bayer[0][image_width - 2]);
-            for(uint16_t col = 1; col < image_width - 1; col++)
-            {
-                grayscale[0][col] = (col % 2 == 0) ? rgb2grayscale((bayer[1][col - 1] + bayer[1][col + 1]) / 2, (bayer[0][col - 1] + bayer[0][col + 1] + bayer[1][col]) / 3, bayer[0][col]) :
-                    rgb2grayscale(bayer[1][col], bayer[0][col], (bayer[0][col - 1] + bayer[0][col + 1]) / 2);
-            }
-        }
-        else if(row == image_height - 1)
-        {
-            grayscale[image_height - 1][0] = rgb2grayscale(bayer[image_height - 1][1], bayer[image_height - 1][0], bayer[image_height - 2][0]);
-            grayscale[image_height - 1][image_width - 1] = rgb2grayscale(bayer[image_height - 1][image_width - 1], (bayer[image_height - 1][image_width - 2] + bayer[image_height - 2][image_width - 1]) / 2, bayer[image_height - 2][image_width - 2]);
-            for(uint16_t col = 1; col < image_width - 1; col++)
-            {
-                grayscale[image_height - 1][col] = (col % 2 == 0) ? rgb2grayscale((bayer[image_height - 1][col - 1] + bayer[image_height - 1][col + 1]) / 2, bayer[image_height - 1][col], bayer[image_height - 2][col]) : 
-                    rgb2grayscale(bayer[image_height - 1][col], (bayer[image_height - 1][col - 1] + bayer[image_height - 1][col + 1] + bayer[image_height - 2][col]) / 3, (bayer[image_height - 2][col - 1] + bayer[image_height - 2][col + 1]));
-            }
-        }
-        else
-        {
-            // ·Ç¶¥µã±ß½çÏñËØ
-            grayscale[row][0] = (row % 2 == 0) ? rgb2grayscale((bayer[row - 1][1] + bayer[row + 1][1]) / 2, (bayer[row - 1][0] + bayer[row + 1][0] + bayer[row][1]) / 3, bayer[row][0]) :
-                rgb2grayscale(bayer[row][1], bayer[row][0], (bayer[row - 1][0] + bayer[row + 1][0]) / 2);
-            grayscale[row][image_width - 1] = (row % 2 == 0) ? rgb2grayscale(bayer[row - 1][image_width - 1], bayer[row][image_width - 1], bayer[row][image_width - 2]) :
-                rgb2grayscale(bayer[row][image_width - 1], (bayer[row][image_width - 2] + bayer[row - 1][image_width - 1] + bayer[row + 1][image_width - 1]) / 3, (bayer[row - 1][image_width - 2] + bayer[row + 1][image_width - 2]) / 2);
-        }
-    }
-
-    // ´¦ÀíÄÚ²¿ÏñËØµã
-    for(uint16_t row = 1; row < image_height - 1; row++)
-    {
-        if(row % 2 == 0)
-        {
-            // G
-            for(uint16_t col = 1; col < image_width - 1; col += 2)
-            {
-                grayscale[row][col] = rgb2grayscale((bayer[row - 1][col] + bayer[row + 1][col]) / 2, bayer[row][col], (bayer[row][col - 1] + bayer[row][col + 1]) / 2);
-            }
-            // B
-            for(uint16_t col = 2; col < image_width - 1; col += 2)
-            {
-                grayscale[row][col] = rgb2grayscale((bayer[row - 1][col - 1] + bayer[row - 1][col + 1] + bayer[row + 1][col - 1] + bayer[row + 1][col + 1]) / 4, (bayer[row - 1][col] + bayer[row][col - 1] + bayer[row][col + 1] + bayer[row + 1][col]) / 4, bayer[row][col]);
-            }
-        }
-        else
-        {
-            // R
-            for(uint16_t col = 1; col < image_width - 1; col += 2)
-            {
-                grayscale[row][col] = rgb2grayscale(bayer[row][col], (bayer[row][col - 1] + bayer[row][col + 1] + bayer[row - 1][col] + bayer[row + 1][col]) / 4, (bayer[row - 1][col - 1] + bayer[row - 1][col + 1] + bayer[row + 1][col - 1] + bayer[row + 1][col + 1]) / 4);
-            }
-            // G
-            for(uint16_t col = 2; col < image_width - 1; col += 2)
-            {
-                grayscale[row][col] = rgb2grayscale((bayer[row][col - 1] + bayer[row][col + 1]) / 2, bayer[row][col], (bayer[row - 1][col] + bayer[row + 1][col]) / 2);
-            }
-        }
     }
 }

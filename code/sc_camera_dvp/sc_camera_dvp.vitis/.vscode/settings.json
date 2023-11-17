@@ -6,6 +6,11 @@
         "*.wxss": "css",
         "*.wxs": "javascript",
         "xil_printf.h": "c",
-        "xparameters.h": "c"
+        "xparameters.h": "c",
+        "eeprom.h": "c",
+        "sc035hgs.h": "c",
+        "init.h": "c",
+        "tcp.h": "c",
+        "type_traits": "c"
     }
 }

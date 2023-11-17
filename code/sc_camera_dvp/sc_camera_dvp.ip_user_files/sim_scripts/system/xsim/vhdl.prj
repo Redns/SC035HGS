@@ -7,5 +7,7 @@ vhdl xil_defaultlib  \
 "../../../bd/system/ip/system_axi_gpio_0_5/sim/system_axi_gpio_0_5.vhd" \
 "../../../bd/system/ip/system_axi_gpio_1_0/sim/system_axi_gpio_1_0.vhd" \
 "../../../bd/system/ip/system_axi_gpio_0_6/sim/system_axi_gpio_0_6.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_7/sim/system_axi_gpio_0_7.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_8/sim/system_axi_gpio_0_8.vhd" \
 
 nosort

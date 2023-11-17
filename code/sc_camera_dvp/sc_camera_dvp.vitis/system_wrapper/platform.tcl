@@ -38,3 +38,55 @@ catch {bsp regenerate}
 platform generate -domains standalone_ps7_cortexa9_0,zynq_fsbl 
 platform active {system_wrapper}
 platform generate -domains 
+platform active {system_wrapper}
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+domain active {zynq_fsbl}
+domain active {standalone_ps7_cortexa9_0}
+bsp reload
+bsp reload
+platform generate -domains 
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+bsp reload
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+bsp reload
+bsp reload
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+bsp reload
+domain active {zynq_fsbl}
+bsp reload
+domain active {standalone_ps7_cortexa9_0}
+platform active {system_wrapper}
+domain active {zynq_fsbl}
+bsp reload
+bsp reload
+domain active {standalone_ps7_cortexa9_0}
+bsp reload
+bsp reload
+bsp reload
+bsp config stdin "ps7_coresight_comp_0"
+bsp config stdin "ps7_coresight_comp_0"
+bsp reload
+platform generate -domains 
+platform active {system_wrapper}
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+platform active {system_wrapper}
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains standalone_ps7_cortexa9_0,zynq_fsbl 
+platform active {system_wrapper}
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+platform clean
+platform generate

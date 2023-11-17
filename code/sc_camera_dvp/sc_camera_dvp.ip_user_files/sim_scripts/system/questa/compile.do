@@ -24,6 +24,7 @@ vlib questa_lib/msim/axi_datamover_v5_1_27
 vlib questa_lib/msim/axi_sg_v4_1_14
 vlib questa_lib/msim/axi_dma_v7_1_26
 vlib questa_lib/msim/axi_gpio_v2_0_27
+vlib questa_lib/msim/xlconcat_v2_1_4
 vlib questa_lib/msim/axi_protocol_converter_v2_1_25
 vlib questa_lib/msim/axi_clock_converter_v2_1_24
 vlib questa_lib/msim/blk_mem_gen_v8_4_5
@@ -52,6 +53,7 @@ vmap axi_datamover_v5_1_27 questa_lib/msim/axi_datamover_v5_1_27
 vmap axi_sg_v4_1_14 questa_lib/msim/axi_sg_v4_1_14
 vmap axi_dma_v7_1_26 questa_lib/msim/axi_dma_v7_1_26
 vmap axi_gpio_v2_0_27 questa_lib/msim/axi_gpio_v2_0_27
+vmap xlconcat_v2_1_4 questa_lib/msim/xlconcat_v2_1_4
 vmap axi_protocol_converter_v2_1_25 questa_lib/msim/axi_protocol_converter_v2_1_25
 vmap axi_clock_converter_v2_1_24 questa_lib/msim/axi_clock_converter_v2_1_24
 vmap blk_mem_gen_v8_4_5 questa_lib/msim/blk_mem_gen_v8_4_5
@@ -176,10 +178,33 @@ vcom -work xil_defaultlib  -93 \
 "../../../bd/system/ip/system_axi_gpio_0_6/sim/system_axi_gpio_0_6.vhd" \
 
 vlog -work xil_defaultlib  -incr -mfcu "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/ec67/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/3007/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/62b6" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/1b7e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/122e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/b205/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/fd26/hdl/verilog" "+incdir+D:/Xilinx/Vivado/2021.2/data/xilinx_vip/include" \
-"../../../bd/system/ip/system_system_ila_0_4/bd_0/ip/ip_0/sim/bd_16b9_ila_lib_0.v" \
 "../../../bd/system/ip/system_system_ila_0_4/bd_0/sim/bd_16b9.v" \
+"../../../bd/system/ip/system_system_ila_0_4/bd_0/ip/ip_0/sim/bd_16b9_ila_lib_0.v" \
 "../../../bd/system/ip/system_system_ila_0_4/sim/system_system_ila_0_4.v" \
+
+vlog -work xlconcat_v2_1_4  -incr -mfcu "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/ec67/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/3007/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/62b6" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/1b7e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/122e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/b205/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/fd26/hdl/verilog" "+incdir+D:/Xilinx/Vivado/2021.2/data/xilinx_vip/include" \
+"../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/4b67/hdl/xlconcat_v2_1_vl_rfs.v" \
+
+vlog -work xil_defaultlib  -incr -mfcu "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/ec67/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/3007/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/62b6" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/1b7e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/122e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/b205/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/fd26/hdl/verilog" "+incdir+D:/Xilinx/Vivado/2021.2/data/xilinx_vip/include" \
+"../../../bd/system/ip/system_xlconcat_0_0/sim/system_xlconcat_0_0.v" \
+"../../../bd/system/ip/system_system_ila_1_0/bd_0/sim/bd_15e9.v" \
+"../../../bd/system/ip/system_system_ila_1_0/bd_0/ip/ip_0/sim/bd_15e9_ila_lib_0.v" \
+"../../../bd/system/ip/system_system_ila_1_0/sim/system_system_ila_1_0.v" \
+"../../../bd/system/ip/system_system_ila_2_0/bd_0/sim/bd_1519.v" \
+"../../../bd/system/ip/system_system_ila_2_0/bd_0/ip/ip_0/sim/bd_1519_ila_lib_0.v" \
+"../../../bd/system/ip/system_system_ila_2_0/sim/system_system_ila_2_0.v" \
+
+vcom -work xil_defaultlib  -93 \
+"../../../bd/system/ip/system_axi_gpio_0_7/sim/system_axi_gpio_0_7.vhd" \
+
+vlog -work xil_defaultlib  -incr -mfcu "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/ec67/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/3007/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/62b6" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/1b7e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/122e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/b205/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/fd26/hdl/verilog" "+incdir+D:/Xilinx/Vivado/2021.2/data/xilinx_vip/include" \
+"../../../bd/system/ip/system_system_ila_3_0/bd_0/sim/bd_d548.v" \
+"../../../bd/system/ip/system_system_ila_3_0/bd_0/ip/ip_0/sim/bd_d548_ila_lib_0.v" \
+"../../../bd/system/ip/system_system_ila_3_0/sim/system_system_ila_3_0.v" \
 "../../../bd/system/sim/system.v" \
+
+vcom -work xil_defaultlib  -93 \
+"../../../bd/system/ip/system_axi_gpio_0_8/sim/system_axi_gpio_0_8.vhd" \
 
 vlog -work axi_protocol_converter_v2_1_25  -incr -mfcu "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/ec67/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/3007/hdl" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/62b6" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/1b7e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/122e/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/b205/hdl/verilog" "+incdir+../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/fd26/hdl/verilog" "+incdir+D:/Xilinx/Vivado/2021.2/data/xilinx_vip/include" \
 "../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/8fe4/hdl/axi_protocol_converter_v2_1_vl_rfs.v" \

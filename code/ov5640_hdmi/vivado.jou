@@ -1,0 +1,26 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:48:09 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Mon Nov  6 17:03:57 2023
+# Process ID: 19264
+# Current directory: E:/Project/sc_camera/code/20220731ygACd6Xc/ov5640_hdmi_1_3
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent8840 E:\Project\sc_camera\code\20220731ygACd6Xc\ov5640_hdmi_1_3\ov5640_hdmi.xpr
+# Log file: E:/Project/sc_camera/code/20220731ygACd6Xc/ov5640_hdmi_1_3/vivado.log
+# Journal file: E:/Project/sc_camera/code/20220731ygACd6Xc/ov5640_hdmi_1_3\vivado.jou
+# Running On: JingDevice, OS: Windows, CPU Frequency: 2112 MHz, CPU Physical cores: 4, Host memory: 17005 MB
+#-----------------------------------------------------------
+start_gui
+open_project E:/Project/sc_camera/code/20220731ygACd6Xc/ov5640_hdmi_1_3/ov5640_hdmi.xpr
+update_compile_order -fileset sources_1
+open_bd_design {E:/Project/sc_camera/code/20220731ygACd6Xc/ov5640_hdmi_1_3/ov5640_hdmi.srcs/sources_1/bd/ov5640_hdmi/ov5640_hdmi.bd}
+regenerate_bd_layout
+create_ip_run [get_files -of_objects [get_fileset sources_1] E:/Project/sc_camera/code/20220731ygACd6Xc/ov5640_hdmi_1_3/ov5640_hdmi.srcs/sources_1/bd/ov5640_hdmi/ov5640_hdmi.bd]
+synth_design -rtl -rtl_skip_mlo -name rtl_1
+set_property IOSTANDARD LVCMOS33 [get_ports [list {i_pixel_data[7]} {i_pixel_data[6]} {i_pixel_data[5]} {i_pixel_data[4]} {i_pixel_data[3]} {i_pixel_data[2]} {i_pixel_data[1]} {i_pixel_data[0]}]]
+save_constraints
+set_property IOSTANDARD LVCMOS33 [get_ports [list i_href]]
+set_property IOSTANDARD LVCMOS33 [get_ports [list i_pclk]]
+set_property IOSTANDARD LVCMOS33 [get_ports [list i_vsync]]
+set_property IOSTANDARD LVCMOS33 [get_ports [list o_tmds_oen]]
+save_constraints

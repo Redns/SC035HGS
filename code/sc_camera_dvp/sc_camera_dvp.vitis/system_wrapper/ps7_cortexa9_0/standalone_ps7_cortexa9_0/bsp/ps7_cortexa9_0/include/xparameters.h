@@ -303,7 +303,7 @@
 /******************************************************************/
 
 /* Definitions for driver GPIO */
-#define XPAR_XGPIO_NUM_INSTANCES 5
+#define XPAR_XGPIO_NUM_INSTANCES 7
 
 /* Definitions for peripheral AXIS_TRANSMIT_ENABLE */
 #define XPAR_AXIS_TRANSMIT_ENABLE_BASEADDR 0x41200000
@@ -338,11 +338,27 @@
 
 
 /* Definitions for peripheral PHY_RESET */
-#define XPAR_PHY_RESET_BASEADDR 0x41260000
-#define XPAR_PHY_RESET_HIGHADDR 0x4126FFFF
+#define XPAR_PHY_RESET_BASEADDR 0x41230000
+#define XPAR_PHY_RESET_HIGHADDR 0x4123FFFF
 #define XPAR_PHY_RESET_DEVICE_ID 4
 #define XPAR_PHY_RESET_INTERRUPT_PRESENT 0
 #define XPAR_PHY_RESET_IS_DUAL 0
+
+
+/* Definitions for peripheral XCLK_LOCKED */
+#define XPAR_XCLK_LOCKED_BASEADDR 0x41250000
+#define XPAR_XCLK_LOCKED_HIGHADDR 0x4125FFFF
+#define XPAR_XCLK_LOCKED_DEVICE_ID 5
+#define XPAR_XCLK_LOCKED_INTERRUPT_PRESENT 0
+#define XPAR_XCLK_LOCKED_IS_DUAL 0
+
+
+/* Definitions for peripheral LED */
+#define XPAR_LED_BASEADDR 0x41260000
+#define XPAR_LED_HIGHADDR 0x4126FFFF
+#define XPAR_LED_DEVICE_ID 6
+#define XPAR_LED_INTERRUPT_PRESENT 0
+#define XPAR_LED_IS_DUAL 0
 
 
 /******************************************************************/
@@ -376,11 +392,25 @@
 #define XPAR_GPIO_3_IS_DUAL 0
 
 /* Canonical definitions for peripheral PHY_RESET */
-#define XPAR_GPIO_4_BASEADDR 0x41260000
-#define XPAR_GPIO_4_HIGHADDR 0x4126FFFF
+#define XPAR_GPIO_4_BASEADDR 0x41230000
+#define XPAR_GPIO_4_HIGHADDR 0x4123FFFF
 #define XPAR_GPIO_4_DEVICE_ID XPAR_PHY_RESET_DEVICE_ID
 #define XPAR_GPIO_4_INTERRUPT_PRESENT 0
 #define XPAR_GPIO_4_IS_DUAL 0
+
+/* Canonical definitions for peripheral XCLK_LOCKED */
+#define XPAR_GPIO_5_BASEADDR 0x41250000
+#define XPAR_GPIO_5_HIGHADDR 0x4125FFFF
+#define XPAR_GPIO_5_DEVICE_ID XPAR_XCLK_LOCKED_DEVICE_ID
+#define XPAR_GPIO_5_INTERRUPT_PRESENT 0
+#define XPAR_GPIO_5_IS_DUAL 0
+
+/* Canonical definitions for peripheral LED */
+#define XPAR_GPIO_6_BASEADDR 0x41260000
+#define XPAR_GPIO_6_HIGHADDR 0x4126FFFF
+#define XPAR_GPIO_6_DEVICE_ID XPAR_LED_DEVICE_ID
+#define XPAR_GPIO_6_INTERRUPT_PRESENT 0
+#define XPAR_GPIO_6_IS_DUAL 0
 
 
 /******************************************************************/
@@ -408,13 +438,37 @@
 
 /******************************************************************/
 
+/* Definitions for driver IICPS */
+#define XPAR_XIICPS_NUM_INSTANCES 1
+
+/* Definitions for peripheral PS7_I2C_0 */
+#define XPAR_PS7_I2C_0_DEVICE_ID 0
+#define XPAR_PS7_I2C_0_BASEADDR 0xE0004000
+#define XPAR_PS7_I2C_0_HIGHADDR 0xE0004FFF
+#define XPAR_PS7_I2C_0_I2C_CLK_FREQ_HZ 111111115
+
+
+/******************************************************************/
+
+/* Canonical definitions for peripheral PS7_I2C_0 */
+#define XPAR_XIICPS_0_DEVICE_ID XPAR_PS7_I2C_0_DEVICE_ID
+#define XPAR_XIICPS_0_BASEADDR 0xE0004000
+#define XPAR_XIICPS_0_HIGHADDR 0xE0004FFF
+#define XPAR_XIICPS_0_I2C_CLK_FREQ_HZ 111111115
+
+
+/******************************************************************/
+
+/* Definition for input Clock */
 /* Definitions for Fabric interrupts connected to ps7_scugic_0 */
 #define XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR 61U
+#define XPAR_FABRIC_CAMERA_IIC_IIC2INTC_IRPT_INTR 62U
 
 /******************************************************************/
 
 /* Canonical definitions for Fabric interrupts connected to ps7_scugic_0 */
 #define XPAR_FABRIC_AXIDMA_0_VEC_ID XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR
+#define XPAR_FABRIC_IIC_0_VEC_ID XPAR_FABRIC_CAMERA_IIC_IIC2INTC_IRPT_INTR
 
 /******************************************************************/
 

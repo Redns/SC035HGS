@@ -1,53 +1,68 @@
 #include "sc035hgs.h"
 
 /**
- * @brief ¶Áµ¥¸ö¼Ä´æÆ÷
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param reg_addr  ¼Ä´æÆ÷µØÖ·
- * @return ¼Ä´æÆ÷Öµ
+ * @brief è¯»å•ä¸ªå¯„å­˜å™¨
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param reg_addr  å¯„å­˜å™¨åœ°å€
+ * @return å¯„å­˜å™¨å€¼
 */
 static uint8_t get_reg(camera_t *camera, uint16_t reg_addr)
 {
-    return AXI_IIC_Read_Reg(camera->instance, camera->slv_addr, reg_addr);
+    #ifdef PS_IIC
+        return PS_IIC_Read_Reg(camera->ps_iic_inst, camera->slv_addr, reg_addr);
+    #else
+        return AXI_IIC_Read_Reg(camera->axi_iic_inst, camera->slv_addr, reg_addr);
+    #endif
 }
 
 
 /**
- * @brief Ğ´µ¥¸ö¼Ä´æÆ÷
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param reg_addr  ¼Ä´æÆ÷µØÖ·
- * @param mask      ÑÚÂë£¨¶ÔÓ¦ BIT Îª 1 ÔòĞŞ¸Ä£©
- * @param value     ´ıĞ´ÈëµÄÖµ
+ * @brief å†™å•ä¸ªå¯„å­˜å™¨
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param reg_addr  å¯„å­˜å™¨åœ°å€
+ * @param mask      æ©ç ï¼ˆå¯¹åº” BIT ä¸º 1 åˆ™ä¿®æ”¹ï¼‰
+ * @param value     å¾…å†™å…¥çš„å€¼
  * @return *
 */
 static void set_reg(camera_t *camera, uint16_t reg_addr, uint8_t value)
 {
-    AXI_IIC_Write_Reg(camera->instance, camera->slv_addr, reg_addr, value);
+    #ifdef PS_IIC
+        PS_IIC_Write_Reg(camera->ps_iic_inst, camera->slv_addr, reg_addr, value);
+    #else
+        AXI_IIC_Write_Reg(camera->axi_iic_inst, camera->slv_addr, reg_addr, value);
+    #endif
 }
 
 
 /**
- * @brief Ğ´µ¥¸ö¼Ä´æÆ÷¶à¸ö±ÈÌØ
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param reg_addr  ¼Ä´æÆ÷µØÖ·
- * @param offset    ¼Ä´æÆ÷±ÈÌØÆ«ÒÆ
- * @param length    ¼Ä´æÆ÷±ÈÌØĞ´ÈëÊıÁ¿£¨ÒÔÎ»Îªµ¥Î»£¬ÓÉµÍÎ»ÖÁ¸ßÎ»£©
- * @param value     ´ıĞ´ÈëµÄÖµ
+ * @brief å†™å•ä¸ªå¯„å­˜å™¨å¤šä¸ªæ¯”ç‰¹
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param reg_addr  å¯„å­˜å™¨åœ°å€
+ * @param offset    å¯„å­˜å™¨æ¯”ç‰¹åç§»
+ * @param length    å¯„å­˜å™¨æ¯”ç‰¹å†™å…¥æ•°é‡ï¼ˆä»¥ä½ä¸ºå•ä½ï¼Œç”±ä½ä½è‡³é«˜ä½ï¼‰
+ * @param value     å¾…å†™å…¥çš„å€¼
  * @return *
 */
 static void set_reg_bits(camera_t *camera, uint16_t reg_addr, uint8_t offset, uint8_t length, uint8_t value)
 {
-    uint8_t ret = AXI_IIC_Read_Reg(camera->instance, camera->slv_addr, reg_addr);
-    uint8_t mask = ((1 << length) - 1) << offset;
-    value = (ret & ~mask) | ((value << offset) & mask);
-    AXI_IIC_Write_Reg(camera->instance, camera->slv_addr, reg_addr, value);
+    #ifdef PS_IIC
+        uint8_t ret = PS_IIC_Read_Reg(camera->ps_iic_inst, camera->slv_addr, reg_addr);
+        uint8_t mask = ((1 << length) - 1) << offset;
+        value = (ret & ~mask) | ((value << offset) & mask);
+        PS_IIC_Write_Reg(camera->ps_iic_inst, camera->slv_addr, reg_addr, value);
+    #else
+        uint8_t ret = AXI_IIC_Read_Reg(camera->axi_iic_inst, camera->slv_addr, reg_addr);
+        uint8_t mask = ((1 << length) - 1) << offset;
+        value = (ret & ~mask) | ((value << offset) & mask);
+        AXI_IIC_Write_Reg(camera->axi_iic_inst, camera->slv_addr, reg_addr, value);
+    #endif
 }
 
 
 /**
- * @brief Ğ´¶à¸ö¼Ä´æÆ÷
- * @param camera            ÉãÏñÍ·¾ä±ú
- * @param reg_value_pairs   ¼Ä´æÆ÷¼üÖµ¶Ô
+ * @brief å†™å¤šä¸ªå¯„å­˜å™¨
+ * @param camera            æ‘„åƒå¤´å¥æŸ„
+ * @param reg_value_pairs   å¯„å­˜å™¨é”®å€¼å¯¹
  * @return *
 */
 static void write_regs(camera_t *camera, const RegValuePair *reg_value_pairs)
@@ -57,20 +72,27 @@ static void write_regs(camera_t *camera, const RegValuePair *reg_value_pairs)
     {
         if(reg_value_pairs[i].Addr == REG_DELAY_ADDR)
         {
+            xil_printf("[INFO] Delay %u ms\n", reg_value_pairs[i].Value);
             usleep(reg_value_pairs[i].Value * 1000);
         }
         else
         {
-            AXI_IIC_Write_Reg(camera->instance, camera->slv_addr, reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
+            #ifdef PS_IIC
+                PS_IIC_Write_Reg(camera->ps_iic_inst, camera->slv_addr, reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
+            #else
+                AXI_IIC_Write_Reg(camera->axi_iic_inst, camera->slv_addr, reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
+            #endif
+            xil_printf("[INFO] Write camera's reg {0x%x} << 0x%x\n", reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
         }
+        i++;
     }
 }
 
 
 /**
- * @brief Ë®Æ½¾µÏñ
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param enable    Ë®Æ½¾µÏñÊ¹ÄÜ
+ * @brief æ°´å¹³é•œåƒ
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param enable    æ°´å¹³é•œåƒä½¿èƒ½
  * @return *
 */
 static void set_hmirror(camera_t *camera, int enable)
@@ -87,9 +109,9 @@ static void set_hmirror(camera_t *camera, int enable)
 
 
 /**
- * @brief ´¹Ö±·­×ª
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param enable    Ê¹ÄÜ¿ØÖÆ
+ * @brief å‚ç›´ç¿»è½¬
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param enable    ä½¿èƒ½æ§åˆ¶
  * @return *
 */
 static void set_vflip(camera_t *camera, int enable)
@@ -106,21 +128,21 @@ static void set_vflip(camera_t *camera, int enable)
 
 
 /**
- * @brief ²âÊÔÄ£Ê½
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param enable    Ê¹ÄÜ¿ØÖÆ
+ * @brief æµ‹è¯•æ¨¡å¼
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param enable    ä½¿èƒ½æ§åˆ¶
  * @return *
 */
 static void set_increment_pattern(camera_t *camera, int enable)
 {
     if(enable)
     {
-        // Ê¹ÄÜ»Ò¶È½¥±ä²âÊÔÄ£Ê½
+        // ä½¿èƒ½ç°åº¦æ¸å˜æµ‹è¯•æ¨¡å¼
         set_reg_bits(camera, REG_INCREMENT_PATTERN_ENABLE_ADDR, 3, 1, 0x1);
-        // Ê¹ÄÜ×Ô¶¯ BLC
+        // ä½¿èƒ½è‡ªåŠ¨ BLC
         set_reg_bits(camera, REG_BLC_ENABLE_ADDR, 0, 1, 0x1);
         set_reg_bits(camera, REG_BLC_MODE_CTRL_ADDR, 6, 1, 0x1);
-        // TODO ÉèÖÃÔöÒæÎª 4
+        // TODO è®¾ç½®å¢ç›Šä¸º 4
         set_reg_bits(camera, REG_DIGITAL_COARSE_GAIN_ADDR, 0, 2, DIGITAL_COARSE_GAIN_X4);
     }
     else
@@ -131,9 +153,9 @@ static void set_increment_pattern(camera_t *camera, int enable)
 
 
 /**
- * @brief ÈíĞİÃß£¨Í¨¹ıĞŞ¸Ä¼Ä´æÆ÷ĞİÃß£¬´ËÊ±ÈÔ¿É·ÃÎÊ´«¸ĞÆ÷¼Ä´æÆ÷£©
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param enable    Ê¹ÄÜ¿ØÖÆ
+ * @brief è½¯ä¼‘çœ ï¼ˆé€šè¿‡ä¿®æ”¹å¯„å­˜å™¨ä¼‘çœ ï¼Œæ­¤æ—¶ä»å¯è®¿é—®ä¼ æ„Ÿå™¨å¯„å­˜å™¨ï¼‰
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param enable    ä½¿èƒ½æ§åˆ¶
  * @return *
 */
 static void set_sleep_mode(camera_t *camera, int enable)
@@ -143,25 +165,25 @@ static void set_sleep_mode(camera_t *camera, int enable)
 
 
 /**
- * @brief BLC ÉèÖÃ
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param args      BLC ²ÎÊı
+ * @brief BLC è®¾ç½®
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param args      BLC å‚æ•°
  * @return *
 */
 static void set_blc(camera_t *camera, blc_args *args)
 {
-    // Ê¹ÄÜ BLC
+    // ä½¿èƒ½ BLC
     set_reg_bits(camera, REG_BLC_ENABLE_ADDR, 0, 1, args->enable ? 0x1 : 0x0);
-    // Ä£Ê½Ñ¡Ôñ
+    // æ¨¡å¼é€‰æ‹©
     set_reg_bits(camera, REG_BLC_MODE_CTRL_ADDR, 6, 1, args->auto_mode_enable ? 0x1 : 0x0);
-    // TODO Í¨µÀÑ¡Ôñ
-    // ÉèÖÃÄ¿±êÖµ
+    // TODO é€šé“é€‰æ‹©
+    // è®¾ç½®ç›®æ ‡å€¼
     set_reg_bits(camera, REG_BLC_TARGET_VALUE_HIGH_ADDR, 0, 5, args->target_value >> 8);
     set_reg_bits(camera, REG_BLC_TARGET_VALUE_LOW_ADDR, 0, 8, args->target_value & 0xff);
 }
 
 /**
- * TODO ÔöÒæ¿ØÖÆ
+ * TODO å¢ç›Šæ§åˆ¶
 */
 static void set_agc(camera_t *camera, int gain)
 {
@@ -221,10 +243,10 @@ static void set_agc(camera_t *camera, int gain)
 
 
 /**
- * @brief AEC ÆØ¹âÊ±¼äÉèÖÃ
- * @param camera                ÉãÏñÍ·¾ä±ú
- * @param total_exposure_time   ×ÜÆØ¹âÊ±¼ä£¨ÒÔ 1/16 ĞĞÎªµ¥Î»£©
- * @param hdr_exposure_time     HDR ÆØ¹âÊ±¼ä£¨ÒÔ 1/16 ĞĞÎªµ¥Î»£¬Normal Ä£Ê½ÏÂÎŞĞ§£©
+ * @brief AEC æ›å…‰æ—¶é—´è®¾ç½®
+ * @param camera                æ‘„åƒå¤´å¥æŸ„
+ * @param total_exposure_time   æ€»æ›å…‰æ—¶é—´ï¼ˆä»¥ 1/16 è¡Œä¸ºå•ä½ï¼‰
+ * @param hdr_exposure_time     HDR æ›å…‰æ—¶é—´ï¼ˆä»¥ 1/16 è¡Œä¸ºå•ä½ï¼ŒNormal æ¨¡å¼ä¸‹æ— æ•ˆï¼‰
  * @return *
 */
 static void set_aec(camera_t *camera, uint16_t total_exposure_time, uint16_t hdr_exposure_time)
@@ -240,8 +262,8 @@ static void set_aec(camera_t *camera, uint16_t total_exposure_time, uint16_t hdr
 
 
 /**
- * @brief ¸´Î»ÉãÏñÍ·
- * @param camera    ÉãÏñÍ·¾ä±ú
+ * @brief å¤ä½æ‘„åƒå¤´
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
 */
 static void reset(camera_t *camera)
 {
@@ -250,43 +272,35 @@ static void reset(camera_t *camera)
 
 
 /**
- * @brief »ñÈ¡ÉãÏñÍ·Çı¶¯Ğ¾Æ¬ĞòÁĞ»¯
- * @param camera    ÉãÏñÍ·¾ä±ú
+ * @brief è·å–æ‘„åƒå¤´é©±åŠ¨èŠ¯ç‰‡åºåˆ—åŒ–
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
  * @return chip id
 */
 static uint16_t get_chip_id(camera_t *camera)
 {
-    uint16_t chip_id_high = get_reg(camera, REG_CHIP_ID_HIGH_ADDR);
-    uint16_t chip_id_low = get_reg(camera, REG_CHIP_ID_LOW_ADDR);
-    return (chip_id_high & 0xff00) | (chip_id_low & 0x00ff);
+    return (get_reg(camera, REG_CHIP_ID_HIGH_ADDR) & 0xff00) | (get_reg(camera, REG_CHIP_ID_LOW_ADDR) & 0x00ff);
 }
 
 
 /**
- * @brief ¼ì²âÉãÏñÍ·
- * @param ÉãÏñÍ· AXI_IIC Éè±¸ ID
- * @return ÉãÏñÍ· AXI_IIC Éè±¸¾ä±ú
-*/
-static XIic* detect(uint16_t device_id)
-{
-    return AXI_IIC_Init(device_id);
-}
-
-
-/**
- * @brief ³õÊ¼»¯ SC035HGS ÉãÏñÍ·
- * @param camera    ÉãÏñÍ·¾ä±ú
+ * @brief åˆå§‹åŒ– SC035HGS æ‘„åƒå¤´
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
  * @return *
 */
 void sc035hgs_init(camera_t *camera, uint16_t device_id)
 {
-    // ³õÊ¼»¯ÉãÏñÍ·ĞÅÏ¢
+    // åˆå§‹åŒ–æ‘„åƒå¤´ä¿¡æ¯
     camera->slv_addr = SLAVE_ADDR;
-    camera->instance = detect(device_id);
+    xil_printf("[INFO] Start to get camera's id...\n");
+    #ifdef PS_IIC
+        camera->ps_iic_inst = PS_IIC_Init(device_id, 400000);
+    #else
+        camera.axi_iic_inst = AXI_IIC_Init(device_id);
+    #endif
     camera->chip_id = get_chip_id(camera);
-    // ³õÊ¼»¯ÉãÏñÍ·²Ù×÷º¯Êı
+    xil_printf("[INFO] Camera's id is %u\n", camera->chip_id);
+    // åˆå§‹åŒ–æ‘„åƒå¤´æ“ä½œå‡½æ•°
     camera->reset = reset;
-    camera->get_chip_id = get_chip_id;
     camera->set_sleep_mode = set_sleep_mode;
     camera->set_agc = set_agc;
     camera->set_aec = set_aec;
@@ -294,6 +308,8 @@ void sc035hgs_init(camera_t *camera, uint16_t device_id)
     camera->set_hmirror = set_hmirror;
     camera->set_vflip = set_vflip;
     camera->set_increment_pattern = set_increment_pattern;
-    // ³õÊ¼»¯ÉãÏñÍ·¼Ä´æÆ÷
-    write_regs(camera, REGS_INIT_640_480_60FPS_24M_XCLK);
+    // åˆå§‹åŒ–æ‘„åƒå¤´å¯„å­˜å™¨
+    xil_printf("[INFO] Start to config camera's regs...\n");
+    write_regs(camera, REGS_INIT_640_480_50FPS_24M_XCLK);
+    xil_printf("[SUCCESS] Config camera's regs done\n");
 }

@@ -1,7 +1,7 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.2 (win64) Build 3367213 Tue Oct 19 02:48:09 MDT 2021
--- Date        : Mon Oct 30 19:11:58 2023
+-- Date        : Mon Nov  6 21:00:08 2023
 -- Host        : JingDevice running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               e:/Project/sc_camera/code/sc_camera_dvp/sc_camera_dvp.gen/sources_1/bd/system/ip/system_processing_system7_0_0/system_processing_system7_0_0_sim_netlist.vhdl
@@ -599,7 +599,7 @@ entity system_processing_system7_0_0_processing_system7_v5_5_processing_system7 
     IRQ_P2F_SPI1 : out STD_LOGIC;
     IRQ_P2F_UART1 : out STD_LOGIC;
     IRQ_P2F_CAN1 : out STD_LOGIC;
-    IRQ_F2P : in STD_LOGIC_VECTOR ( 0 to 0 );
+    IRQ_F2P : in STD_LOGIC_VECTOR ( 1 downto 0 );
     Core0_nFIQ : in STD_LOGIC;
     Core0_nIRQ : in STD_LOGIC;
     Core1_nFIQ : in STD_LOGIC;
@@ -751,7 +751,7 @@ entity system_processing_system7_0_0_processing_system7_v5_5_processing_system7 
   attribute C_M_AXI_GP1_THREAD_ID_WIDTH : integer;
   attribute C_M_AXI_GP1_THREAD_ID_WIDTH of system_processing_system7_0_0_processing_system7_v5_5_processing_system7 : entity is 12;
   attribute C_NUM_F2P_INTR_INPUTS : integer;
-  attribute C_NUM_F2P_INTR_INPUTS of system_processing_system7_0_0_processing_system7_v5_5_processing_system7 : entity is 1;
+  attribute C_NUM_F2P_INTR_INPUTS of system_processing_system7_0_0_processing_system7_v5_5_processing_system7 : entity is 2;
   attribute C_PACKAGE_NAME : string;
   attribute C_PACKAGE_NAME of system_processing_system7_0_0_processing_system7_v5_5_processing_system7 : entity is "ffg900";
   attribute C_PS7_SI_REV : string;
@@ -817,7 +817,7 @@ entity system_processing_system7_0_0_processing_system7_v5_5_processing_system7 
   attribute ORIG_REF_NAME : string;
   attribute ORIG_REF_NAME of system_processing_system7_0_0_processing_system7_v5_5_processing_system7 : entity is "processing_system7_v5_5_processing_system7";
   attribute POWER : string;
-  attribute POWER of system_processing_system7_0_0_processing_system7_v5_5_processing_system7 : entity is "<PROCESSOR name={system} numA9Cores={2} clockFreq={666.666666} load={0.5} /><MEMORY name={code} memType={DDR3} dataWidth={32} clockFreq={533.333333} readRate={0.5} writeRate={0.5} /><IO interface={UART} ioStandard={LVCMOS18} bidis={2} ioBank={Vcco_p1} clockFreq={100.000000} usageRate={0.5} /><IO interface={GigE} ioStandard={LVCMOS18} bidis={14} ioBank={Vcco_p1} clockFreq={125.000000} usageRate={0.5} /><PLL domain={Processor} vco={1333.333} /><PLL domain={Memory} vco={1066.667} /><PLL domain={IO} vco={1000.000} /><AXI interface={S_AXI_HP0} dataWidth={64} clockFreq={100.0} usageRate={0.5} /><AXI interface={M_AXI_GP0} dataWidth={32} clockFreq={100.0} usageRate={0.5} />/>";
+  attribute POWER of system_processing_system7_0_0_processing_system7_v5_5_processing_system7 : entity is "<PROCESSOR name={system} numA9Cores={2} clockFreq={666.666666} load={0.5} /><MEMORY name={code} memType={DDR3} dataWidth={32} clockFreq={533.333333} readRate={0.5} writeRate={0.5} /><IO interface={I2C} ioStandard={} bidis={1} ioBank={} clockFreq={111.111115} usageRate={0.5} /><IO interface={UART} ioStandard={LVCMOS18} bidis={2} ioBank={Vcco_p1} clockFreq={100.000000} usageRate={0.5} /><IO interface={GigE} ioStandard={LVCMOS18} bidis={14} ioBank={Vcco_p1} clockFreq={125.000000} usageRate={0.5} /><PLL domain={Processor} vco={1333.333} /><PLL domain={Memory} vco={1066.667} /><PLL domain={IO} vco={1000.000} /><AXI interface={S_AXI_HP0} dataWidth={64} clockFreq={100.0} usageRate={0.5} /><AXI interface={M_AXI_GP0} dataWidth={32} clockFreq={100.0} usageRate={0.5} />/>";
   attribute USE_TRACE_DATA_EDGE_DETECTOR : integer;
   attribute USE_TRACE_DATA_EDGE_DETECTOR of system_processing_system7_0_0_processing_system7_v5_5_processing_system7 : entity is 0;
 end system_processing_system7_0_0_processing_system7_v5_5_processing_system7;
@@ -1406,8 +1406,6 @@ architecture STRUCTURE of system_processing_system7_0_0_processing_system7_v5_5_
   signal PS7_i_n_430 : STD_LOGIC;
   signal PS7_i_n_431 : STD_LOGIC;
   signal PS7_i_n_432 : STD_LOGIC;
-  signal PS7_i_n_44 : STD_LOGIC;
-  signal PS7_i_n_46 : STD_LOGIC;
   signal PS7_i_n_48 : STD_LOGIC;
   signal PS7_i_n_5 : STD_LOGIC;
   signal PS7_i_n_50 : STD_LOGIC;
@@ -2256,10 +2254,6 @@ begin
   GPIO_T(2) <= \<const0>\;
   GPIO_T(1) <= \<const0>\;
   GPIO_T(0) <= \<const0>\;
-  I2C0_SCL_O <= \<const0>\;
-  I2C0_SCL_T <= \<const0>\;
-  I2C0_SDA_O <= \<const0>\;
-  I2C0_SDA_T <= \<const0>\;
   I2C1_SCL_O <= \<const0>\;
   I2C1_SCL_T <= \<const0>\;
   I2C1_SDA_O <= \<const0>\;
@@ -3153,6 +3147,22 @@ GND: unisim.vcomponents.GND
      port map (
       G => \<const0>\
     );
+I2C0_SCL_T_INST_0: unisim.vcomponents.LUT1
+    generic map(
+      INIT => X"1"
+    )
+        port map (
+      I0 => I2C0_SCL_T_n,
+      O => I2C0_SCL_T
+    );
+I2C0_SDA_T_INST_0: unisim.vcomponents.LUT1
+    generic map(
+      INIT => X"1"
+    )
+        port map (
+      I0 => I2C0_SDA_T_n,
+      O => I2C0_SDA_T
+    );
 PS7_i: unisim.vcomponents.PS7
      port map (
       DDRA(14 downto 0) => buffered_DDR_Addr(14 downto 0),
@@ -3333,11 +3343,11 @@ PS7_i: unisim.vcomponents.PS7
       EMIOGPIOO(1) => PS7_i_n_935,
       EMIOGPIOO(0) => PS7_i_n_936,
       EMIOGPIOTN(63 downto 0) => gpio_out_t_n(63 downto 0),
-      EMIOI2C0SCLI => '0',
-      EMIOI2C0SCLO => PS7_i_n_44,
+      EMIOI2C0SCLI => I2C0_SCL_I,
+      EMIOI2C0SCLO => I2C0_SCL_O,
       EMIOI2C0SCLTN => I2C0_SCL_T_n,
-      EMIOI2C0SDAI => '0',
-      EMIOI2C0SDAO => PS7_i_n_46,
+      EMIOI2C0SDAI => I2C0_SDA_I,
+      EMIOI2C0SDAO => I2C0_SDA_O,
       EMIOI2C0SDATN => I2C0_SDA_T_n,
       EMIOI2C1SCLI => '0',
       EMIOI2C1SCLO => PS7_i_n_48,
@@ -3515,8 +3525,8 @@ PS7_i: unisim.vcomponents.PS7
       FTMTP2FTRIG(1) => PS7_i_n_719,
       FTMTP2FTRIG(0) => PS7_i_n_720,
       FTMTP2FTRIGACK(3 downto 0) => B"0000",
-      IRQF2P(19 downto 1) => B"0000000000000000000",
-      IRQF2P(0) => IRQ_F2P(0),
+      IRQF2P(19 downto 2) => B"000000000000000000",
+      IRQF2P(1 downto 0) => IRQ_F2P(1 downto 0),
       IRQP2F(28) => PS7_i_n_292,
       IRQP2F(27) => PS7_i_n_293,
       IRQP2F(26) => PS7_i_n_294,
@@ -5340,6 +5350,12 @@ library UNISIM;
 use UNISIM.VCOMPONENTS.ALL;
 entity system_processing_system7_0_0 is
   port (
+    I2C0_SDA_I : in STD_LOGIC;
+    I2C0_SDA_O : out STD_LOGIC;
+    I2C0_SDA_T : out STD_LOGIC;
+    I2C0_SCL_I : in STD_LOGIC;
+    I2C0_SCL_O : out STD_LOGIC;
+    I2C0_SCL_T : out STD_LOGIC;
     M_AXI_GP0_ARVALID : out STD_LOGIC;
     M_AXI_GP0_AWVALID : out STD_LOGIC;
     M_AXI_GP0_BREADY : out STD_LOGIC;
@@ -5424,7 +5440,7 @@ entity system_processing_system7_0_0 is
     S_AXI_HP0_WID : in STD_LOGIC_VECTOR ( 5 downto 0 );
     S_AXI_HP0_WDATA : in STD_LOGIC_VECTOR ( 63 downto 0 );
     S_AXI_HP0_WSTRB : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    IRQ_F2P : in STD_LOGIC_VECTOR ( 0 to 0 );
+    IRQ_F2P : in STD_LOGIC_VECTOR ( 1 downto 0 );
     FCLK_CLK0 : out STD_LOGIC;
     FCLK_RESET0_N : out STD_LOGIC;
     MIO : inout STD_LOGIC_VECTOR ( 53 downto 0 );
@@ -5525,10 +5541,6 @@ architecture STRUCTURE of system_processing_system7_0_0 is
   signal NLW_inst_FTMT_P2F_TRIG_1_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_FTMT_P2F_TRIG_2_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_FTMT_P2F_TRIG_3_UNCONNECTED : STD_LOGIC;
-  signal NLW_inst_I2C0_SCL_O_UNCONNECTED : STD_LOGIC;
-  signal NLW_inst_I2C0_SCL_T_UNCONNECTED : STD_LOGIC;
-  signal NLW_inst_I2C0_SDA_O_UNCONNECTED : STD_LOGIC;
-  signal NLW_inst_I2C0_SDA_T_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_I2C1_SCL_O_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_I2C1_SCL_T_UNCONNECTED : STD_LOGIC;
   signal NLW_inst_I2C1_SDA_O_UNCONNECTED : STD_LOGIC;
@@ -5797,7 +5809,7 @@ architecture STRUCTURE of system_processing_system7_0_0 is
   attribute C_M_AXI_GP1_THREAD_ID_WIDTH : integer;
   attribute C_M_AXI_GP1_THREAD_ID_WIDTH of inst : label is 12;
   attribute C_NUM_F2P_INTR_INPUTS : integer;
-  attribute C_NUM_F2P_INTR_INPUTS of inst : label is 1;
+  attribute C_NUM_F2P_INTR_INPUTS of inst : label is 2;
   attribute C_PACKAGE_NAME : string;
   attribute C_PACKAGE_NAME of inst : label is "ffg900";
   attribute C_PS7_SI_REV : string;
@@ -5861,7 +5873,7 @@ architecture STRUCTURE of system_processing_system7_0_0 is
   attribute HW_HANDOFF : string;
   attribute HW_HANDOFF of inst : label is "system_processing_system7_0_0.hwdef";
   attribute POWER : string;
-  attribute POWER of inst : label is "<PROCESSOR name={system} numA9Cores={2} clockFreq={666.666666} load={0.5} /><MEMORY name={code} memType={DDR3} dataWidth={32} clockFreq={533.333333} readRate={0.5} writeRate={0.5} /><IO interface={UART} ioStandard={LVCMOS18} bidis={2} ioBank={Vcco_p1} clockFreq={100.000000} usageRate={0.5} /><IO interface={GigE} ioStandard={LVCMOS18} bidis={14} ioBank={Vcco_p1} clockFreq={125.000000} usageRate={0.5} /><PLL domain={Processor} vco={1333.333} /><PLL domain={Memory} vco={1066.667} /><PLL domain={IO} vco={1000.000} /><AXI interface={S_AXI_HP0} dataWidth={64} clockFreq={100.0} usageRate={0.5} /><AXI interface={M_AXI_GP0} dataWidth={32} clockFreq={100.0} usageRate={0.5} />/>";
+  attribute POWER of inst : label is "<PROCESSOR name={system} numA9Cores={2} clockFreq={666.666666} load={0.5} /><MEMORY name={code} memType={DDR3} dataWidth={32} clockFreq={533.333333} readRate={0.5} writeRate={0.5} /><IO interface={I2C} ioStandard={} bidis={1} ioBank={} clockFreq={111.111115} usageRate={0.5} /><IO interface={UART} ioStandard={LVCMOS18} bidis={2} ioBank={Vcco_p1} clockFreq={100.000000} usageRate={0.5} /><IO interface={GigE} ioStandard={LVCMOS18} bidis={14} ioBank={Vcco_p1} clockFreq={125.000000} usageRate={0.5} /><PLL domain={Processor} vco={1333.333} /><PLL domain={Memory} vco={1066.667} /><PLL domain={IO} vco={1000.000} /><AXI interface={S_AXI_HP0} dataWidth={64} clockFreq={100.0} usageRate={0.5} /><AXI interface={M_AXI_GP0} dataWidth={32} clockFreq={100.0} usageRate={0.5} />/>";
   attribute USE_TRACE_DATA_EDGE_DETECTOR : integer;
   attribute USE_TRACE_DATA_EDGE_DETECTOR of inst : label is 0;
   attribute X_INTERFACE_INFO : string;
@@ -5881,6 +5893,12 @@ architecture STRUCTURE of system_processing_system7_0_0 is
   attribute X_INTERFACE_PARAMETER of FCLK_CLK0 : signal is "XIL_INTERFACENAME FCLK_CLK0, FREQ_HZ 1e+08, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN system_processing_system7_0_0_FCLK_CLK0, INSERT_VIP 0";
   attribute X_INTERFACE_INFO of FCLK_RESET0_N : signal is "xilinx.com:signal:reset:1.0 FCLK_RESET0_N RST";
   attribute X_INTERFACE_PARAMETER of FCLK_RESET0_N : signal is "XIL_INTERFACENAME FCLK_RESET0_N, POLARITY ACTIVE_LOW, INSERT_VIP 0";
+  attribute X_INTERFACE_INFO of I2C0_SCL_I : signal is "xilinx.com:interface:iic:1.0 IIC_0 SCL_I";
+  attribute X_INTERFACE_INFO of I2C0_SCL_O : signal is "xilinx.com:interface:iic:1.0 IIC_0 SCL_O";
+  attribute X_INTERFACE_INFO of I2C0_SCL_T : signal is "xilinx.com:interface:iic:1.0 IIC_0 SCL_T";
+  attribute X_INTERFACE_INFO of I2C0_SDA_I : signal is "xilinx.com:interface:iic:1.0 IIC_0 SDA_I";
+  attribute X_INTERFACE_INFO of I2C0_SDA_O : signal is "xilinx.com:interface:iic:1.0 IIC_0 SDA_O";
+  attribute X_INTERFACE_INFO of I2C0_SDA_T : signal is "xilinx.com:interface:iic:1.0 IIC_0 SDA_T";
   attribute X_INTERFACE_INFO of M_AXI_GP0_ACLK : signal is "xilinx.com:signal:clock:1.0 M_AXI_GP0_ACLK CLK";
   attribute X_INTERFACE_PARAMETER of M_AXI_GP0_ACLK : signal is "XIL_INTERFACENAME M_AXI_GP0_ACLK, ASSOCIATED_BUSIF M_AXI_GP0, FREQ_HZ 1e+08, FREQ_TOLERANCE_HZ 0, PHASE 0.0, CLK_DOMAIN system_processing_system7_0_0_FCLK_CLK0, INSERT_VIP 0";
   attribute X_INTERFACE_INFO of M_AXI_GP0_ARREADY : signal is "xilinx.com:interface:aximm:1.0 M_AXI_GP0 ARREADY";
@@ -5923,7 +5941,7 @@ architecture STRUCTURE of system_processing_system7_0_0 is
   attribute X_INTERFACE_PARAMETER of DDR_DQS : signal is "XIL_INTERFACENAME DDR, CAN_DEBUG false, TIMEPERIOD_PS 1250, MEMORY_TYPE COMPONENTS, DATA_WIDTH 8, CS_ENABLED true, DATA_MASK_ENABLED true, SLOT Single, MEM_ADDR_MAP ROW_COLUMN_BANK, BURST_LENGTH 8, AXI_ARBITRATION_SCHEME TDM, CAS_LATENCY 11, CAS_WRITE_LATENCY 11";
   attribute X_INTERFACE_INFO of DDR_DQS_n : signal is "xilinx.com:interface:ddrx:1.0 DDR DQS_N";
   attribute X_INTERFACE_INFO of IRQ_F2P : signal is "xilinx.com:signal:interrupt:1.0 IRQ_F2P INTERRUPT";
-  attribute X_INTERFACE_PARAMETER of IRQ_F2P : signal is "XIL_INTERFACENAME IRQ_F2P, SENSITIVITY LEVEL_HIGH, PortWidth 1";
+  attribute X_INTERFACE_PARAMETER of IRQ_F2P : signal is "XIL_INTERFACENAME IRQ_F2P, SENSITIVITY LEVEL_HIGH:LEVEL_HIGH, PortWidth 2";
   attribute X_INTERFACE_INFO of MIO : signal is "xilinx.com:display_processing_system7:fixedio:1.0 FIXED_IO MIO";
   attribute X_INTERFACE_INFO of M_AXI_GP0_ARADDR : signal is "xilinx.com:interface:aximm:1.0 M_AXI_GP0 ARADDR";
   attribute X_INTERFACE_INFO of M_AXI_GP0_ARBURST : signal is "xilinx.com:interface:aximm:1.0 M_AXI_GP0 ARBURST";
@@ -6158,19 +6176,19 @@ inst: entity work.system_processing_system7_0_0_processing_system7_v5_5_processi
       GPIO_I(63 downto 0) => B"0000000000000000000000000000000000000000000000000000000000000000",
       GPIO_O(63 downto 0) => NLW_inst_GPIO_O_UNCONNECTED(63 downto 0),
       GPIO_T(63 downto 0) => NLW_inst_GPIO_T_UNCONNECTED(63 downto 0),
-      I2C0_SCL_I => '0',
-      I2C0_SCL_O => NLW_inst_I2C0_SCL_O_UNCONNECTED,
-      I2C0_SCL_T => NLW_inst_I2C0_SCL_T_UNCONNECTED,
-      I2C0_SDA_I => '0',
-      I2C0_SDA_O => NLW_inst_I2C0_SDA_O_UNCONNECTED,
-      I2C0_SDA_T => NLW_inst_I2C0_SDA_T_UNCONNECTED,
+      I2C0_SCL_I => I2C0_SCL_I,
+      I2C0_SCL_O => I2C0_SCL_O,
+      I2C0_SCL_T => I2C0_SCL_T,
+      I2C0_SDA_I => I2C0_SDA_I,
+      I2C0_SDA_O => I2C0_SDA_O,
+      I2C0_SDA_T => I2C0_SDA_T,
       I2C1_SCL_I => '0',
       I2C1_SCL_O => NLW_inst_I2C1_SCL_O_UNCONNECTED,
       I2C1_SCL_T => NLW_inst_I2C1_SCL_T_UNCONNECTED,
       I2C1_SDA_I => '0',
       I2C1_SDA_O => NLW_inst_I2C1_SDA_O_UNCONNECTED,
       I2C1_SDA_T => NLW_inst_I2C1_SDA_T_UNCONNECTED,
-      IRQ_F2P(0) => IRQ_F2P(0),
+      IRQ_F2P(1 downto 0) => IRQ_F2P(1 downto 0),
       IRQ_P2F_CAN0 => NLW_inst_IRQ_P2F_CAN0_UNCONNECTED,
       IRQ_P2F_CAN1 => NLW_inst_IRQ_P2F_CAN1_UNCONNECTED,
       IRQ_P2F_CTI => NLW_inst_IRQ_P2F_CTI_UNCONNECTED,

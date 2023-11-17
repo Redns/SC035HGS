@@ -45,7 +45,7 @@ void tcp_client_init()
  * @param size  待发送的长度（字节）
  * @return 实际发送的字节数
 */
-uint32_t tcp_client_send(uint8_t* data, uint32_t size)
+uint32_t tcp_client_send(void* data, uint32_t size)
 {
 	if((c_pcb == NULL) || (size == 0)) 
     {

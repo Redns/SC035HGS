@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:48:09 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Wed Nov  8 09:34:28 2023
+# Process ID: 7244
+# Current directory: E:/Project/sc_camera/code/20220731ygACd6Xc/ov5640_hdmi_1_3/ov5640_hdmi.runs/impl_1
+# Command line: vivado.exe -log ov5640_hdmi_wrapper.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source ov5640_hdmi_wrapper.tcl -notrace
+# Log file: E:/Project/sc_camera/code/20220731ygACd6Xc/ov5640_hdmi_1_3/ov5640_hdmi.runs/impl_1/ov5640_hdmi_wrapper.vdi
+# Journal file: E:/Project/sc_camera/code/20220731ygACd6Xc/ov5640_hdmi_1_3/ov5640_hdmi.runs/impl_1\vivado.jou
+# Running On: JingDevice, OS: Windows, CPU Frequency: 2112 MHz, CPU Physical cores: 4, Host memory: 17005 MB
+#-----------------------------------------------------------
+source ov5640_hdmi_wrapper.tcl -notrace

@@ -1,15 +1,61 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <malloc.h>
+#include <string.h>
 
+
+typedef enum Image_Format {
+    Format_Invalid = 0,
+    Format_Mono,
+    Format_MonoLSB,
+    Format_Indexed8,
+    Format_RGB32,
+    Format_ARGB32,
+    Format_ARGB32_Premultiplied,
+    Format_RGB16,
+    Format_ARGB8565_Premultiplied,
+    Format_RGB666,
+    Format_ARGB6666_Premultiplied,
+    Format_RGB555,
+    Format_ARGB8555_Premultiplied,
+    Format_RGB888,
+    Format_RGB444,
+    Format_ARGB4444_Premultiplied,
+    Format_RGBX8888,
+    Format_RGBA8888,
+    Format_RGBA8888_Premultiplied,
+    Format_BGR30,
+    Format_A2BGR30_Premultiplied,
+    Format_RGB30,
+    Format_A2RGB30_Premultiplied,
+    Format_Alpha8,
+    Format_Grayscalec8,
+    
+    // 以下格式发送时，IMG_WIDTH和IMG_HEIGHT不需要强制指定，设置为-1即可
+    Format_BMP,
+    Format_GIF,
+    Format_JPG,
+    Format_PNG,
+    Format_PBM,
+    Format_PGM,
+    Format_PPM,
+    Format_XBM,
+    Format_XPM,
+    Format_SVG,
+} Image_Format;
+
+
+uint32_t get_num_length(uint32_t n);
+uint8_t* num2str(uint32_t n);
 uint8_t rgb2grayscale(uint8_t r, uint8_t g, uint8_t b);
 uint8_t **ptr_converter(uint8_t *ptr, uint32_t width, uint32_t height);
 void bayer2grayscale(uint8_t **bayer, uint8_t **grayscale, uint16_t image_width, uint16_t image_height);
+char* generate_image_front_frame(uint32_t image_id, uint32_t image_size, uint32_t image_width, uint32_t image_height, Image_Format image_format);
 
 
 int main()
 {
-    // 指针转换测试
+    // 指针转换测试 ---------------------------------------------------
     // uint8_t data[] = { 1, 2, 22, 28, 32, 96, 87, 64 };
     // uint8_t **dataPtr = ptr_converter(data, 2, 4);
     // for(uint8_t i = 0; i < 4; i++)
@@ -19,11 +65,70 @@ int main()
     //         printf("dataPtr[%u][%u] is %u\n", i, j, dataPtr[i][j]);
     //     }
     // }
-    // Bayer 转灰度测试
-    uint8_t bayer_image[] = { 10, 20, 30, 40 };
-    uint8_t grayscale_image[4];
-    bayer2grayscale(ptr_converter(bayer_image, 2, 2), ptr_converter(grayscale_image, 2, 2), 2, 2); 
+
+    // Bayer 转灰度测试 -----------------------------------------------
+    // uint8_t bayer_image[] = { 10, 20, 30, 40 };
+    // uint8_t grayscale_image[4];
+    // bayer2grayscale(ptr_converter(bayer_image, 2, 2), ptr_converter(grayscale_image, 2, 2), 2, 2); 
+    
+    // uint32_t n = 12345;
+    // printf("The length of n is %d\n", get_num_length(n));
+    // printf("Convert n to string: %s\n", num2str(n));
+
+    char *str = generate_image_front_frame(0, 64, 8, 8, Format_Grayscalec8);
+    printf("[str] %s", str);
+    printf("[sizeof] %d\n", sizeof(str));
+    printf("[strlen] %d", strlen(str));
+    
     return 0;
+}
+
+
+/**
+ * @brief 获取数字长度
+ * @param n 待分析的数字
+ * @return 数字长度
+*/
+uint32_t get_num_length(uint32_t n)
+{
+    uint32_t num_length = 0;
+    while(n > 0)
+    {
+        n /= 10;
+        num_length++;
+    }
+    return num_length;
+}
+
+
+/**
+ * @brief 数字转字符串
+ * @param n 待转换的数字
+ * @return 转换后的字符串 
+*/
+uint8_t* num2str(uint32_t n)
+{
+    uint32_t str_length = get_num_length(n);
+    uint8_t *str = (uint8_t*)malloc(sizeof(uint8_t) * str_length + 1);
+    for(int i = str_length - 1; i >= 0; i--)
+    {
+        str[i] = (n % 10) + '0';
+        n /= 10;
+    }
+    str[str_length] = 0;
+    return str;
+}
+
+
+char* generate_image_front_frame(uint32_t image_id, uint32_t image_size, uint32_t image_width, uint32_t image_height, Image_Format image_format)
+{
+    // 图片前导帧包含图片识别码、尺寸、高度、宽度、格式信息
+    char* image_frame_front = (char*)malloc(sizeof(char) * 64);
+    memset(image_frame_front, 0, sizeof(char) * 64);
+    // 前导帧格式为："image:<image_id>,<image_size>,<image_width>,<image_height>,<image_format>\n"
+    // 示例："image:0,128,8,16,24\n"
+    sprintf(image_frame_front, "image:%lu,%lu,%lu,%lu,%d\n", image_id, image_size, image_width, image_height, image_format);
+    return image_frame_front;
 }
 
 

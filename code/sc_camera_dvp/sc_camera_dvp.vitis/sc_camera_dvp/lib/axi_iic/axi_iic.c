@@ -27,12 +27,12 @@ XIic* AXI_IIC_Init(uint16_t DeviceId)
 */
 void AXI_IIC_Write_Reg(XIic *InstPtr, uint8_t SlaveAddr, uint16_t RegAddr, uint8_t Value)
 {
-	uint8_t SendByteCount = 0;
+	uint8_t ByteCount = 0;
 	uint8_t SendBuffer[3] = { RegAddr >> 8, RegAddr & 0xFF, Value };
 	do
     {
-        SendByteCount = XIic_Send(InstPtr->BaseAddress, SlaveAddr, SendBuffer, 3, XIIC_STOP);
-    }while(SendByteCount < 3);
+        ByteCount = XIic_Send(InstPtr->BaseAddress, SlaveAddr, SendBuffer, 3, XIIC_STOP);
+    }while(ByteCount < 3);
 }
 
 
@@ -45,21 +45,21 @@ void AXI_IIC_Write_Reg(XIic *InstPtr, uint8_t SlaveAddr, uint16_t RegAddr, uint8
 uint8_t AXI_IIC_Read_Reg(XIic *InstPtr, uint8_t SlaveAddr, uint16_t RegAddr)
 {
 	uint8_t ByteCount = 0;
-	uint8_t ReadBuffer[1];
-    uint8_t WriteBuffer[2] = { RegAddr >> 8, RegAddr & 0xFF };
+	uint8_t RecvBuffer[1];
+    uint8_t SendBuffer[2] = { RegAddr >> 8, RegAddr & 0xFF };
 
 	// 写寄存器地址
     do
     {
-        ByteCount = XIic_Send(InstPtr->BaseAddress, SlaveAddr, WriteBuffer, 2, XIIC_STOP);
+        // TODO XIIC_STOP
+        ByteCount = XIic_Send(InstPtr->BaseAddress, SlaveAddr, SendBuffer, 2, XIIC_REPEATED_START);
     }while(ByteCount < 2);
 	//接收数据
 	do
 	{
-		ByteCount = XIic_Recv(InstPtr->BaseAddress, SlaveAddr, ReadBuffer, 1, XIIC_STOP);
+		ByteCount = XIic_Recv(InstPtr->BaseAddress, SlaveAddr, RecvBuffer, 1, XIIC_STOP);
 	}while(ByteCount < 1);
-
-	return ReadBuffer[0];
+	return RecvBuffer[0];
 }
 
 

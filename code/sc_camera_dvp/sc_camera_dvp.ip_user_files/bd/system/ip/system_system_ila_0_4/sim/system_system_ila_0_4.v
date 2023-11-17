@@ -61,6 +61,8 @@ module system_system_ila_0_4 (
   probe3,
   probe4,
   probe5,
+  probe6,
+  probe7,
   SLOT_0_IIC_scl_i,
   SLOT_0_IIC_scl_o,
   SLOT_0_IIC_scl_t,
@@ -78,6 +80,8 @@ input wire [0 : 0] probe2;
 input wire [0 : 0] probe3;
 input wire [0 : 0] probe4;
 input wire [0 : 0] probe5;
+input wire [0 : 0] probe6;
+input wire [0 : 0] probe7;
 (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 SLOT_0_IIC SCL_I" *)
 input wire SLOT_0_IIC_scl_i;
 (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 SLOT_0_IIC SCL_O" *)
@@ -99,6 +103,8 @@ input wire SLOT_0_IIC_sda_t;
     .probe3(probe3),
     .probe4(probe4),
     .probe5(probe5),
+    .probe6(probe6),
+    .probe7(probe7),
     .SLOT_0_IIC_scl_i(SLOT_0_IIC_scl_i),
     .SLOT_0_IIC_scl_o(SLOT_0_IIC_scl_o),
     .SLOT_0_IIC_scl_t(SLOT_0_IIC_scl_t),

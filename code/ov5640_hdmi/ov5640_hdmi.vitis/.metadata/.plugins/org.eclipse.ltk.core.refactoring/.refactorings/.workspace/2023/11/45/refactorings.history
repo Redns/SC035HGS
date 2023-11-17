@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;ov5640_hdmi&apos;" deleteContents="true" description="Delete resource &apos;ov5640_hdmi&apos;" element1="/ov5640_hdmi" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1699321638396"/>
+</session>
