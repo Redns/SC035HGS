@@ -11,6 +11,7 @@
         "sc035hgs.h": "c",
         "init.h": "c",
         "tcp.h": "c",
-        "type_traits": "c"
+        "type_traits": "c",
+        "xiicps.h": "c"
     }
 }

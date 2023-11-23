@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;sc_camera_dvp/lib/axi_iic&apos;" deleteContents="false" description="Delete resource &apos;sc_camera_dvp/lib/axi_iic&apos;" element1="/sc_camera_dvp/lib/axi_iic" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1700232495693"/>
+</session>

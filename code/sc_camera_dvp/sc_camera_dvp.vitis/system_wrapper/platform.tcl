@@ -90,3 +90,24 @@ platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrappe
 platform generate -domains 
 platform clean
 platform generate
+platform active {system_wrapper}
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate
+platform clean
+platform generate
+domain active {zynq_fsbl}
+bsp reload
+platform generate -domains 
+domain active {standalone_ps7_cortexa9_0}
+bsp reload
+platform clean
+platform clean
+platform clean
+platform generate
+platform active {system_wrapper}
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_with_ila.xsa}
+platform generate -domains 
+platform active {system_wrapper}
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_with_ila.xsa}
+platform generate -domains 
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_with_ila.xsa}

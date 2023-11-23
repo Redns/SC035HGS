@@ -8,7 +8,7 @@
 */
 static uint8_t get_reg(camera_t *camera, uint16_t reg_addr)
 {
-    return PS_IIC_Read_Reg(camera->iic_inst, camera->slv_addr, reg_addr);
+    return PS_IIC_Read_Reg(&camera->iic_inst, camera->slv_addr, reg_addr);
 }
 
 
@@ -22,7 +22,7 @@ static uint8_t get_reg(camera_t *camera, uint16_t reg_addr)
 */
 static void set_reg(camera_t *camera, uint16_t reg_addr, uint8_t value)
 {
-    PS_IIC_Write_Reg(camera->iic_inst, camera->slv_addr, reg_addr, value);
+    PS_IIC_Write_Reg(&camera->iic_inst, camera->slv_addr, reg_addr, value);
 }
 
 
@@ -37,10 +37,10 @@ static void set_reg(camera_t *camera, uint16_t reg_addr, uint8_t value)
 */
 static void set_reg_bits(camera_t *camera, uint16_t reg_addr, uint8_t offset, uint8_t length, uint8_t value)
 {
-    uint8_t ret = PS_IIC_Read_Reg(camera->iic_inst, camera->slv_addr, reg_addr);
+    uint8_t ret = PS_IIC_Read_Reg(&camera->iic_inst, camera->slv_addr, reg_addr);
     uint8_t mask = ((1 << length) - 1) << offset;
     value = (ret & ~mask) | ((value << offset) & mask);
-    PS_IIC_Write_Reg(camera->iic_inst, camera->slv_addr, reg_addr, value);
+    PS_IIC_Write_Reg(&camera->iic_inst, camera->slv_addr, reg_addr, value);
 }
 
 
@@ -57,13 +57,13 @@ static void write_regs(camera_t *camera, const RegValuePair *reg_value_pairs)
     {
         if(reg_value_pairs[i].Addr == REG_DELAY_ADDR)
         {
-            xil_printf("[INFO] Delay %u ms\n", reg_value_pairs[i].Value);
             usleep(reg_value_pairs[i].Value * 1000);
+            xil_printf("[INFO] Delay %u ms\n", reg_value_pairs[i].Value);
         }
         else
         {
-            PS_IIC_Write_Reg(camera->iic_inst, camera->slv_addr, reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
-            xil_printf("[INFO] Write camera's reg {0x%4x} << 0x%2x\n", reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
+            set_reg(camera, reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
+            xil_printf("[INFO] Write camera's reg {0x%04x} << 0x%02x\n", reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
         }
         i++;
     }
@@ -272,11 +272,11 @@ void sc035hgs_init(camera_t *camera, uint16_t device_id)
 {
     // 初始化摄像头信息
     camera->slv_addr = SLAVE_ADDR;
-    camera->iic_inst = PS_IIC_Init(device_id, 400000);
+    PS_IIC_Init(&camera->iic_inst, device_id, IIC_FRQ_HZ);
     // 获取摄像头 ID
     xil_printf("[INFO] Start to get camera's id...\n");
     camera->chip_id = get_chip_id(camera);
-    xil_printf("[INFO] Camera's id is 0x%4x\n", camera->chip_id);
+    xil_printf("[INFO] Camera's id is 0x%04x\n", camera->chip_id);
     // 初始化摄像头操作函数
     camera->reset = reset;
     camera->set_sleep_mode = set_sleep_mode;

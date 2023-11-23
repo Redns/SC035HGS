@@ -75,10 +75,11 @@ int main()
     // printf("The length of n is %d\n", get_num_length(n));
     // printf("Convert n to string: %s\n", num2str(n));
 
-    char *str = generate_image_front_frame(0, 64, 8, 8, Format_Grayscalec8);
-    printf("[str] %s", str);
-    printf("[sizeof] %d\n", sizeof(str));
-    printf("[strlen] %d", strlen(str));
+    printf("0x%02x", 0x1);
+    // char *str = generate_image_front_frame(0, 64, 8, 8, Format_Grayscalec8);
+    // printf("[str] %s", str);
+    // printf("[sizeof] %d\n", sizeof(str));
+    // printf("[strlen] %d", strlen(str));
     
     return 0;
 }

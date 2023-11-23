@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item key="scw_hwspec" value="E:\Project\sc_camera\code\sc_camera_dvp"/>
+	<item key="scw_hwspec_file_selection" value="E:\Project\sc_camera\code\sc_camera_dvp"/>
+	<item key="debug_files_selection" value="E:\Project\sc_camera\code\sc_camera_dvp\sc_camera_dvp.vitis\sc_camera_dvp\_ide\bitstream"/>
 </section>

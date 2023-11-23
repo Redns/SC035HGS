@@ -4,7 +4,6 @@
 #include <malloc.h>
 #include "sleep.h"
 #include "ps_iic.h"
-#include "axi_iic.h"
 
 #define ENABLE                                  1
 #define DISABLE                                 0
@@ -13,7 +12,6 @@
 #define SLAVE_ADDR                              0x30        // 摄像头从机地址（DVP 接口下不可更改）
 #define REG_CHIP_ID_HIGH_ADDR                   0x3107      // CHIP ID
 #define REG_CHIP_ID_LOW_ADDR                    0x3108
-#define IIC_FRQ_HZ                              100000
 
 /* 软复位 & 休眠 */
 #define REG_SOFTWARE_RESET_ADDR                 0x0103      // 软复位（写 1 复位）
@@ -287,7 +285,8 @@ static const RegValuePair REGS_INIT_640_480_60FPS_24M_XCLK[] = {
 // 640*480, xclk=24M, fps=50fps
 static const RegValuePair REGS_INIT_640_480_50FPS_24M_XCLK[] = {
     {REG_SOFTWARE_RESET_ADDR, REG_SOFTWARE_RESET_ENABLE},
-	{REG_SLEEP_MODE_CTRL_ADDR, REG_SLEEP_MODE_ENABLE},                   
+    // TODO 开启睡眠模式后无法更改寄存器
+	{REG_SLEEP_MODE_CTRL_ADDR, REG_SLEEP_MODE_DISABLE},     
 	{0x36e9, 0x80},
 	{0x36f9, 0x80},
     {REG_DELAY_ADDR, 0x80},
@@ -403,7 +402,7 @@ typedef struct _camera camera_t;
 typedef struct _camera{
     uint16_t slv_addr;              // Slave address
     uint16_t chip_id;               // Chip id
-    XIicPs* iic_inst;               // IIC instance
+    XIicPs   iic_inst;              // IIC instance
 
     exposure_mode exposure_mode;    
 

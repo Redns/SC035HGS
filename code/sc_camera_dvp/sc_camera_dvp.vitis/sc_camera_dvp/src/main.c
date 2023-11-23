@@ -16,6 +16,8 @@
 #include "open_image.h"
 #include "vofa.h"
 
+#define DMA_CHECK_ENABLE            1
+#define TCP_TRANSMIT_ENABLE         0
 
 /* 缓冲区相关设置 */
 #define FRAME_WIDTH                 640                                     // 帧宽度
@@ -40,6 +42,7 @@
 /* 相关外设 ID */
 #define IIC_CAMERA                  XPAR_PS7_I2C_0_DEVICE_ID
 #define GPIO_LED                    XPAR_LED_DEVICE_ID
+#define GPIO_DMA_CHECK              XPAR_AXI_GPIO_DMA_CHECK_DEVICE_ID       // DMA 测试控制
 #define GPIO_CAMERA_PWDN            XPAR_CAMERA_PWDN_DEVICE_ID              // SC035HGS 休眠控制（正常工作需设置为低电平）
 #define GPIO_CAMERA_VSYNC           XPAR_CAMERA_VSYNC_DEVICE_ID             // SC035HGS DVP 输出场同步信号
 #define GPIO_CAMERA_XCLK_LOCKED     XPAR_XCLK_LOCKED_DEVICE_ID              // SC035HGS 像素时钟输入锁定
@@ -66,6 +69,7 @@ XScuGic Intc;
 XAxiDma AxiDma;
 camera_t camera;
 XGpio gpio_led;
+XGpio gpio_dma_check;
 XGpio gpio_camera_pwdn;
 XGpio gpio_camera_xclk_locked;
 XGpio gpio_camera_vsync;
@@ -74,6 +78,8 @@ XGpio gpio_axis_transmit_enable;
 
 void init_led();
 void set_led(uint8_t on);
+void init_dma_check();
+void set_dma_check(uint8_t on);
 void init_system();
 void init_camera();
 void init_axis_transmit();
@@ -98,34 +104,40 @@ int main(void)
 
 	while(1)
 	{
-        if(TcpFastTmrFlag) 
+        #if TCP_TRANSMIT_ENABLE
+        if(TcpFastTmrFlag)
         {
             tcp_fasttmr();
             TcpFastTmrFlag = 0;
         }
-        if(TcpSlowTmrFlag) 
+        if(TcpSlowTmrFlag)
         {
             tcp_slowtmr();
             TcpSlowTmrFlag = 0;
         }
         xemacif_input(&server_netif);
+        #endif
+
         if(FrameCachePtrTransmitIndex != FrameCachePtrLastReceiveIndex)
         {
             // 将 Bayer 转换为灰度图像
             FrameCachePtrTransmitIndex = FrameCachePtrLastReceiveIndex;
-            bayer2grayscale(ptr_converter((uint8_t*)FrameCachePtr[FrameCachePtrTransmitIndex], FRAME_WIDTH, FRAME_HEIGHT), 
+            bayer2grayscale(ptr_converter((uint8_t*)FrameCachePtr[FrameCachePtrTransmitIndex], FRAME_WIDTH, FRAME_HEIGHT),
                 ptr_converter((uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], FRAME_WIDTH, FRAME_HEIGHT), FRAME_WIDTH, FRAME_HEIGHT);
+            
             // 发送前导帧
             char *image_front_frame = generate_image_front_frame(0, FRAME_CACHE_SIZE, FRAME_WIDTH, FRAME_HEIGHT, Format_Grayscalec8);
             tcp_client_send(image_front_frame, strlen(image_front_frame));
-            // TODO 图片数据发送
+            
+            // 图片数据发送
             memset(EthTransmitCache, '\n', sizeof(EthTransmitCache));
             memcpy(EthTransmitCache, (uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], sizeof(uint8_t) * FRAME_CACHE_SIZE);
             tcp_client_send(EthTransmitCache, sizeof(EthTransmitCache));
         }
 	}
     cleanup_platform();
-	return 0;
+	
+    return 0;
 }
 
 
@@ -135,26 +147,32 @@ int main(void)
  */
 void init_system()
 {
-    // 初始化平台
-    init_platform();
+	// 初始化平台
+	init_platform();
     // 初始化 LED
     init_led();
     // 初始化 AXIS 数据转换模块
     init_axis_transmit();
     // 初始化摄像头
     init_camera();
-    // 初始化网口
+
+    /* 网口传输 */ 
+    #if TCP_TRANSMIT_ENABLE
+    // 初始化网卡
     init_eth_phy();
     // 初始化 TCP 连接
-    // TODO init_tcp();
-    // 初始化 DMA
+    init_tcp();
+    #endif
+
+    /* DMA */ 
     DMA_Intr_Init(&AxiDma, 0);
 	Init_Intr_System(&Intc);
 	Setup_Intr_Exception(&Intc);
 	DMA_Setup_Intr_System(&Intc, &AxiDma, RX_INTR_ID);
     DMA_Handler_Init(NULL, dma_rx_handler, NULL);
 	DMA_Intr_Enable(&Intc, &AxiDma);
-    // 初始化帧缓冲区
+
+    /* 帧缓冲区 */
     FrameCachePtrReceiveIndex  = 0;
     FrameCachePtrLastReceiveIndex = 0;
     FrameCachePtrTransmitIndex = 0;
@@ -162,8 +180,17 @@ void init_system()
     {
         FrameCachePtr[i] = RX_BUFFER_BASE + FRAME_CACHE_NUMS * i;
     }
+
+    /* DMA 测试*/
+    #if DMA_CHECK_ENABLE
+    init_dma_check();
+    set_dma_check(1);
+    #else
     // 等待摄像头输出稳定
     wait_camera_ready();
+    #endif
+
+    // 使能 AXIS 模块
     set_axis_transmit(AXIS_TRANSMIT_ENABLE);
 }
 
@@ -177,6 +204,35 @@ void init_led()
     XGpio_Initialize(&gpio_led, GPIO_LED);
     XGpio_SetDataDirection(&gpio_led, 1, 0x0);
     set_led(LED_OFF);
+}
+
+
+/**
+ * @brief DMA 测试初始化函数
+ * @return *
+*/
+void init_dma_check()
+{
+    XGpio_Initialize(&gpio_dma_check, GPIO_DMA_CHECK);
+    XGpio_SetDataDirection(&gpio_dma_check, 1, 0x0);
+}
+
+
+/**
+ * @brief DMA 测试控制函数
+ * @param on 为 true 启动测试，否则关闭
+ * @return *
+*/
+void set_dma_check(uint8_t on)
+{
+    if(on)
+    {
+        XGpio_DiscreteWrite(&gpio_dma_check, 1, 0x1);
+    }    
+    else
+    {
+        XGpio_DiscreteWrite(&gpio_dma_check, 1, 0x0);
+    }
 }
 
 

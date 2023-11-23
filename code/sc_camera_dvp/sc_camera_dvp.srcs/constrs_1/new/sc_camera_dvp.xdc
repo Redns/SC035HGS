@@ -73,3 +73,4 @@ set_property PACKAGE_PIN AJ15 [get_ports i_pclk]
 
 set_property PACKAGE_PIN H9 [get_ports i_clk_200M_clk_p]
 set_property SLEW SLOW [get_ports o_camera_iic_scl_io]
+

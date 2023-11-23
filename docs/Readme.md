@@ -88,13 +88,13 @@
 
 ![image-20231103094238469](https://image.krins.cloud/202311030942519.png)
 
-使用 **target** 命令查看板卡可调试的所有目标，下图示例中 **APU** 位于 `PS` 部分，**xc7z100** 位于 `PL` 部分
+使用 **targets** 命令查看板卡可调试的所有目标，下图示例中 **APU** 位于 `PS` 部分，**xc7z100** 位于 `PL` 部分
 
 > 有关 PS、PL、ARM、APU 等概念的解析[参见](https://blog.csdn.net/the_time_runner/article/details/103153261)
 
 ![image-20231103094354078](https://image.krins.cloud/202311030943120.png)
 
-使用 **targets** 命令选择要连接的目标，这里选择 **ARM Cortex-A9 MPCore #0**
+使用 **target** 命令选择要连接的目标，这里选择 **ARM Cortex-A9 MPCore #0**
 
 ![image-20231103095013727](https://image.krins.cloud/202311030950779.png)
 
@@ -109,3 +109,4 @@ xil_printf("[INFO] Init camera sc035hgs...\n");
 ```
 
 ![image-20231103100404305](https://image.krins.cloud/202311031004369.png)
+

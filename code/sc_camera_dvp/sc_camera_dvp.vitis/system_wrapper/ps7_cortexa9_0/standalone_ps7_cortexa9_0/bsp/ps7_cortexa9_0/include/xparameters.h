@@ -303,7 +303,7 @@
 /******************************************************************/
 
 /* Definitions for driver GPIO */
-#define XPAR_XGPIO_NUM_INSTANCES 7
+#define XPAR_XGPIO_NUM_INSTANCES 8
 
 /* Definitions for peripheral AXIS_TRANSMIT_ENABLE */
 #define XPAR_AXIS_TRANSMIT_ENABLE_BASEADDR 0x41200000
@@ -361,6 +361,14 @@
 #define XPAR_LED_IS_DUAL 0
 
 
+/* Definitions for peripheral AXI_GPIO_DMA_CHECK */
+#define XPAR_AXI_GPIO_DMA_CHECK_BASEADDR 0x41270000
+#define XPAR_AXI_GPIO_DMA_CHECK_HIGHADDR 0x4127FFFF
+#define XPAR_AXI_GPIO_DMA_CHECK_DEVICE_ID 7
+#define XPAR_AXI_GPIO_DMA_CHECK_INTERRUPT_PRESENT 0
+#define XPAR_AXI_GPIO_DMA_CHECK_IS_DUAL 0
+
+
 /******************************************************************/
 
 /* Canonical definitions for peripheral AXIS_TRANSMIT_ENABLE */
@@ -412,28 +420,12 @@
 #define XPAR_GPIO_6_INTERRUPT_PRESENT 0
 #define XPAR_GPIO_6_IS_DUAL 0
 
-
-/******************************************************************/
-
-/* Definitions for driver IIC */
-#define XPAR_XIIC_NUM_INSTANCES 1
-
-/* Definitions for peripheral CAMERA_IIC */
-#define XPAR_CAMERA_IIC_DEVICE_ID 0
-#define XPAR_CAMERA_IIC_BASEADDR 0x41600000
-#define XPAR_CAMERA_IIC_HIGHADDR 0x4160FFFF
-#define XPAR_CAMERA_IIC_TEN_BIT_ADR 0
-#define XPAR_CAMERA_IIC_GPO_WIDTH 1
-
-
-/******************************************************************/
-
-/* Canonical definitions for peripheral CAMERA_IIC */
-#define XPAR_IIC_0_DEVICE_ID XPAR_CAMERA_IIC_DEVICE_ID
-#define XPAR_IIC_0_BASEADDR 0x41600000
-#define XPAR_IIC_0_HIGHADDR 0x4160FFFF
-#define XPAR_IIC_0_TEN_BIT_ADR 0
-#define XPAR_IIC_0_GPO_WIDTH 1
+/* Canonical definitions for peripheral AXI_GPIO_DMA_CHECK */
+#define XPAR_GPIO_7_BASEADDR 0x41270000
+#define XPAR_GPIO_7_HIGHADDR 0x4127FFFF
+#define XPAR_GPIO_7_DEVICE_ID XPAR_AXI_GPIO_DMA_CHECK_DEVICE_ID
+#define XPAR_GPIO_7_INTERRUPT_PRESENT 0
+#define XPAR_GPIO_7_IS_DUAL 0
 
 
 /******************************************************************/
@@ -462,13 +454,11 @@
 /* Definition for input Clock */
 /* Definitions for Fabric interrupts connected to ps7_scugic_0 */
 #define XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR 61U
-#define XPAR_FABRIC_CAMERA_IIC_IIC2INTC_IRPT_INTR 62U
 
 /******************************************************************/
 
 /* Canonical definitions for Fabric interrupts connected to ps7_scugic_0 */
 #define XPAR_FABRIC_AXIDMA_0_VEC_ID XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR
-#define XPAR_FABRIC_IIC_0_VEC_ID XPAR_FABRIC_CAMERA_IIC_IIC2INTC_IRPT_INTR
 
 /******************************************************************/
 
