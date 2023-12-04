@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 4 resources" deleteContents="true" description="Delete 4 resources" element1="/xiicps_eeprom_polled_example_1_system" element2="/xiicps_polled_master_example_1_system" element3="/xiicps_repeated_start_example_1_system" element4="/xiicps_selftest_example_1_system" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="4" stamp="1700826616437"/>
+</session>

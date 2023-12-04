@@ -3,14 +3,24 @@
 
 #include <malloc.h>
 #include "sleep.h"
+
+#define IIC_PS_ENABLE                           1
+
+#if IIC_PS_ENABLE
 #include "ps_iic.h"
+#else
+#include "iic_software.h"
+#endif
 
 #define ENABLE                                  1
 #define DISABLE                                 0
 
+#define MAX_SET_REG_NUMS                        10
+
 /* 摄像头信息 */
+#define CHIP_ID                                 0x31        // CHIP ID
 #define SLAVE_ADDR                              0x30        // 摄像头从机地址（DVP 接口下不可更改）
-#define REG_CHIP_ID_HIGH_ADDR                   0x3107      // CHIP ID
+#define REG_CHIP_ID_HIGH_ADDR                   0x3107      // CHIP ID REG ADDR
 #define REG_CHIP_ID_LOW_ADDR                    0x3108
 
 /* 软复位 & 休眠 */
@@ -167,7 +177,6 @@ typedef enum
 // 复位寄存器列表
 static const RegValuePair REGS_SOFTWARE_RESET[] = {
 	{REG_SOFTWARE_RESET_ADDR, REG_SOFTWARE_RESET_ENABLE},
-	{REG_DELAY_ADDR, 0x0a},
     {REG_NULL_ADDR, 0x00}
 };
 
@@ -286,7 +295,7 @@ static const RegValuePair REGS_INIT_640_480_60FPS_24M_XCLK[] = {
 static const RegValuePair REGS_INIT_640_480_50FPS_24M_XCLK[] = {
     {REG_SOFTWARE_RESET_ADDR, REG_SOFTWARE_RESET_ENABLE},
     // TODO 开启睡眠模式后无法更改寄存器
-	{REG_SLEEP_MODE_CTRL_ADDR, REG_SLEEP_MODE_DISABLE},     
+	{REG_SLEEP_MODE_CTRL_ADDR, REG_SLEEP_MODE_ENABLE},     
 	{0x36e9, 0x80},
 	{0x36f9, 0x80},
     {REG_DELAY_ADDR, 0x80},
@@ -400,23 +409,30 @@ static const RegValuePair REGS_INIT_640_480_50FPS_24M_XCLK[] = {
 // Camera instance
 typedef struct _camera camera_t;
 typedef struct _camera{
+
     uint16_t slv_addr;              // Slave address
-    uint16_t chip_id;               // Chip id
-    XIicPs   iic_inst;              // IIC instance
+    uint16_t i2c_device_id;
+
+    #if IIC_PS_ENABLE
+        u32 i2c_sclk_frq;
+
+        XIicPs i2c_instance_ptr;    // IIC instance
+    #endif
 
     exposure_mode exposure_mode;    
 
     void    (*reset)                    (camera_t *camera);
     void    (*set_sleep_mode)           (camera_t *camera, int enable);
     void    (*set_output_window)        (camera_t *camera, int offset_x, int offset_y, int w, int h);
-    void    (*set_agc)                  (camera_t *camera, int gain);
+    s32     (*set_agc)                  (camera_t *camera, int gain);
     void    (*set_aec)                  (camera_t *camera, uint16_t total_exposure_time, uint16_t hdr_exposure_time);
     void    (*set_blc)                  (camera_t *camera, blc_args *args);
     void    (*set_hmirror)              (camera_t *camera, int enable);
     void    (*set_vflip)                (camera_t *camera, int enable);
     void    (*set_increment_pattern)    (camera_t *camera, int enable);
+    uint16_t(*get_chip_id)              (camera_t *camera);
 } camera_t;
 
-void sc035hgs_init(camera_t *camera, uint16_t device_id);
+s32 sc035hgs_init(camera_t *camera);
 
 #endif

@@ -16,7 +16,7 @@
 #include "open_image.h"
 #include "vofa.h"
 
-#define DMA_CHECK_ENABLE            1
+#define DMA_CHECK_ENABLE            0
 #define TCP_TRANSMIT_ENABLE         0
 
 /* 缓冲区相关设置 */
@@ -40,7 +40,8 @@
 #define LED_OFF                     0
 
 /* 相关外设 ID */
-#define IIC_CAMERA                  XPAR_PS7_I2C_0_DEVICE_ID
+#define IICS                        XPAR_I2CS_DEVICE_ID
+#define IIC_PS                      XPAR_PS7_I2C_0_DEVICE_ID
 #define GPIO_LED                    XPAR_LED_DEVICE_ID
 #define GPIO_DMA_CHECK              XPAR_AXI_GPIO_DMA_CHECK_DEVICE_ID       // DMA 测试控制
 #define GPIO_CAMERA_PWDN            XPAR_CAMERA_PWDN_DEVICE_ID              // SC035HGS 休眠控制（正常工作需设置为低电平）
@@ -88,6 +89,7 @@ void init_tcp();
 void set_axis_transmit(int start);
 void dma_rx_handler();
 void wait_camera_ready();
+void print_sc035hgs_hello_message();
 
 int main(void)
 {
@@ -105,34 +107,35 @@ int main(void)
 	while(1)
 	{
         #if TCP_TRANSMIT_ENABLE
-        if(TcpFastTmrFlag)
-        {
-            tcp_fasttmr();
-            TcpFastTmrFlag = 0;
-        }
-        if(TcpSlowTmrFlag)
-        {
-            tcp_slowtmr();
-            TcpSlowTmrFlag = 0;
-        }
-        xemacif_input(&server_netif);
+            if(TcpFastTmrFlag)
+            {
+                tcp_fasttmr();
+                TcpFastTmrFlag = 0;
+            }
+            if(TcpSlowTmrFlag)
+            {
+                tcp_slowtmr();
+                TcpSlowTmrFlag = 0;
+            }
+            xemacif_input(&server_netif);
         #endif
 
         if(FrameCachePtrTransmitIndex != FrameCachePtrLastReceiveIndex)
         {
-            // 将 Bayer 转换为灰度图像
-            FrameCachePtrTransmitIndex = FrameCachePtrLastReceiveIndex;
-            bayer2grayscale(ptr_converter((uint8_t*)FrameCachePtr[FrameCachePtrTransmitIndex], FRAME_WIDTH, FRAME_HEIGHT),
-                ptr_converter((uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], FRAME_WIDTH, FRAME_HEIGHT), FRAME_WIDTH, FRAME_HEIGHT);
+            xil_printf("[INFO] Sending %d frames...\n", FrameCachePtrTransmitIndex);
+            // // 将 Bayer 转换为灰度图像
+            // FrameCachePtrTransmitIndex = FrameCachePtrLastReceiveIndex;
+            // bayer2grayscale(ptr_converter((uint8_t*)FrameCachePtr[FrameCachePtrTransmitIndex], FRAME_WIDTH, FRAME_HEIGHT),
+            //     ptr_converter((uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], FRAME_WIDTH, FRAME_HEIGHT), FRAME_WIDTH, FRAME_HEIGHT);
             
-            // 发送前导帧
-            char *image_front_frame = generate_image_front_frame(0, FRAME_CACHE_SIZE, FRAME_WIDTH, FRAME_HEIGHT, Format_Grayscalec8);
-            tcp_client_send(image_front_frame, strlen(image_front_frame));
+            // // 发送前导帧
+            // char *image_front_frame = generate_image_front_frame(0, FRAME_CACHE_SIZE, FRAME_WIDTH, FRAME_HEIGHT, Format_Grayscalec8);
+            // tcp_client_send(image_front_frame, strlen(image_front_frame));
             
-            // 图片数据发送
-            memset(EthTransmitCache, '\n', sizeof(EthTransmitCache));
-            memcpy(EthTransmitCache, (uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], sizeof(uint8_t) * FRAME_CACHE_SIZE);
-            tcp_client_send(EthTransmitCache, sizeof(EthTransmitCache));
+            // // 图片数据发送
+            // memset(EthTransmitCache, '\n', sizeof(EthTransmitCache));
+            // memcpy(EthTransmitCache, (uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], sizeof(uint8_t) * FRAME_CACHE_SIZE);
+            // tcp_client_send(EthTransmitCache, sizeof(EthTransmitCache));
         }
 	}
     cleanup_platform();
@@ -147,6 +150,7 @@ int main(void)
  */
 void init_system()
 {
+    print_sc035hgs_hello_message();
 	// 初始化平台
 	init_platform();
     // 初始化 LED
@@ -156,12 +160,12 @@ void init_system()
     // 初始化摄像头
     init_camera();
 
-    /* 网口传输 */ 
+    /* 网口传输 */
     #if TCP_TRANSMIT_ENABLE
-    // 初始化网卡
-    init_eth_phy();
-    // 初始化 TCP 连接
-    init_tcp();
+        // 初始化网卡
+        init_eth_phy();
+        // 初始化 TCP 连接
+        init_tcp();
     #endif
 
     /* DMA */ 
@@ -183,15 +187,18 @@ void init_system()
 
     /* DMA 测试*/
     #if DMA_CHECK_ENABLE
-    init_dma_check();
-    set_dma_check(1);
+        init_dma_check();
+        set_dma_check(1);
     #else
-    // 等待摄像头输出稳定
-    wait_camera_ready();
+        // 等待摄像头输出稳定
+        wait_camera_ready();
     #endif
 
     // 使能 AXIS 模块
     set_axis_transmit(AXIS_TRANSMIT_ENABLE);
+
+    // 启动首次 DMA 传输
+    XAxiDma_SimpleTransfer(&AxiDma, (u32)FrameCachePtr[FrameCachePtrReceiveIndex], (u32)(FRAME_CACHE_SIZE), XAXIDMA_DEVICE_TO_DMA);
 }
 
 
@@ -245,11 +252,11 @@ void set_led(uint8_t on)
 {
 	if(on)
 	{
-        XGpio_DiscreteClear(&gpio_led, 1, 0x0);
+        XGpio_DiscreteWrite(&gpio_led, 1, 0x1);
 	}
     else
     {
-        XGpio_DiscreteClear(&gpio_led, 1, 0x1);
+        XGpio_DiscreteWrite(&gpio_led, 1, 0x0);
     }
 }
 
@@ -278,8 +285,14 @@ void init_camera()
     XGpio_DiscreteWrite(&gpio_camera_pwdn, 1, 0x1);
     // 拉高 PWDN 后至少等待 4ms 才能访问寄存器
     usleep(20 * 1000);
+    
     // 初始化摄像头寄存器
-    sc035hgs_init(&camera, IIC_CAMERA);
+    #if IIC_PS_ENABLE
+        camera.i2c_device_id = IIC_PS;
+    #else
+        camera.i2c_device_id = IICS;
+    #endif
+    sc035hgs_init(&camera);
     
     xil_printf("[SUCCESS] Init camera done\n");
 }
@@ -424,4 +437,11 @@ void wait_camera_ready()
         while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x1);
         frame_count++;
     }
+}
+
+
+void print_sc035hgs_hello_message()
+{
+    char sc035hgs_hello_message[] = "███████╗ ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗ ██████╗ ███████╗\n██╔════╝██╔════╝██╔═████╗╚════██╗██╔════╝██║  ██║██╔════╝ ██╔════╝\n███████╗██║     ██║██╔██║ █████╔╝███████╗███████║██║  ███╗███████╗\n╚════██║██║     ████╔╝██║ ╚═══██╗╚════██║██╔══██║██║   ██║╚════██║\n███████║╚██████╗╚██████╔╝██████╔╝███████║██║  ██║╚██████╔╝███████║\n╚══════╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝";
+    xil_printf(sc035hgs_hello_message);                                                       
 }

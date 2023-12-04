@@ -1,5 +1,19 @@
 #include "ps_iic.h"
 
+
+/**
+ * @brief 等待总线空闲
+ * @return *
+*/
+static void Wait_Bus_Free(XIicPs* InstPtr)
+{
+    uint8_t wait_bus_free_ticks = WAIT_BUS_FREE_MAX_TICKS;
+    while(XIicPs_BusIsBusy(InstPtr) && (wait_bus_free_ticks--))
+    {
+    }
+    usleep(10);
+}
+
 /**
  * @brief 初始化 IIC
  * @param DeviceId  设备标识符
@@ -8,42 +22,33 @@
 */
 s32 PS_IIC_Init(XIicPs *InstPtr, uint16_t DeviceId, uint32_t SclFrqHz)
 {
-    s32 status;
-    XIicPs_Config* Config;
+    s32 Status;
 
 	// 查找 PS IIC 配置
-	Config = XIicPs_LookupConfig(DeviceId);
+	XIicPs_Config* Config = XIicPs_LookupConfig(DeviceId);
     if(Config == NULL)
     {
-        xil_printf("[ERROR] Failed to find the config of IIC_%u)\n", DeviceId);
         return XST_FAILURE;
     }
+
     // 配置 PS IIC
-	status = XIicPs_CfgInitialize(InstPtr, Config, Config->BaseAddress);
-    if(status != XST_SUCCESS)
+	Status = XIicPs_CfgInitialize(InstPtr, Config, Config->BaseAddress);
+    if(Status != XST_SUCCESS)
     {
-        xil_printf("[ERROR] Failed to config IIC_%u\n", DeviceId);
         return XST_FAILURE;
     }
+
     // 自测
-    status = XIicPs_SelfTest(InstPtr);
-    if(status != XST_SUCCESS)
+    Status = XIicPs_SelfTest(InstPtr);
+    if(Status != XST_SUCCESS)
     {
-        xil_printf("[ERROR] Failed to self test IIC_%u\n", DeviceId);
         return XST_FAILURE;
     }
-    // 使能 REPEATED START
-    status = XIicPs_SetOptions(InstPtr, XIICPS_REP_START_OPTION);
-    if(status != XST_SUCCESS)
+
+    // 设置 IIC SCL 时钟
+	Status = XIicPs_SetSClk(InstPtr, SclFrqHz);
+    if(Status != XST_SUCCESS)
     {
-        xil_printf("[ERROR] Failed to set REPEATED_START option of IIC_%u\n", DeviceId);
-        return XST_FAILURE;
-    }
-	// 设置 IIC SCL 时钟
-	status = XIicPs_SetSClk(InstPtr, SclFrqHz);
-    if(status != XST_SUCCESS)
-    {
-        xil_printf("[ERROR] Failed to set frq of IIC_%u, current frq is %uHz\n", DeviceId, XIicPs_GetSClk(InstPtr));
         return XST_FAILURE;
     }
 
@@ -63,14 +68,13 @@ s32 PS_IIC_Write_Reg(XIicPs *InstPtr, uint8_t SlaveAddr, uint16_t RegAddr, uint8
 {
     // 初始化数组
 	uint8_t SendBuffer[3] = { RegAddr >> 8, RegAddr & 0xFF, Value };
+
     // 传输数据
     if(XIicPs_MasterSendPolled(InstPtr, SendBuffer, 3, SlaveAddr) != XST_SUCCESS)
     {
-        xil_printf("[ERROR] Failed to write reg 0x%04x\n", RegAddr);
         return XST_FAILURE;
     }
-    // while(XIicPs_BusIsBusy(InstPtr)){}
-    usleep(10 * 1000);
+    Wait_Bus_Free(InstPtr);
 
     return XST_SUCCESS;
 }
@@ -85,25 +89,29 @@ s32 PS_IIC_Write_Reg(XIicPs *InstPtr, uint8_t SlaveAddr, uint16_t RegAddr, uint8
 */
 uint8_t PS_IIC_Read_Reg(XIicPs *InstPtr, uint8_t SlaveAddr, uint16_t RegAddr)
 {
+    s32 Status;
 	uint8_t RecvBuffer[1] = { 0x00 };
     uint8_t SendBuffer[2] = { RegAddr >> 8, RegAddr & 0xFF };
     
-    // 发送寄存器地址
-    s32 status = XIicPs_MasterSendPolled(InstPtr, SendBuffer, 2, SlaveAddr);
-    if(status != XST_SUCCESS)
+    /* 发送从机地址+寄存器地址 */
+    // 启用 Repeat Start
+    XIicPs_SetOptions(InstPtr, XIICPS_REP_START_OPTION);
+    // 发送地址
+    Status = XIicPs_MasterSendPolled(InstPtr, SendBuffer, 2, SlaveAddr);
+    if(Status != XST_SUCCESS)
     {
-        xil_printf("[ERROR] Failed ro read reg {0x%04x}\n", RegAddr); return RecvBuffer[0];
+        return XST_FAILURE;
     }
-    // while(XIicPs_BusIsBusy(InstPtr)){}
-    usleep(10 * 1000);
+    // 禁用 Repeat Start
+    XIicPs_ClearOptions(InstPtr, XIICPS_REP_START_OPTION);
+
     // 接收寄存器数据
-    status = XIicPs_MasterRecvPolled(InstPtr, RecvBuffer, 1, SlaveAddr);
-    if(status != XST_SUCCESS)
+    Status = XIicPs_MasterRecvPolled(InstPtr, RecvBuffer, 1, SlaveAddr);
+    if(Status != XST_SUCCESS)
     {
-        xil_printf("[ERROR] Failed ro read reg {0x%04x}\n", RegAddr); return RecvBuffer[0];
+        return XST_FAILURE;
     }
-    // while(XIicPs_BusIsBusy(InstPtr)){}
-    usleep(10 * 1000);
+    Wait_Bus_Free(InstPtr);
 
 	return RecvBuffer[0];
 }

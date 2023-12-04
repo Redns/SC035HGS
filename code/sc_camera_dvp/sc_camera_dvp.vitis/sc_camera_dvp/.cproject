@@ -76,6 +76,10 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/sc_camera_dvp/lib/vofa}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/sc_camera_dvp/lib/ps_iic}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/sc_camera_dvp/lib/iic}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/sc_camera_dvp/lib/iic_software}&quot;"/>
                                     								
                                 </option>
                                 								

@@ -1,81 +1,87 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.566929",
-   "Default View_TopLeft":"-346,0",
+   "Default View_ScaleFactor":"0.574815",
+   "Default View_TopLeft":"-705,0",
    "ExpandedHierarchyInLayout":"",
-   "guistr":"# # String gsaved with Nlview 7.0r6  2020-01-29 bk=1.5227 VDI=41 GEI=36 GUI=JA:10.0 non-TLS
+   "guistr":"# # String gsaved with Nlview 7.0r6  2020-01-29 bk=1.5227 VDI=41 GEI=36 GUI=JA:10.0 non-TLS-threadsafe
 #  -string -flagsOSRD
-preplace port DDR -pg 1 -lvl 6 -x 2110 -y 90 -defaultsOSRD
-preplace port FIXED_IO -pg 1 -lvl 6 -x 2110 -y 110 -defaultsOSRD
-preplace port i_clk_200M -pg 1 -lvl 0 -x -20 -y 830 -defaultsOSRD
-preplace port o_camera_iic -pg 1 -lvl 6 -x 2110 -y 130 -defaultsOSRD
-preplace port port-id_i_pclk -pg 1 -lvl 0 -x -20 -y 1190 -defaultsOSRD
-preplace port port-id_i_href -pg 1 -lvl 0 -x -20 -y 1130 -defaultsOSRD
-preplace port port-id_o_clk_24M -pg 1 -lvl 6 -x 2110 -y 330 -defaultsOSRD
-preplace portBus i_pixel -pg 1 -lvl 0 -x -20 -y 1220 -defaultsOSRD
-preplace portBus i_camera_vsync -pg 1 -lvl 0 -x -20 -y 1250 -defaultsOSRD
-preplace portBus o_camera_pwdn -pg 1 -lvl 6 -x 2110 -y 1090 -defaultsOSRD
-preplace portBus o_camera_reset -pg 1 -lvl 6 -x 2110 -y 890 -defaultsOSRD
-preplace portBus o_phy_rstn -pg 1 -lvl 6 -x 2110 -y 720 -defaultsOSRD
-preplace portBus o_led -pg 1 -lvl 6 -x 2110 -y 540 -defaultsOSRD
-preplace inst processing_system7_0 -pg 1 -lvl 5 -x 1840 -y 140 -defaultsOSRD
-preplace inst ps7_0_axi_periph -pg 1 -lvl 2 -x 600 -y 550 -defaultsOSRD
-preplace inst rst_ps7_0_50M -pg 1 -lvl 1 -x 220 -y 950 -defaultsOSRD
-preplace inst ui_axisbufw_0 -pg 1 -lvl 2 -x 600 -y 990 -defaultsOSRD
-preplace inst axi_dma_0 -pg 1 -lvl 3 -x 1050 -y 170 -defaultsOSRD
-preplace inst axis_transmit_enable -pg 1 -lvl 3 -x 1050 -y 770 -defaultsOSRD
-preplace inst axi_mem_intercon -pg 1 -lvl 4 -x 1400 -y 120 -defaultsOSRD
-preplace inst camera_vsync -pg 1 -lvl 3 -x 1050 -y 1140 -defaultsOSRD
-preplace inst camera_clk_wiz -pg 1 -lvl 5 -x 1840 -y 340 -defaultsOSRD
-preplace inst phy_reset -pg 1 -lvl 5 -x 1840 -y 710 -defaultsOSRD
-preplace inst camera_pwdn -pg 1 -lvl 5 -x 1840 -y 1080 -defaultsOSRD
-preplace inst camera_reset -pg 1 -lvl 5 -x 1840 -y 880 -defaultsOSRD
-preplace inst xclk_locked -pg 1 -lvl 3 -x 1050 -y 430 -defaultsOSRD
-preplace inst led -pg 1 -lvl 5 -x 1840 -y 530 -defaultsOSRD
-preplace inst system_ila_0 -pg 1 -lvl 4 -x 1400 -y 960 -defaultsOSRD
-preplace inst util_vector_logic_0 -pg 1 -lvl 1 -x 220 -y 1120 -defaultsOSRD
-preplace inst axi_gpio_dma_check -pg 1 -lvl 3 -x 1050 -y 590 -defaultsOSRD
-preplace netloc W_data_i_0_1 1 0 4 20J 1050 430 1100 860J 960 NJ
-preplace netloc W_wclk_i_0_1 1 0 2 NJ 1190 400J
-preplace netloc W_wren_i_0_1 1 1 3 420 1220 NJ 1220 1230J
-preplace netloc axi_dma_0_s2mm_introut 1 3 2 1230J 240 1570
-preplace netloc camera_clk_wiz_locked 1 3 3 NJ 440 NJ 440 2070
-preplace netloc camera_pwdn_gpio_io_o 1 5 1 NJ 1090
-preplace netloc camera_reset_gpio_io_o 1 5 1 NJ 890
+preplace port DDR -pg 1 -lvl 6 -x 2220 -y 90 -defaultsOSRD
+preplace port FIXED_IO -pg 1 -lvl 6 -x 2220 -y 110 -defaultsOSRD
+preplace port i_clk_200M -pg 1 -lvl 0 -x -20 -y 270 -defaultsOSRD
+preplace port o_camera_iic -pg 1 -lvl 6 -x 2220 -y 130 -defaultsOSRD
+preplace port I2Cs_SCL -pg 1 -lvl 6 -x 2220 -y 680 -defaultsOSRD
+preplace port I2Cs_SDA -pg 1 -lvl 6 -x 2220 -y 720 -defaultsOSRD
+preplace port port-id_i_pclk -pg 1 -lvl 0 -x -20 -y 1140 -defaultsOSRD
+preplace port port-id_i_href -pg 1 -lvl 0 -x -20 -y 1080 -defaultsOSRD
+preplace port port-id_o_clk_24M -pg 1 -lvl 6 -x 2220 -y 330 -defaultsOSRD
+preplace portBus i_pixel -pg 1 -lvl 0 -x -20 -y 1170 -defaultsOSRD
+preplace portBus i_camera_vsync -pg 1 -lvl 0 -x -20 -y 1200 -defaultsOSRD
+preplace portBus o_camera_pwdn -pg 1 -lvl 6 -x 2220 -y 500 -defaultsOSRD
+preplace portBus o_camera_reset -pg 1 -lvl 6 -x 2220 -y 1140 -defaultsOSRD
+preplace portBus o_phy_rstn -pg 1 -lvl 6 -x 2220 -y 1280 -defaultsOSRD
+preplace portBus o_led -pg 1 -lvl 6 -x 2220 -y 910 -defaultsOSRD
+preplace inst processing_system7_0 -pg 1 -lvl 5 -x 1950 -y 140 -defaultsOSRD
+preplace inst ps7_0_axi_periph -pg 1 -lvl 2 -x 640 -y 590 -defaultsOSRD
+preplace inst rst_ps7_0_50M -pg 1 -lvl 1 -x 220 -y 900 -defaultsOSRD
+preplace inst ui_axisbufw_0 -pg 1 -lvl 2 -x 640 -y 1060 -defaultsOSRD
+preplace inst axi_dma_0 -pg 1 -lvl 3 -x 1130 -y 160 -defaultsOSRD
+preplace inst axis_transmit_enable -pg 1 -lvl 3 -x 1130 -y 630 -defaultsOSRD
+preplace inst axi_mem_intercon -pg 1 -lvl 4 -x 1510 -y 120 -defaultsOSRD
+preplace inst camera_vsync -pg 1 -lvl 3 -x 1130 -y 960 -defaultsOSRD
+preplace inst camera_clk_wiz -pg 1 -lvl 5 -x 1950 -y 340 -defaultsOSRD
+preplace inst phy_reset -pg 1 -lvl 5 -x 1950 -y 1270 -defaultsOSRD
+preplace inst camera_pwdn -pg 1 -lvl 5 -x 1950 -y 490 -defaultsOSRD
+preplace inst camera_reset -pg 1 -lvl 5 -x 1950 -y 1130 -defaultsOSRD
+preplace inst xclk_locked -pg 1 -lvl 3 -x 1130 -y 770 -defaultsOSRD
+preplace inst led -pg 1 -lvl 5 -x 1950 -y 900 -defaultsOSRD
+preplace inst axis_wren -pg 1 -lvl 1 -x 220 -y 1070 -defaultsOSRD
+preplace inst axi_gpio_dma_check -pg 1 -lvl 3 -x 1130 -y 490 -defaultsOSRD
+preplace inst system_ila_0 -pg 1 -lvl 4 -x 1510 -y 1000 -defaultsOSRD
+preplace inst I2Cs -pg 1 -lvl 5 -x 1950 -y 730 -defaultsOSRD
+preplace netloc W_data_i_0_1 1 0 4 NJ 1170 390 1180 940J 1040 1320J
+preplace netloc W_wclk_i_0_1 1 0 4 NJ 1140 410 910 960J 880 1310J
+preplace netloc W_wren_i_0_1 1 1 3 400 1170 NJ 1170 1350J
+preplace netloc axi_dma_0_s2mm_introut 1 3 2 1350J 240 1670
+preplace netloc axi_gpio_dma_check_gpio_io_o 1 0 4 30 210 NJ 210 960J 290 1310
+preplace netloc camera_clk_wiz_locked 1 3 3 NJ 780 1660J 980 2180
+preplace netloc camera_pwdn_gpio_io_o 1 5 1 NJ 500
+preplace netloc camera_reset_gpio_io_o 1 5 1 NJ 1140
 preplace netloc clk_wiz_0_clk_out_24MHz 1 5 1 NJ 330
-preplace netloc gpio_io_i_0_1 1 0 4 NJ 1250 NJ 1250 NJ 1250 1250
-preplace netloc led_gpio_io_o 1 5 1 NJ 540
-preplace netloc phy_reset_gpio_io_o 1 5 1 NJ 720
-preplace netloc pixel_transmit_enable_gpio_io_o 1 1 3 430 880 NJ 880 1230
-preplace netloc processing_system7_0_FCLK_CLK0 1 0 6 50 850 410 250 830 300 1250 250 1590 250 2080
-preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 6 40 230 NJ 230 860J 290 NJ 290 1610 260 2070
-preplace netloc rst_ps7_0_50M_peripheral_aresetn 1 1 4 390 260 840 340 1240 340 1550
-preplace netloc i_href_1 1 0 1 NJ 1130
-preplace netloc axi_gpio_dma_check_gpio_io_o 1 0 4 30 70 NJ 70 NJ 70 1220
-preplace netloc axi_dma_0_M_AXI_S2MM 1 3 1 1230 60n
+preplace netloc gpio_io_i_0_1 1 0 4 NJ 1200 NJ 1200 960J 1160 1300
+preplace netloc i_href_1 1 0 1 NJ 1080
+preplace netloc led_gpio_io_o 1 5 1 NJ 910
+preplace netloc phy_reset_gpio_io_o 1 5 1 NJ 1280
+preplace netloc pixel_transmit_enable_gpio_io_o 1 1 3 440 260 920J 300 1320
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 6 50 1000 420 220 910 60 1340 250 1710 250 2190
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 6 40 240 NJ 240 950J 260 NJ 260 1720 260 2180
+preplace netloc rst_ps7_0_50M_peripheral_aresetn 1 1 4 430 230 940 280 1360 280 1670
+preplace netloc axi_dma_0_M_AXI_S2MM 1 3 1 1350 60n
 preplace netloc axi_mem_intercon_M00_AXI 1 4 1 N 120
-preplace netloc diff_clock_rtl_0_1 1 0 5 20J 240 NJ 240 850J 280 NJ 280 1600J
+preplace netloc diff_clock_rtl_0_1 1 0 5 20J 250 NJ 250 930J 330 NJ 330 NJ
 preplace netloc processing_system7_0_DDR 1 5 1 NJ 90
 preplace netloc processing_system7_0_FIXED_IO 1 5 1 NJ 110
 preplace netloc processing_system7_0_IIC_0 1 5 1 NJ 130
-preplace netloc processing_system7_0_M_AXI_GP0 1 1 5 430 270 NJ 270 NJ 270 NJ 270 2090
-preplace netloc ps7_0_axi_periph_M01_AXI 1 2 1 750 130n
-preplace netloc ps7_0_axi_periph_M02_AXI 1 2 1 780 510n
-preplace netloc ps7_0_axi_periph_M03_AXI 1 2 1 750 530n
-preplace netloc ps7_0_axi_periph_M04_AXI 1 2 3 770 320 NJ 320 1580J
-preplace netloc ps7_0_axi_periph_M05_AXI 1 2 3 800 330 NJ 330 1570J
-preplace netloc ps7_0_axi_periph_M06_AXI 1 2 3 820 350 NJ 350 1560J
-preplace netloc ps7_0_axi_periph_M07_AXI 1 2 1 760 410n
-preplace netloc ps7_0_axi_periph_M08_AXI 1 2 3 850 510 NJ 510 NJ
-preplace netloc ui_axisbufw_0_axis_m 1 2 1 790 150n
-preplace netloc ps7_0_axi_periph_M00_AXI 1 2 1 810 470n
-levelinfo -pg 1 -20 220 600 1050 1400 1840 2110
-pagesize -pg 1 -db -bbox -sgen -200 0 2300 1270
+preplace netloc processing_system7_0_M_AXI_GP0 1 1 5 450 270 NJ 270 NJ 270 NJ 270 2200
+preplace netloc ps7_0_axi_periph_M00_AXI 1 2 1 890 330n
+preplace netloc ps7_0_axi_periph_M01_AXI 1 2 1 840 120n
+preplace netloc ps7_0_axi_periph_M02_AXI 1 2 1 870 370n
+preplace netloc ps7_0_axi_periph_M03_AXI 1 2 1 840 390n
+preplace netloc ps7_0_axi_periph_M04_AXI 1 2 3 860 400 NJ 400 1680J
+preplace netloc ps7_0_axi_periph_M05_AXI 1 2 3 850 390 NJ 390 1690J
+preplace netloc ps7_0_axi_periph_M06_AXI 1 2 3 900J 410 NJ 410 1700
+preplace netloc ps7_0_axi_periph_M07_AXI 1 2 1 930 750n
+preplace netloc ps7_0_axi_periph_M08_AXI 1 2 3 830 870 1330J 880 NJ
+preplace netloc ui_axisbufw_0_axis_m 1 2 1 880 140n
+preplace netloc axi_gpio_0_GPIO 1 5 1 NJ 680
+preplace netloc axi_gpio_0_GPIO2 1 5 1 NJ 720
+preplace netloc ps7_0_axi_periph_M09_AXI 1 2 3 N 850 1310J 710 NJ
+levelinfo -pg 1 -20 220 640 1130 1510 1950 2220
+pagesize -pg 1 -db -bbox -sgen -200 0 2410 1350
 "
 }
 {
-   "da_axi4_cnt":"17",
-   "da_board_cnt":"13",
-   "da_clkrst_cnt":"3",
+   "da_axi4_cnt":"18",
+   "da_board_cnt":"15",
+   "da_clkrst_cnt":"4",
    "da_ps7_cnt":"1"
 }

@@ -303,7 +303,7 @@
 /******************************************************************/
 
 /* Definitions for driver GPIO */
-#define XPAR_XGPIO_NUM_INSTANCES 8
+#define XPAR_XGPIO_NUM_INSTANCES 9
 
 /* Definitions for peripheral AXIS_TRANSMIT_ENABLE */
 #define XPAR_AXIS_TRANSMIT_ENABLE_BASEADDR 0x41200000
@@ -369,6 +369,14 @@
 #define XPAR_AXI_GPIO_DMA_CHECK_IS_DUAL 0
 
 
+/* Definitions for peripheral I2CS */
+#define XPAR_I2CS_BASEADDR 0x41280000
+#define XPAR_I2CS_HIGHADDR 0x4128FFFF
+#define XPAR_I2CS_DEVICE_ID 8
+#define XPAR_I2CS_INTERRUPT_PRESENT 0
+#define XPAR_I2CS_IS_DUAL 1
+
+
 /******************************************************************/
 
 /* Canonical definitions for peripheral AXIS_TRANSMIT_ENABLE */
@@ -426,6 +434,13 @@
 #define XPAR_GPIO_7_DEVICE_ID XPAR_AXI_GPIO_DMA_CHECK_DEVICE_ID
 #define XPAR_GPIO_7_INTERRUPT_PRESENT 0
 #define XPAR_GPIO_7_IS_DUAL 0
+
+/* Canonical definitions for peripheral I2CS */
+#define XPAR_GPIO_8_BASEADDR 0x41280000
+#define XPAR_GPIO_8_HIGHADDR 0x4128FFFF
+#define XPAR_GPIO_8_DEVICE_ID XPAR_I2CS_DEVICE_ID
+#define XPAR_GPIO_8_INTERRUPT_PRESENT 0
+#define XPAR_GPIO_8_IS_DUAL 1
 
 
 /******************************************************************/

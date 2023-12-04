@@ -74,3 +74,10 @@ set_property PACKAGE_PIN AJ15 [get_ports i_pclk]
 set_property PACKAGE_PIN H9 [get_ports i_clk_200M_clk_p]
 set_property SLEW SLOW [get_ports o_camera_iic_scl_io]
 
+
+set_property IOSTANDARD LVCMOS18 [get_ports {I2Cs_SDA_tri_io[0]}]
+set_property PACKAGE_PIN AC17 [get_ports {I2Cs_SDA_tri_io[0]}]
+set_property IOSTANDARD LVCMOS18 [get_ports {I2Cs_SCL_tri_o[0]}]
+set_property PACKAGE_PIN AE18 [get_ports {I2Cs_SCL_tri_o[0]}]
+set_property PULLUP true [get_ports {I2Cs_SCL_tri_o[0]}]
+set_property PULLUP true [get_ports {I2Cs_SDA_tri_io[0]}]

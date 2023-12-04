@@ -111,3 +111,19 @@ platform active {system_wrapper}
 platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_with_ila.xsa}
 platform generate -domains 
 platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_with_ila.xsa}
+platform active {system_wrapper}
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_without_ila.xsa}
+platform generate
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_within_ila.xsa}
+platform generate -domains 
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_within_ila.xsa}
+platform generate -domains 
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_within_ila.xsa}
+platform generate -domains 
+domain active {zynq_fsbl}
+bsp reload
+bsp reload
+platform generate -domains 
+platform config -updatehw {E:/Project/sc_camera/code/sc_camera_dvp/system_wrapper_within_ila.xsa}
+platform generate -domains 
+platform generate
