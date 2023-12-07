@@ -25,5 +25,4 @@ ps7_post_config
 targets -set -nocase -filter {name =~ "*A9*#0"}
 dow E:/Project/sc_camera/code/sc_camera_dvp/sc_camera_dvp.vitis/sc_camera_dvp/Debug/sc_camera_dvp.elf
 configparams force-mem-access 0
-targets -set -nocase -filter {name =~ "*A9*#0"}
-con
+bpadd -addr &main

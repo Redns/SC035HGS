@@ -89,7 +89,6 @@ void init_tcp();
 void set_axis_transmit(int start);
 void dma_rx_handler();
 void wait_camera_ready();
-void print_sc035hgs_hello_message();
 
 int main(void)
 {
@@ -150,7 +149,6 @@ int main(void)
  */
 void init_system()
 {
-    print_sc035hgs_hello_message();
 	// 初始化平台
 	init_platform();
     // 初始化 LED
@@ -437,11 +435,4 @@ void wait_camera_ready()
         while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x1);
         frame_count++;
     }
-}
-
-
-void print_sc035hgs_hello_message()
-{
-    char sc035hgs_hello_message[] = "███████╗ ██████╗ ██████╗ ██████╗ ███████╗██╗  ██╗ ██████╗ ███████╗\n██╔════╝██╔════╝██╔═████╗╚════██╗██╔════╝██║  ██║██╔════╝ ██╔════╝\n███████╗██║     ██║██╔██║ █████╔╝███████╗███████║██║  ███╗███████╗\n╚════██║██║     ████╔╝██║ ╚═══██╗╚════██║██╔══██║██║   ██║╚════██║\n███████║╚██████╗╚██████╔╝██████╔╝███████║██║  ██║╚██████╔╝███████║\n╚══════╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝";
-    xil_printf(sc035hgs_hello_message);                                                       
 }

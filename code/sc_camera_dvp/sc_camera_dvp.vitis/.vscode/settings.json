@@ -12,6 +12,8 @@
         "init.h": "c",
         "tcp.h": "c",
         "type_traits": "c",
-        "xiicps.h": "c"
+        "xiicps.h": "c",
+        "delegate.h": "c",
+        "sleep.h": "c"
     }
 }

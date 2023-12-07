@@ -1,0 +1,601 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:48:09 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Wed Dec  6 20:05:18 2023
+# Process ID: 12012
+# Current directory: E:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.runs/system_system_ila_0_0_synth_1
+# Command line: vivado.exe -log system_system_ila_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source system_system_ila_0_0.tcl
+# Log file: E:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.runs/system_system_ila_0_0_synth_1/system_system_ila_0_0.vds
+# Journal file: E:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.runs/system_system_ila_0_0_synth_1\vivado.jou
+# Running On: Jing-Laptop, OS: Windows, CPU Frequency: 2112 MHz, CPU Physical cores: 4, Host memory: 17005 MB
+#-----------------------------------------------------------
+source system_system_ila_0_0.tcl -notrace
+create_project: Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 1362.832 ; gain = 0.000
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository 'e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.ip_user_files/uisrc'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Xilinx/Vivado/2021.2/data/ip'.
+Command: synth_design -top system_system_ila_0_0 -part xc7z035ffg676-2 -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z035'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z035'
+INFO: [Device 21-403] Loading part xc7z035ffg676-2
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 8600
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:18 ; elapsed = 00:00:25 . Memory (MB): peak = 1362.832 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'system_system_ila_0_0' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/synth/system_system_ila_0_0.v:216]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/synth/system_system_ila_0_0.v:244]
+INFO: [Synth 8-6157] synthesizing module 'bd_d5b8' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/synth/bd_d5b8.v:10]
+INFO: [Synth 8-6157] synthesizing module 'bd_d5b8_g_inst_0' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/synth/bd_d5b8_g_inst_0.v:116]
+INFO: [Synth 8-6157] synthesizing module 'bd_d5b8_g_inst_0_gigantic_mux' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:63]
+WARNING: [Synth 8-3848] Net probe_out0 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1985]
+WARNING: [Synth 8-3848] Net probe_out1 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1986]
+WARNING: [Synth 8-3848] Net probe_out2 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1987]
+WARNING: [Synth 8-3848] Net probe_out3 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1988]
+WARNING: [Synth 8-3848] Net probe_out4 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1989]
+WARNING: [Synth 8-3848] Net probe_out5 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1990]
+WARNING: [Synth 8-3848] Net probe_out6 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1991]
+WARNING: [Synth 8-3848] Net probe_out7 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1992]
+WARNING: [Synth 8-3848] Net probe_out8 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1993]
+WARNING: [Synth 8-3848] Net probe_out9 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1994]
+WARNING: [Synth 8-3848] Net probe_out10 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1995]
+WARNING: [Synth 8-3848] Net probe_out11 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1996]
+WARNING: [Synth 8-3848] Net probe_out12 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1997]
+WARNING: [Synth 8-3848] Net probe_out13 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1998]
+WARNING: [Synth 8-3848] Net probe_out14 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:1999]
+WARNING: [Synth 8-3848] Net probe_out15 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2000]
+WARNING: [Synth 8-3848] Net probe_out16 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2001]
+WARNING: [Synth 8-3848] Net probe_out17 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2002]
+WARNING: [Synth 8-3848] Net probe_out18 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2003]
+WARNING: [Synth 8-3848] Net probe_out19 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2004]
+WARNING: [Synth 8-3848] Net probe_out20 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2005]
+WARNING: [Synth 8-3848] Net probe_out21 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2006]
+WARNING: [Synth 8-3848] Net probe_out22 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2007]
+WARNING: [Synth 8-3848] Net probe_out23 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2008]
+WARNING: [Synth 8-3848] Net probe_out24 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2009]
+WARNING: [Synth 8-3848] Net probe_out25 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2010]
+WARNING: [Synth 8-3848] Net probe_out26 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2011]
+WARNING: [Synth 8-3848] Net probe_out27 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2012]
+WARNING: [Synth 8-3848] Net probe_out28 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2013]
+WARNING: [Synth 8-3848] Net probe_out29 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2014]
+WARNING: [Synth 8-3848] Net probe_out30 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2015]
+WARNING: [Synth 8-3848] Net probe_out31 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2016]
+WARNING: [Synth 8-3848] Net probe_out32 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2017]
+WARNING: [Synth 8-3848] Net probe_out33 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2018]
+WARNING: [Synth 8-3848] Net probe_out34 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2019]
+WARNING: [Synth 8-3848] Net probe_out35 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2020]
+WARNING: [Synth 8-3848] Net probe_out36 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2021]
+WARNING: [Synth 8-3848] Net probe_out37 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2022]
+WARNING: [Synth 8-3848] Net probe_out38 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2023]
+WARNING: [Synth 8-3848] Net probe_out39 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2024]
+WARNING: [Synth 8-3848] Net probe_out40 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2025]
+WARNING: [Synth 8-3848] Net probe_out41 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2026]
+WARNING: [Synth 8-3848] Net probe_out42 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2027]
+WARNING: [Synth 8-3848] Net probe_out43 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2028]
+WARNING: [Synth 8-3848] Net probe_out44 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2029]
+WARNING: [Synth 8-3848] Net probe_out45 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2030]
+WARNING: [Synth 8-3848] Net probe_out46 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2031]
+WARNING: [Synth 8-3848] Net probe_out47 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2032]
+WARNING: [Synth 8-3848] Net probe_out48 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2033]
+WARNING: [Synth 8-3848] Net probe_out49 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2034]
+WARNING: [Synth 8-3848] Net probe_out50 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2035]
+WARNING: [Synth 8-3848] Net probe_out51 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2036]
+WARNING: [Synth 8-3848] Net probe_out52 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2037]
+WARNING: [Synth 8-3848] Net probe_out53 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2038]
+WARNING: [Synth 8-3848] Net probe_out54 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2039]
+WARNING: [Synth 8-3848] Net probe_out55 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2040]
+WARNING: [Synth 8-3848] Net probe_out56 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2041]
+WARNING: [Synth 8-3848] Net probe_out57 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2042]
+WARNING: [Synth 8-3848] Net probe_out58 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2043]
+WARNING: [Synth 8-3848] Net probe_out59 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2044]
+WARNING: [Synth 8-3848] Net probe_out60 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2045]
+WARNING: [Synth 8-3848] Net probe_out61 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2046]
+WARNING: [Synth 8-3848] Net probe_out62 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2047]
+WARNING: [Synth 8-3848] Net probe_out63 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2048]
+WARNING: [Synth 8-3848] Net probe_out64 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2049]
+WARNING: [Synth 8-3848] Net probe_out65 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2050]
+WARNING: [Synth 8-3848] Net probe_out66 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2051]
+WARNING: [Synth 8-3848] Net probe_out67 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2052]
+WARNING: [Synth 8-3848] Net probe_out68 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2053]
+WARNING: [Synth 8-3848] Net probe_out69 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2054]
+WARNING: [Synth 8-3848] Net probe_out70 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2055]
+WARNING: [Synth 8-3848] Net probe_out71 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2056]
+WARNING: [Synth 8-3848] Net probe_out72 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2057]
+WARNING: [Synth 8-3848] Net probe_out73 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2058]
+WARNING: [Synth 8-3848] Net probe_out74 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2059]
+WARNING: [Synth 8-3848] Net probe_out75 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2060]
+WARNING: [Synth 8-3848] Net probe_out76 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2061]
+WARNING: [Synth 8-3848] Net probe_out77 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2062]
+WARNING: [Synth 8-3848] Net probe_out78 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2063]
+WARNING: [Synth 8-3848] Net probe_out79 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2064]
+WARNING: [Synth 8-3848] Net probe_out80 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2065]
+WARNING: [Synth 8-3848] Net probe_out81 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2066]
+WARNING: [Synth 8-3848] Net probe_out82 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2067]
+WARNING: [Synth 8-3848] Net probe_out83 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2068]
+WARNING: [Synth 8-3848] Net probe_out84 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2069]
+WARNING: [Synth 8-3848] Net probe_out85 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2070]
+WARNING: [Synth 8-3848] Net probe_out86 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2071]
+WARNING: [Synth 8-3848] Net probe_out87 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2072]
+WARNING: [Synth 8-3848] Net probe_out88 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2073]
+WARNING: [Synth 8-3848] Net probe_out89 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2074]
+WARNING: [Synth 8-3848] Net probe_out90 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2075]
+WARNING: [Synth 8-3848] Net probe_out91 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2076]
+WARNING: [Synth 8-3848] Net probe_out92 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2077]
+WARNING: [Synth 8-3848] Net probe_out93 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2078]
+WARNING: [Synth 8-3848] Net probe_out94 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2079]
+WARNING: [Synth 8-3848] Net probe_out95 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2080]
+WARNING: [Synth 8-3848] Net probe_out96 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2081]
+WARNING: [Synth 8-3848] Net probe_out97 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2082]
+WARNING: [Synth 8-3848] Net probe_out98 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2083]
+WARNING: [Synth 8-3848] Net probe_out99 in module/entity bd_d5b8_g_inst_0_gigantic_mux does not have driver. [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:2084]
+INFO: [Common 17-14] Message 'Synth 8-3848' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-6155] done synthesizing module 'bd_d5b8_g_inst_0_gigantic_mux' (2#1) [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v:63]
+INFO: [Synth 8-6155] done synthesizing module 'bd_d5b8_g_inst_0' (3#1) [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/synth/bd_d5b8_g_inst_0.v:116]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/synth/bd_d5b8.v:59]
+INFO: [Synth 8-6157] synthesizing module 'bd_d5b8_ila_lib_0' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/synth/bd_d5b8_ila_lib_0.v:84]
+INFO: [Synth 8-6157] synthesizing module 'CFGLUT5' [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:1524]
+INFO: [Synth 8-6155] done synthesizing module 'CFGLUT5' (11#1) [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:1524]
+INFO: [Synth 8-6157] synthesizing module 'CARRY4' [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:1487]
+INFO: [Synth 8-6155] done synthesizing module 'CARRY4' (12#1) [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:1487]
+INFO: [Synth 8-6157] synthesizing module 'SRLC32E' [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:106149]
+INFO: [Synth 8-6155] done synthesizing module 'SRLC32E' (22#1) [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:106149]
+INFO: [Synth 8-6157] synthesizing module 'SRL16E' [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:105999]
+INFO: [Synth 8-6155] done synthesizing module 'SRL16E' (24#1) [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:105999]
+INFO: [Synth 8-6157] synthesizing module 'SRLC16E' [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:106088]
+INFO: [Synth 8-6155] done synthesizing module 'SRLC16E' (26#1) [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:106088]
+INFO: [Synth 8-6157] synthesizing module 'FDRE' [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:27837]
+INFO: [Synth 8-6155] done synthesizing module 'FDRE' (31#1) [D:/Xilinx/Vivado/2021.2/scripts/rt/data/unisim_comp.v:27837]
+WARNING: [Synth 8-7071] port 'clk_nobuf' of module 'ila_v6_2_12_ila' is unconnected for instance 'inst' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/synth/bd_d5b8_ila_lib_0.v:3217]
+WARNING: [Synth 8-7071] port 'clkdiv_out' of module 'ila_v6_2_12_ila' is unconnected for instance 'inst' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/synth/bd_d5b8_ila_lib_0.v:3217]
+WARNING: [Synth 8-7071] port 'trig_in' of module 'ila_v6_2_12_ila' is unconnected for instance 'inst' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/synth/bd_d5b8_ila_lib_0.v:3217]
+WARNING: [Synth 8-7071] port 'trig_in_ack' of module 'ila_v6_2_12_ila' is unconnected for instance 'inst' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/synth/bd_d5b8_ila_lib_0.v:3217]
+WARNING: [Synth 8-7071] port 'trig_out' of module 'ila_v6_2_12_ila' is unconnected for instance 'inst' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/synth/bd_d5b8_ila_lib_0.v:3217]
+WARNING: [Synth 8-7071] port 'trig_out_ack' of module 'ila_v6_2_12_ila' is unconnected for instance 'inst' [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/synth/bd_d5b8_ila_lib_0.v:3217]
+WARNING: [Synth 8-7023] instance 'inst' of module 'ila_v6_2_12_ila' has 1033 connections declared, but only 1027 given [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/synth/bd_d5b8_ila_lib_0.v:3217]
+INFO: [Synth 8-6155] done synthesizing module 'bd_d5b8_ila_lib_0' (49#1) [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/synth/bd_d5b8_ila_lib_0.v:84]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'g_inst'. This will prevent further optimization [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/synth/bd_d5b8.v:46]
+INFO: [Synth 8-6071] Mark debug on the nets applies keep_hierarchy on instance 'ila_lib'. This will prevent further optimization [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/synth/bd_d5b8.v:59]
+INFO: [Synth 8-6155] done synthesizing module 'bd_d5b8' (50#1) [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/synth/bd_d5b8.v:10]
+INFO: [Synth 8-6155] done synthesizing module 'system_system_ila_0_0' (51#1) [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/synth/system_system_ila_0_0.v:216]
+WARNING: [Synth 8-7129] Port CLKB in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[39] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[38] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[37] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[36] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[35] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[34] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[33] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[32] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[31] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[30] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[29] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[28] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[27] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[26] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[25] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[24] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[23] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[22] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[21] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[20] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[19] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[18] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[17] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[16] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[15] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[14] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[13] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[12] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[11] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[10] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[9] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[8] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[7] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[6] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[5] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[4] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[3] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[2] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[1] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA_I[0] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port SBITERR_I in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DBITERR_I in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[9] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[8] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[7] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[6] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[5] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[4] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[3] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[2] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[1] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port RDADDRECC_I[0] in module blk_mem_gen_v8_4_5_blk_mem_output_block is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[35] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[34] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[33] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[32] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[31] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[30] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[29] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[28] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[27] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[26] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[25] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[24] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[23] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[22] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[21] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[20] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[19] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[18] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[17] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[16] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[15] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[14] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[13] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[12] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[11] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[10] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[9] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[8] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[7] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[6] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[5] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[4] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[3] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[2] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[1] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DOUTA[0] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port SBITERR in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DBITERR in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port SSRA in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port REGCEA in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port SSRB in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port WEB[0] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DINB[35] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DINB[34] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DINB[33] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DINB[32] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port DINB[31] in module blk_mem_gen_v8_4_5_blk_mem_gen_prim_wrapper__parameterized0 is either unconnected or has no load
+INFO: [Common 17-14] Message 'Synth 8-7129' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:01:34 ; elapsed = 00:02:07 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:35 ; elapsed = 00:02:09 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:01:35 ; elapsed = 00:02:09 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.182 . Memory (MB): peak = 1851.578 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 95 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/system_system_ila_0_0_ooc.xdc] for cell 'inst'
+Finished Parsing XDC File [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/system_system_ila_0_0_ooc.xdc] for cell 'inst'
+Parsing XDC File [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/ila_v6_2/constraints/ila.xdc] for cell 'inst/ila_lib/inst'
+Finished Parsing XDC File [e:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.gen/sources_1/bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/ila_v6_2/constraints/ila.xdc] for cell 'inst/ila_lib/inst'
+Parsing XDC File [E:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.runs/system_system_ila_0_0_synth_1/dont_touch.xdc]
+Finished Parsing XDC File [E:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.runs/system_system_ila_0_0_synth_1/dont_touch.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [E:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.runs/system_system_ila_0_0_synth_1/dont_touch.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/system_system_ila_0_0_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/system_system_ila_0_0_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1851.578 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 69 instances were transformed.
+  CFGLUT5 => CFGLUT5 (SRL16E, SRLC32E): 60 instances
+  CFGLUT5 => SRLC32E: 9 instances
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.189 . Memory (MB): peak = 1851.578 ; gain = 0.000
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:01:46 ; elapsed = 00:02:23 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z035ffg676-2
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:01:46 ; elapsed = 00:02:23 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property KEEP_HIERARCHY = SOFT for inst/ila_lib/inst. (constraint file  E:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.runs/system_system_ila_0_0_synth_1/dont_touch.xdc, line 17).
+Applied set_property KEEP_HIERARCHY = SOFT for inst. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for inst/ila_lib. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for inst/g_inst. (constraint file  auto generated constraint).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:47 ; elapsed = 00:02:23 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s'
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized0'
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized1'
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized2'
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized3'
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized4'
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized5'
+INFO: [Synth 8-802] inferred FSM for state register 'current_state_reg' in module 'ltlib_v1_0_0_generic_memrd'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+*
+                    IDLE |                             0001 |                             0001
+                     REG |                             0010 |                             0010
+                     P2S |                             0100 |                             0100
+                     S2P |                             1000 |                             1000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3898] No Re-encoding of one hot register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+*
+                    IDLE |                             0001 |                             0001
+                     REG |                             0010 |                             0010
+                     P2S |                             0100 |                             0100
+                     S2P |                             1000 |                             1000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3898] No Re-encoding of one hot register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized0'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+*
+                    IDLE |                             0001 |                             0001
+                     REG |                             0010 |                             0010
+                     P2S |                             0100 |                             0100
+                     S2P |                             1000 |                             1000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3898] No Re-encoding of one hot register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized1'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+*
+                    IDLE |                             0001 |                             0001
+                     REG |                             0010 |                             0010
+                     P2S |                             0100 |                             0100
+                     S2P |                             1000 |                             1000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3898] No Re-encoding of one hot register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized2'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+*
+                    IDLE |                             0001 |                             0001
+                     REG |                             0010 |                             0010
+                     P2S |                             0100 |                             0100
+                     S2P |                             1000 |                             1000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3898] No Re-encoding of one hot register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized3'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+*
+                    IDLE |                             0001 |                             0001
+                     REG |                             0010 |                             0010
+                     P2S |                             0100 |                             0100
+                     S2P |                             1000 |                             1000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3898] No Re-encoding of one hot register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized4'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+*
+                    IDLE |                             0001 |                             0001
+                     REG |                             0010 |                             0010
+                     P2S |                             0100 |                             0100
+                     S2P |                             1000 |                             1000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3898] No Re-encoding of one hot register 'current_state_reg' in module 'xsdbs_v1_0_2_reg_p2s__parameterized5'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+*
+              RESET_ADDR |                          0000001 |                          0000001
+            REQUEST_READ |                          0000010 |                          0000010
+           WAIT_READ_ACK |                          0000100 |                          0000100
+             OUTPUT_DATA |                          0001000 |                          0001000
+                    IDLE |                          0010000 |                          0010000
+         INCREMENT_BLOCK |                          0100000 |                          0100000
+       INCREMENT_ADDRESS |                          1000000 |                          1000000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3898] No Re-encoding of one hot register 'current_state_reg' in module 'ltlib_v1_0_0_generic_memrd'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:50 ; elapsed = 00:02:26 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 900 (col length:140)
+BRAMs: 1000 (col length: RAMB18 140 RAMB36 70)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:02:01 ; elapsed = 00:02:39 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:02:12 ; elapsed = 00:02:50 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:02:13 ; elapsed = 00:02:51 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:02:13 ; elapsed = 00:02:52 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+INFO: [Synth 8-3295] tying undriven pin dummy_inferred:in0 to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[36] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[35] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[34] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[33] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[32] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[31] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[30] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[29] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[28] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[27] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[26] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[25] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[24] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[23] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[22] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[21] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[20] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[19] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[18] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[17] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[16] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[15] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[14] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[13] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[12] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[11] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[10] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[9] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[8] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[7] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[6] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[5] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[4] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[3] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[2] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[1] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:sl_iport0[0] to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:trig_in to constant 0
+INFO: [Synth 8-3295] tying undriven pin inst:trig_out_ack to constant 0
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:02:19 ; elapsed = 00:02:57 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:02:19 ; elapsed = 00:02:58 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:02:19 ; elapsed = 00:02:58 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:02:19 ; elapsed = 00:02:58 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:02:20 ; elapsed = 00:02:58 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:02:20 ; elapsed = 00:02:58 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+---------+------+
+|      |Cell     |Count |
++------+---------+------+
+|1     |CARRY4   |    24|
+|2     |CFGLUT5  |    69|
+|3     |LUT1     |    34|
+|4     |LUT2     |    45|
+|5     |LUT3     |   114|
+|6     |LUT4     |   113|
+|7     |LUT5     |   124|
+|8     |LUT6     |   373|
+|9     |MUXF7    |    16|
+|10    |RAMB18E1 |     1|
+|11    |RAMB36E1 |     1|
+|12    |SRL16E   |    43|
+|13    |SRLC16E  |     2|
+|14    |SRLC32E  |    17|
+|15    |FDRE     |  1397|
+|16    |FDSE     |    10|
++------+---------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:02:20 ; elapsed = 00:02:58 . Memory (MB): peak = 1851.578 ; gain = 488.746
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 1372 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:39 ; elapsed = 00:02:51 . Memory (MB): peak = 1851.578 ; gain = 488.746
+Synthesis Optimization Complete : Time (s): cpu = 00:02:20 ; elapsed = 00:02:58 . Memory (MB): peak = 1851.578 ; gain = 488.746
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.056 . Memory (MB): peak = 1851.578 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 111 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1851.578 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 69 instances were transformed.
+  CFGLUT5 => CFGLUT5 (SRL16E, SRLC32E): 60 instances
+  CFGLUT5 => SRLC32E: 9 instances
+
+Synth Design complete, checksum: 6663c3b9
+INFO: [Common 17-83] Releasing license: Synthesis
+102 Infos, 210 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:02:28 ; elapsed = 00:03:10 . Memory (MB): peak = 1851.578 ; gain = 488.746
+INFO: [Common 17-1381] The checkpoint 'E:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.runs/system_system_ila_0_0_synth_1/system_system_ila_0_0.dcp' has been generated.
+INFO: [Coretcl 2-1648] Added synthesis output to IP cache for IP system_system_ila_0_0, cache-ID = 4c80c73a6c931100
+INFO: [Coretcl 2-1174] Renamed 131 cell refs.
+INFO: [Common 17-1381] The checkpoint 'E:/Project/sc_camera/code/dma_pl2ps/dma_pl2ps.runs/system_system_ila_0_0_synth_1/system_system_ila_0_0.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file system_system_ila_0_0_utilization_synth.rpt -pb system_system_ila_0_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Wed Dec  6 20:08:49 2023...

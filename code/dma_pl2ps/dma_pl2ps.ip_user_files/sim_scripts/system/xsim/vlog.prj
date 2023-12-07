@@ -1,0 +1,19 @@
+verilog xil_defaultlib --include "D:/Xilinx/Vivado/2021.2/data/xilinx_vip/include" --include "../../../../dma_pl2ps.gen/sources_1/bd/system/ipshared/ec67/hdl" --include "../../../../dma_pl2ps.gen/sources_1/bd/system/ipshared/3007/hdl" --include "../../../../dma_pl2ps.gen/sources_1/bd/system/ipshared/1b7e/hdl/verilog" --include "../../../../dma_pl2ps.gen/sources_1/bd/system/ipshared/122e/hdl/verilog" --include "../../../../dma_pl2ps.gen/sources_1/bd/system/ipshared/b205/hdl/verilog" --include "../../../../dma_pl2ps.gen/sources_1/bd/system/ipshared/fd26/hdl/verilog" \
+"../../../bd/system/ip/system_processing_system7_0_0/sim/system_processing_system7_0_0.v" \
+"../../../bd/system/ipshared/7bbf/fs_cap.v" \
+"../../../bd/system/ipshared/7bbf/ui_axisbufw.v" \
+"../../../bd/system/ip/system_ui_axisbufw_0_0/sim/system_ui_axisbufw_0_0.v" \
+"../../../bd/system/ip/system_xbar_0/sim/system_xbar_0.v" \
+"../../../bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_0/sim/bd_d5b8_ila_lib_0.v" \
+"../../../bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/bd_d5b8_g_inst_0_gigantic_mux.v" \
+"../../../bd/system/ip/system_system_ila_0_0/bd_0/ip/ip_1/sim/bd_d5b8_g_inst_0.v" \
+"../../../bd/system/ip/system_system_ila_0_0/bd_0/sim/bd_d5b8.v" \
+"../../../bd/system/ip/system_system_ila_0_0/sim/system_system_ila_0_0.v" \
+"../../../bd/system/ip/system_auto_pc_0/sim/system_auto_pc_0.v" \
+"../../../bd/system/ip/system_auto_pc_1/sim/system_auto_pc_1.v" \
+"../../../bd/system/ip/system_auto_us_0/sim/system_auto_us_0.v" \
+"../../../bd/system/sim/system.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+nosort

@@ -42,9 +42,23 @@ static s32 set_reg_best_effort(camera_t *camera, uint16_t reg_addr, uint8_t valu
         {
             return XST_SUCCESS;
         }
-        XIicPs_Reset(&camera->i2c_instance_ptr);
-        XIicPs_SetSClk(&camera->i2c_instance_ptr, camera->i2c_sclk_frq);
-        usleep(500);
+
+        #if IIC_PS_ENABLE
+            // 复位 IIC 模块 
+            XIicPs_Reset(&camera->i2c_instance_ptr);
+
+            // 自测
+            if(XIicPs_SelfTest(&camera->i2c_instance_ptr) != XST_SUCCESS)
+            {
+                return XST_FAILURE;
+            }
+
+            // 设置时钟频率
+            XIicPs_SetSClk(&camera->i2c_instance_ptr, camera->i2c_sclk_frq);
+        #else
+            xil_printf("[WARN] Do something to reset i2c module...\n");
+        #endif
+        usleep(1 * 1000);
     }
     return XST_FAILURE;
 }
@@ -300,10 +314,10 @@ s32 sc035hgs_init(camera_t *camera)
     // 初始化摄像头从机地址
     // ZYNQ PS IIC 写地址会左移一位，若驱动写地址不左移则需要使用 SLAVE_ADDR << 1
     camera->slv_addr = SLAVE_ADDR;
-    camera->i2c_sclk_frq = IIC_FRQ_HZ;
 
     // 初始化摄像头 IIC 句柄
     #if IIC_PS_ENABLE
+        camera->i2c_sclk_frq = IIC_FRQ_HZ;
         PS_IIC_Init(&camera->i2c_instance_ptr, camera->i2c_device_id, camera->i2c_sclk_frq);
     #else
         I2Cs_Init(camera->i2c_device_id);

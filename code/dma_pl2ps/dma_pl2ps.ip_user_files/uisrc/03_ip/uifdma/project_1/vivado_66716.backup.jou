@@ -1,0 +1,58 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Fri Mar 12 20:00:57 2021
+# Process ID: 66716
+# Current directory: G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent69120 G:\V2020\S02\02_example_fdma_ddr_2\01_fdma_ddr_test_new\uisrc\03_ip\uifdma\project_1\project_1.xpr
+# Log file: G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/vivado.log
+# Journal file: G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/project_1/project_1.xpr
+update_compile_order -fileset sources_1
+ipx::open_ipxact_file {G:\V2020\S02\02_example_fdma_ddr_2\01_fdma_ddr_test_new\uisrc\03_ip\uifdma\component.xml}
+ipx::package_project -root_dir g:/v2020/s02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma -vendor xilinx.com -library user -taxonomy /UserIP -force
+ipx::unload_core g:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/component.xml
+export_ip_user_files -of_objects  [get_files G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/component.xml] -no_script -reset -force -quiet
+remove_files  G:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/component.xml
+ipx::package_project -root_dir g:/v2020/s02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma -vendor xilinx.com -library user -taxonomy /UserIP -force
+ipx::remove_bus_interface user_FDMA [ipx::current_core]
+set_property core_revision 2 [ipx::current_core]
+ipx::create_xgui_files [ipx::current_core]
+ipx::update_checksums [ipx::current_core]
+ipx::check_integrity [ipx::current_core]
+ipx::save_core [ipx::current_core]
+update_ip_catalog -rebuild -repo_path g:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma
+set_property core_revision 3 [ipx::current_core]
+ipx::create_xgui_files [ipx::current_core]
+ipx::update_checksums [ipx::current_core]
+ipx::check_integrity [ipx::current_core]
+ipx::save_core [ipx::current_core]
+update_ip_catalog -rebuild -repo_path g:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma
+set_property abstraction_type_vlnv xilinx.com:user:FDMA_rtl:1.0 [ipx::get_bus_interfaces FDMA_S -of_objects [ipx::current_core]]
+set_property bus_type_vlnv xilinx.com:user:FDMA:1.0 [ipx::get_bus_interfaces FDMA_S -of_objects [ipx::current_core]]
+set_property abstraction_type_vlnv xilinx.com:user:FDMA_S_rtl:1.0 [ipx::get_bus_interfaces FDMA_S -of_objects [ipx::current_core]]
+set_property bus_type_vlnv xilinx.com:user:FDMA_S:1.0 [ipx::get_bus_interfaces FDMA_S -of_objects [ipx::current_core]]
+ipx::unload_core g:/v2020/s02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/component.xml
+export_ip_user_files -of_objects  [get_files g:/v2020/s02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/component.xml] -no_script -reset -force -quiet
+remove_files  g:/v2020/s02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma/component.xml
+ipx::package_project -root_dir g:/v2020/s02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma -vendor xilinx.com -library user -taxonomy /UserIP -force
+ipx::remove_bus_interface user_FDMA_S [ipx::current_core]
+set_property name FDMA_S [ipx::get_bus_interfaces user_FDMA -of_objects [ipx::current_core]]
+set_property core_revision 2 [ipx::current_core]
+ipx::create_xgui_files [ipx::current_core]
+ipx::update_checksums [ipx::current_core]
+ipx::check_integrity [ipx::current_core]
+ipx::save_core [ipx::current_core]
+update_ip_catalog -rebuild -repo_path g:/V2020/S02/02_example_fdma_ddr_2/01_fdma_ddr_test_new/uisrc/03_ip/uifdma
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1

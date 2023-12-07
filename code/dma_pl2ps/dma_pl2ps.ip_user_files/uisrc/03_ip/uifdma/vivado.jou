@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Wed Jun 16 07:50:18 2021
+# Process ID: 13064
+# Current directory: G:/IP2019/uifdma
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent6276 G:\IP2019\uifdma\project_1.xpr
+# Log file: G:/IP2019/uifdma/vivado.log
+# Journal file: G:/IP2019/uifdma\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project G:/IP2019/uifdma/project_1.xpr
+update_compile_order -fileset sources_1

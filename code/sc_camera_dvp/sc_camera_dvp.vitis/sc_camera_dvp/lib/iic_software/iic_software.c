@@ -2,21 +2,44 @@
 
 XGpio GPIO_I2Cs;
 
+/**
+ * @brief 延时函数
+ * @param us 延时时间（微秒）
+ * @return *
+*/
+static void Delay_Us(uint8_t us)
+{
+    usleep(us);
+}
+
+
+/**
+ * @brief 延时函数
+ * @param us 延时时间（毫秒）
+ * @return *
+*/
+static void Delay_Ms(uint8_t ms)
+{
+    usleep(ms * 1000);
+}
+
+
 /**  
   * @brief I2C 开始信号
   * @return *
   */
 static void I2Cs_Start()
 {
-    Delay();
 	SDA_OUT();
     SDA_WRITE_H();
     SCL_WRITE_H();
-    Delay();
+    Delay_Us(5);
     SDA_WRITE_L();
-    Delay();
+    Delay_Us(5);
     SCL_WRITE_L();
-    Delay();
+    Delay_Us(2);
+    SDA_WRITE_H();
+    Delay_Us(2);
 }
 
 
@@ -26,13 +49,19 @@ static void I2Cs_Start()
 */
 static void I2Cs_Stop()
 {
-    Delay();
 	SDA_OUT();
+
 	SDA_WRITE_L();
-    Delay();
+    SCL_WRITE_L();
+    Delay_Us(2);
+    
 	SCL_WRITE_H();
-	Delay();
+	Delay_Us(2);
 	SDA_WRITE_H();
+    Delay_Us(2);
+    SCL_WRITE_L();
+
+    Delay_Us(2);
 }
 
 
@@ -43,10 +72,12 @@ static void I2Cs_Stop()
 */
 static void I2Cs_WriteByte(uint8_t byte)
 {
-    Delay();
     SDA_OUT();
+
 	for(uint8_t i = 0; i < 8; i++)
 	{
+        SCL_WRITE_L();
+        Delay_Us(5);
 		if(byte & 0x80)
 		{
 			SDA_WRITE_H();
@@ -55,17 +86,15 @@ static void I2Cs_WriteByte(uint8_t byte)
 		{
 			SDA_WRITE_L();
 		}
-		Delay();
 		SCL_WRITE_H();
-		Delay();
-		SCL_WRITE_L();
-		if(i == 7)
-        {
-            SDA_WRITE_H();
-        }
-		byte <<= 1;
-		Delay();
+        Delay_Us(5);
+        SCL_WRITE_L();
+        byte <<= 1;
 	}
+
+    Delay_Us(2);
+    SDA_WRITE_H();
+    Delay_Us(2);
 }
 
 
@@ -75,24 +104,35 @@ static void I2Cs_WriteByte(uint8_t byte)
 */
 static uint8_t I2Cs_ReadByte()
 {
-	//初始SCL为0，SCL拉高时读值
-	uint8_t byte=0;
-	
-    Delay();
+    uint8_t byte = 0;
+
     SDA_IN();
+
+    Delay_Us(2);
+    SDA_WRITE_H();
+    Delay_Us(2);
+    
 	for(uint8_t i = 0; i < 8; i++)
 	{
 		byte <<= 1;
-		SCL_WRITE_H();
-		Delay();
+		SCL_WRITE_L();
+		Delay_Us(5);
+        SCL_WRITE_H();
+        Delay_Us(2);
+
 		if(SDA_READ())
 		{
-			byte++;
+			byte |= 0x01;
 		}
-        Delay();
-		SCL_WRITE_L();
-		Delay();
+        else
+        {
+            byte &= 0xFE;
+        }
 	}
+
+    SCL_WRITE_L();
+    Delay_Us(2);
+
 	return byte;
 }
 
@@ -101,23 +141,22 @@ static uint8_t I2Cs_ReadByte()
  * @brief 等待 ACK 信号
  * @return 正确应答返回 XST_SUCCESS，否则返回 XST_FAILURE
 */
-static s32 I2Cs_WaitAck(uint32_t timeout_ticks)
+static s32 I2Cs_WaitAck()
 {
-	s32 status;
-	
-    Delay();
-	SCL_WRITE_H();
-	Delay();
     SDA_IN();
-    while(SDA_READ() && (timeout_ticks > 0))
-	{
-        Delay();
-        timeout_ticks--;
-    }
-	SCL_WRITE_L();
-	Delay();
 
-	return (timeout_ticks > 0) ? XST_SUCCESS : XST_FAILURE;
+    // TODO 
+    SCL_WRITE_L();
+    SDA_WRITE_H();
+    Delay_Us(5);
+
+    SCL_WRITE_H();
+    Delay_Us(5);
+    SCL_WRITE_L();
+
+    Delay_Us(2);
+
+    return XST_SUCCESS;
 }
 
 
@@ -127,15 +166,19 @@ static s32 I2Cs_WaitAck(uint32_t timeout_ticks)
 */
 static void I2Cs_Ack()
 {
-    Delay();
     SDA_OUT();
+
+    SCL_WRITE_L();
 	SDA_WRITE_L();
-	Delay();
+	Delay_Us(5);
+
 	SCL_WRITE_H();
-	Delay();
+	Delay_Us(5);
 	SCL_WRITE_L();
-	Delay();
+
+	Delay_Us(2);
 	SDA_WRITE_H();
+    Delay_Us(2);
 }
 
 
@@ -145,14 +188,19 @@ static void I2Cs_Ack()
 */
 static void I2Cs_NAck()
 {
-    Delay();
     SDA_OUT();
+
+    SCL_WRITE_L();
 	SDA_WRITE_H();
-	Delay();
+	Delay_Us(5);
+
 	SCL_WRITE_H();
-	Delay();
+	Delay_Us(5);
 	SCL_WRITE_L();
-	Delay();
+
+	Delay_Us(2);
+    SDA_WRITE_H();
+    Delay_Us(2);
 }
 
 
@@ -215,6 +263,8 @@ s32 I2Cs_WriteReg(uint8_t SlaveAddr, uint16_t RegAddr, uint8_t Value)
         return XST_FAILURE;
     }
     I2Cs_Stop();
+
+    Delay_Ms(5);
 
     return XST_SUCCESS;
 }
@@ -287,8 +337,6 @@ void I2Cs_Init(uint16_t DeviceId)
     XGpio_SetDataDirection(&GPIO_I2Cs, 2, 0x0);
     
     // 初始化总线输出
-    SDA_WRITE_H();
-    Delay();
-    SCL_WRITE_H();
-    Delay();
+    XGpio_DiscreteWrite(&GPIO_I2Cs, 1, 0x1);
+    XGpio_DiscreteWrite(&GPIO_I2Cs, 2, 0x1);
 }

@@ -4,12 +4,12 @@
 #include <malloc.h>
 #include "sleep.h"
 
-#define IIC_PS_ENABLE                           1
+#define IIC_PS_ENABLE                           0
 
 #if IIC_PS_ENABLE
-#include "ps_iic.h"
+    #include "ps_iic.h"
 #else
-#include "iic_software.h"
+    #include "iic_software.h"
 #endif
 
 #define ENABLE                                  1
@@ -294,7 +294,6 @@ static const RegValuePair REGS_INIT_640_480_60FPS_24M_XCLK[] = {
 // 640*480, xclk=24M, fps=50fps
 static const RegValuePair REGS_INIT_640_480_50FPS_24M_XCLK[] = {
     {REG_SOFTWARE_RESET_ADDR, REG_SOFTWARE_RESET_ENABLE},
-    // TODO 开启睡眠模式后无法更改寄存器
 	{REG_SLEEP_MODE_CTRL_ADDR, REG_SLEEP_MODE_ENABLE},     
 	{0x36e9, 0x80},
 	{0x36f9, 0x80},
