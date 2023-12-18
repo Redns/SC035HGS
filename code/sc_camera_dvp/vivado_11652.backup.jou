@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Sat Dec  9 16:42:55 2023
+# Process ID: 11652
+# Current directory: D:/Project/sc_camera/code/sc_camera_dvp
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent4624 D:\Project\sc_camera\code\sc_camera_dvp\sc_camera_dvp.xpr
+# Log file: D:/Project/sc_camera/code/sc_camera_dvp/vivado.log
+# Journal file: D:/Project/sc_camera/code/sc_camera_dvp\vivado.jou
+# Running On: Jing-Desktop, OS: Windows, CPU Frequency: 3494 MHz, CPU Physical cores: 14, Host memory: 34146 MB
+#-----------------------------------------------------------
+start_gui

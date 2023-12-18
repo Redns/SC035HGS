@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;sc_camera_dvp/dma_intr&apos; to &apos;lib&apos;" description="Rename resource &apos;dma_intr&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="dma_intr" name="lib" stamp="1702272762760" updateReferences="true"/>
+</session>

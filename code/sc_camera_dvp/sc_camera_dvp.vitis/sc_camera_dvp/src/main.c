@@ -1,389 +1,322 @@
 #include "xgpio.h"
 #include "xparameters.h"
-#include "netif/xadapter.h"
 #include "platform.h"
 #include "platform_config.h"
-#include "lwipopts.h"
 #include "xil_printf.h"
 #include "sleep.h"
-#include "tcp_client.h"
-#include "lwip/priv/tcp_priv.h"
-#include "lwip/init.h"
-#include "lwip/inet.h"
 #include "sc035hgs.h"
 #include "dma_intr.h"
 #include "sys_intr.h"
 #include "open_image.h"
-#include "vofa.h"
+#include "vofa_plus.h"
+#include "netif/xadapter.h"
+#include "lwipopts.h"
+#include "lwip/priv/tcp_priv.h"
+#include "lwip/init.h"
+#include "lwip/inet.h"
 
-#define DMA_CHECK_ENABLE            0
-#define TCP_TRANSMIT_ENABLE         0
+/* »º³åÇøÏà¹ØÉèÖÃ */
+#define CAMERA_IGNORE_FRAME_NUMS    10                                      // ÉãÏñÍ·ÎÈ¶¨ËùĞèÖ¡Êı£¨³õÊ¼»¯ºóÒ»¶ÎÊ±¼äÄÚÊä³ö²»ÎÈ¶¨£©
 
-/* ç¼“å†²åŒºç›¸å…³è®¾ç½® */
-#define FRAME_WIDTH                 640                                     // å¸§å®½åº¦
-#define FRAME_HEIGHT                480                                     // å¸§é«˜åº¦
-#define CAMERA_IGNORE_FRAME_NUMS    10                                      // æ‘„åƒå¤´ç¨³å®šæ‰€éœ€å¸§æ•°ï¼ˆåˆå§‹åŒ–åä¸€æ®µæ—¶é—´å†…è¾“å‡ºä¸ç¨³å®šï¼‰
-#define FRAME_CACHE_SIZE            FRAME_WIDTH * FRAME_HEIGHT              // å¸§ç¼“å†²åŒºå¤§å°ï¼ˆå•ä½ï¼šå­—èŠ‚ï¼‰
-#define FRAME_CACHE_NUMS            3                                       // å¸§ç¼“å†²åŒºæ•°é‡
+u8 EthTransmitCache[FRAME_SIZE + 1];
 
-/* IP ç›¸å…³è®¾ç½® */
-#define DEFAULT_IP_ADDRESS	        "192.168.1.10"                          // æœ¬æœº IP
-#define DEFAULT_IP_MASK		        "255.255.255.0"                         // æ©ç 
-#define DEFAULT_GW_ADDRESS	        "192.168.1.1"                           // ç½‘å…³
+/* IP Ïà¹ØÉèÖÃ */
+u16 port = 12121;
+u8 ethernet_ip_address[] = { 192, 168, 1, 10 };
+u8 ethernet_ip_mask[] = { 255, 255, 255, 0 };
+u8 ethernet_gw_address[] = { 192, 168, 1, 1 };
+u8 mac_ethernet_address[] = { 0x00, 0x0a, 0x35, 0x00, 0x01, 0x02 };
 
-/* AXIS ä¼ è¾“ä½¿èƒ½æ ‡å¿— */
-#define AXIS_TRANSMIT_ENABLE        1                                       // ä½¿èƒ½
-#define AXIS_TRANSMIT_DISABLE       0                                       // ç¦ç”¨
+struct tcp_pcb* client = NULL;
 
-/* LED çŠ¶æ€*/
-#define LED_ON                      1
-#define LED_OFF                     0
-
-/* ç›¸å…³å¤–è®¾ ID */
-#define IICS                        XPAR_I2CS_DEVICE_ID
-#define IIC_PS                      XPAR_PS7_I2C_0_DEVICE_ID
-#define GPIO_LED                    XPAR_LED_DEVICE_ID
-#define GPIO_DMA_CHECK              XPAR_AXI_GPIO_DMA_CHECK_DEVICE_ID       // DMA æµ‹è¯•æ§åˆ¶
-#define GPIO_CAMERA_PWDN            XPAR_CAMERA_PWDN_DEVICE_ID              // SC035HGS ä¼‘çœ æ§åˆ¶ï¼ˆæ­£å¸¸å·¥ä½œéœ€è®¾ç½®ä¸ºä½ç”µå¹³ï¼‰
-#define GPIO_CAMERA_VSYNC           XPAR_CAMERA_VSYNC_DEVICE_ID             // SC035HGS DVP è¾“å‡ºåœºåŒæ­¥ä¿¡å·
-#define GPIO_CAMERA_XCLK_LOCKED     XPAR_XCLK_LOCKED_DEVICE_ID              // SC035HGS åƒç´ æ—¶é’Ÿè¾“å…¥é”å®š
-#define GPIO_ETH_PHY_RESET          XPAR_PHY_RESET_DEVICE_ID                // ETH å¤ä½ï¼ˆé«˜ç”µå¹³æœ‰æ•ˆï¼‰
-#define GPIO_AXIS_TRANSMIT_ENABLE   XPAR_AXIS_TRANSMIT_ENABLE_DEVICE_ID     // AXIS æ•°æ®è½¬æ¢ä½¿èƒ½ï¼ˆé«˜ç”µå¹³æœ‰æ•ˆï¼‰
-#define DMA_CAMERA_OUTPUT_TRANSMIT  XPAR_AXI_DMA_0_DEVICE_ID                // DMA
+extern volatile int dhcp_timoutcntr;
+err_t dhcp_start(struct netif *netif);
 
 extern volatile int TcpFastTmrFlag;
 extern volatile int TcpSlowTmrFlag;
+static struct netif server_netif;
+struct netif *echo_netif;
 
-uint8_t MAC_ETHERNET_ADDRESS[] = { 0x00, 0x0a, 0x35, 0x00, 0x01, 0x02 };
-struct netif server_netif;
+/* Ïà¹ØÍâÉè ID */
+#define DEVICE_IICS                 XPAR_I2CS_DEVICE_ID						// SC035HGS IIC ÅäÖÃ
+#define DEVICE_BUFW_FS				XPAR_BUFW_FS_DEVICE_ID
+#define DEVICE_BUFW_RSTN			XPAR_BUFW_RSTN_DEVICE_ID
+#define DEVICE_CAMERA_PWDN			XPAR_CAMERA_PWDN_DEVICE_ID
+#define DEVICE_CAMERA_HREF			XPAR_CAMERA_HREF_DEVICE_ID
+#define DEVICE_CAMERA_VSYNC			XPAR_CAMERA_VSYNC_DEVICE_ID
+#define DEVICE_XCLK_LOCKED			XPAR_XCLK_LOCKED_DEVICE_ID
+#define DEVICE_PHY_RETN				XPAR_PHY_RSTN_DEVICE_ID
 
-/* æ•°æ®ç¼“å†²åŒº */
-u32 FrameCachePtrReceiveIndex;                                              // æ¥æ”¶ç¼“å­˜ç´¢å¼•
-u32 FrameCachePtrTransmitIndex;                                             // å‘é€ç¼“å­˜ç´¢å¼•
-u32 FrameCachePtrLastReceiveIndex;                                          // ä¸Šä¸€ä¸ªæ¥æ”¶ç¼“å­˜ç´¢å¼•
-u32 FrameCachePtr[FRAME_CACHE_NUMS + 1];                                    // å¸§ç¼“å†²åŒºï¼ˆRAW, RAW...ã€RAW, RGBï¼‰
+extern XScuGic Intc;
+extern XAxiDma AxiDma;
 
-uint8_t EthTransmitCache[FRAME_CACHE_SIZE + 1];                             // TCP å‘é€ç¼“å†²åŒº
+extern u32 RxBufferPtrReceiveIndex;                                              // ½ÓÊÕ»º´æË÷Òı
+extern u32 RxBufferPtrTransmitIndex;                                             // ·¢ËÍ»º´æË÷Òı
+extern u32 RxBufferPtrLastReceiveIndex;                                          // ÉÏÒ»¸ö½ÓÊÕ»º´æË÷Òı
+extern u32 RxBufferPtr[RX_BUFFER_NUMS];                                    // Ö¡»º³åÇø£¨RAW, RAW...¡¢RAW, RGB£©
+extern u32 RxBufferFrameStartAddrPtr[RX_BUFFER_NUMS];
 
-/* å¤–è®¾å¥æŸ„ */
-XScuGic Intc;
-XAxiDma AxiDma;
+/* ÍâÉè¾ä±ú */
 camera_t camera;
-XGpio gpio_led;
-XGpio gpio_dma_check;
+XGpio gpio_bufw_fs;
+XGpio gpio_bufw_rstn;
 XGpio gpio_camera_pwdn;
 XGpio gpio_camera_xclk_locked;
 XGpio gpio_camera_vsync;
-XGpio gpio_eth_phy_rstn;
-XGpio gpio_axis_transmit_enable;
+XGpio gpio_camera_href;
+XGpio gpio_phy_rstn;
 
-void init_led();
-void set_led(uint8_t on);
-void init_dma_check();
-void set_dma_check(uint8_t on);
+s32 eth_init();
 void init_system();
 void init_camera();
 void init_axis_transmit();
-void init_eth_phy();
-void init_tcp();
 void set_axis_transmit(int start);
-void dma_rx_handler();
 void wait_camera_ready();
 
 int main(void)
 {
     init_system();
 
-    for(uint8_t i = 0; i < 5; i++)
-    {
-        set_led(LED_ON);
-        usleep(200 * 1000);
-        set_led(LED_OFF);
-        usleep(200 * 1000);
-    }
-    set_led(LED_ON);
+    u8 cnt = 0;
+    u8 data[FRAME_SIZE];
 
 	while(1)
 	{
-        #if TCP_TRANSMIT_ENABLE
-            if(TcpFastTmrFlag)
-            {
-                tcp_fasttmr();
-                TcpFastTmrFlag = 0;
-            }
-            if(TcpSlowTmrFlag)
-            {
-                tcp_slowtmr();
-                TcpSlowTmrFlag = 0;
-            }
-            xemacif_input(&server_netif);
-        #endif
+		if(TcpFastTmrFlag)
+		{
+			tcp_fasttmr();
+			TcpFastTmrFlag = 0;
+		}
+		if(TcpSlowTmrFlag)
+		{
+			tcp_slowtmr();
+			TcpSlowTmrFlag = 0;
+		}
+		xemacif_input(echo_netif);
 
-        if(FrameCachePtrTransmitIndex != FrameCachePtrLastReceiveIndex)
-        {
-            xil_printf("[INFO] Sending %d frames...\n", FrameCachePtrTransmitIndex);
-            // // å°† Bayer è½¬æ¢ä¸ºç°åº¦å›¾åƒ
-            // FrameCachePtrTransmitIndex = FrameCachePtrLastReceiveIndex;
-            // bayer2grayscale(ptr_converter((uint8_t*)FrameCachePtr[FrameCachePtrTransmitIndex], FRAME_WIDTH, FRAME_HEIGHT),
-            //     ptr_converter((uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], FRAME_WIDTH, FRAME_HEIGHT), FRAME_WIDTH, FRAME_HEIGHT);
-            
-            // // å‘é€å‰å¯¼å¸§
-            // char *image_front_frame = generate_image_front_frame(0, FRAME_CACHE_SIZE, FRAME_WIDTH, FRAME_HEIGHT, Format_Grayscalec8);
-            // tcp_client_send(image_front_frame, strlen(image_front_frame));
-            
-            // // å›¾ç‰‡æ•°æ®å‘é€
-            // memset(EthTransmitCache, '\n', sizeof(EthTransmitCache));
-            // memcpy(EthTransmitCache, (uint8_t*)FrameCachePtr[FRAME_CACHE_NUMS], sizeof(uint8_t) * FRAME_CACHE_SIZE);
-            // tcp_client_send(EthTransmitCache, sizeof(EthTransmitCache));
-        }
+		// for(int i = 0; i < FRAME_SIZE; i++)
+		// {
+		// 	data[i] = i + cnt;
+		// }
+		// cnt++;
+		// tcp_write(client, "image:0,14,4,4,24\n", 18, 1);
+		// tcp_write(client, data, 16, 1);
+
+//		if((client != NULL) && (RxBufferPtrTransmitIndex != RxBufferPtrLastReceiveIndex))
+//		{
+//			xil_printf("[INFO] Sending %d frame...\n", RxBufferPtrTransmitIndex);
+//
+//			            //memset(EthTransmitCache, '\n', sizeof(EthTransmitCache));
+//
+//			            // ½« Bayer ×ª»»Îª»Ò¶ÈÍ¼Ïñ
+//			            RxBufferPtrTransmitIndex = RxBufferPtrLastReceiveIndex;
+//						//bayer2grayscale(ptr_converter((u8*)RxBufferPtr[RxBufferPtrTransmitIndex], FRAME_WIDTH, FRAME_HEIGHT), &EthTransmitCache, FRAME_WIDTH, FRAME_HEIGHT);
+//
+//						// ·¢ËÍÇ°µ¼Ö¡
+//			//			char *image_front_frame = generate_image_front_frame(0, FRAME_SIZE, FRAME_WIDTH, FRAME_HEIGHT, Format_Grayscalec8);
+//			//			tcp_write(client, image_front_frame, strlen(image_front_frame), 1);
+//			            char *image_front_frame = generate_image_front_frame(0, 64, 8, 8, Format_Grayscalec8);
+//			            			tcp_write(client, image_front_frame, strlen(image_front_frame), 1);
+//
+//						// Í¼Æ¬Êı¾İ·¢ËÍ
+//						//tcp_write(client, EthTransmitCache, 65, 1);
+//		}
 	}
     cleanup_platform();
-	
+
     return 0;
 }
 
 
+err_t accept_callback(void *arg, struct tcp_pcb *newpcb, err_t err)
+{
+	if(!newpcb)
+	{
+		xil_printf("[ERROR] Failed to connect client\n");
+		return ERR_CONN;
+	}
+
+	client = newpcb;
+	xil_printf("[INFO] Success to connect client\n");
+
+	return ERR_OK;
+}
+
+
+s32 eth_init()
+{
+	ip_addr_t ipaddr, netmask, gw;
+
+	// ¸´Î» PHY Ğ¾Æ¬
+	Xil_Out32(0x41230000,3);
+
+	echo_netif = &server_netif;
+
+	// ³õÊ¼»¯Æ½Ì¨
+	init_platform();
+
+	// DHCP
+	ipaddr.addr = 0;
+	gw.addr = 0;
+	netmask.addr = 0;
+
+	// ³õÊ¼»¯ LWIP
+	lwip_init();
+
+	// Ìí¼ÓÍøÂç½Ó¿Ú
+	if(!xemac_add(echo_netif, &ipaddr, &netmask, &gw, mac_ethernet_address, PLATFORM_EMAC_BASEADDR))
+	{
+		xil_printf("[ERROR] Failed to add eth interface\n");
+		return XST_FAILURE;
+	}
+	netif_set_default(echo_netif);
+
+	// Ê¹ÄÜÖĞ¶Ï
+	platform_enable_interrupts();
+
+	// ÆôÓÃÍøÂç½Ó¿Ú
+	netif_set_up(echo_netif);
+
+	// ³õÊ¼»¯ IP µØÖ·
+	IP4_ADDR(&ipaddr,  ethernet_ip_address[0], ethernet_ip_address[1], ethernet_ip_address[2], ethernet_ip_address[3]);
+	IP4_ADDR(&netmask, ethernet_ip_mask[0], ethernet_ip_mask[1], ethernet_ip_mask[2], ethernet_ip_mask[3]);
+	IP4_ADDR(&gw, ethernet_gw_address[0], ethernet_gw_address[1], ethernet_gw_address[2], ethernet_gw_address[3]);
+
+	ipaddr.addr = echo_netif->ip_addr.addr;
+	gw.addr = echo_netif->gw.addr;
+	netmask.addr = echo_netif->netmask.addr;
+
+	// ´´½¨ TCP ·şÎñ
+	struct tcp_pcb *pcb = tcp_new_ip_type(IPADDR_TYPE_ANY);
+	if(!pcb)
+	{
+		xil_printf("[ERROR] Failed to create tcp server pcb, out of memory\n");
+		return XST_FAILURE;
+	}
+
+	// °ó¶¨¶Ë¿ÚºÅ
+	if(tcp_bind(pcb, IP_ANY_TYPE, port) != ERR_OK)
+	{
+		xil_printf("[ERROR] Failed to bind port %d\n", port);
+		return XST_FAILURE;
+	}
+	tcp_arg(pcb, NULL);
+
+	// ¼àÌıÁ´½Ó
+	pcb = tcp_listen(pcb);
+	if(!pcb)
+	{
+		xil_printf("[ERROR] Out of memory while tcp_listen\n");
+		return XST_FAILURE;
+	}
+
+	// Á´½Ó»Øµ÷º¯Êı
+	tcp_accept(pcb, accept_callback);
+
+	xil_printf("[INFO] Success to init lwip server\n");
+	return XST_SUCCESS;
+}
+
+
 /**
- * @brief:ç³»ç»Ÿåˆå§‹åŒ–å‡½æ•°
+ * @brief:ÏµÍ³³õÊ¼»¯º¯Êı
  * @return *
  */
 void init_system()
 {
-	// åˆå§‹åŒ–å¹³å°
-	init_platform();
-    // åˆå§‹åŒ– LED
-    init_led();
-    // åˆå§‹åŒ– AXIS æ•°æ®è½¬æ¢æ¨¡å—
-    init_axis_transmit();
-    // åˆå§‹åŒ–æ‘„åƒå¤´
-    init_camera();
+//    // ³õÊ¼»¯ AXIS Êı¾İ×ª»»Ä£¿é
+//    init_axis_transmit();
+//
+//    // ³õÊ¼»¯ÉãÏñÍ·
+//    init_camera();
+//
+//    /* DMA */
+//    DMA_Intr_Init(&AxiDma, 0);
+//	Init_Intr_System(&Intc);
+//	Setup_Intr_Exception(&Intc);
+//	DMA_Setup_Intr_System(&Intc, &AxiDma, RX_INTR_ID);
+//	DMA_Intr_Enable(&Intc, &AxiDma);
+//
+//    /* Ö¡»º³åÇø */
+//	RxBufferPtrReceiveIndex  = 0;
+//	RxBufferPtrLastReceiveIndex = 0;
+//	RxBufferPtrTransmitIndex = 0;
+//    for(int i = 0; i < RX_BUFFER_NUMS + 1; i++)
+//    {
+//    	RxBufferFrameStartAddrPtr[i] = 0;
+//    	RxBufferPtr[i] = RX_BUFFER_BASE + RX_BUFFER_SIZE * i;
+//    }
+//
+//    // ½áÊø BUFW ¸´Î»
+//    XGpio_DiscreteWrite(&gpio_bufw_rstn, 1, 0x1);
+//
+//    // µÈ´ıÉãÏñÍ·Êä³öÎÈ¶¨
+//	wait_camera_ready();
+//
+//    // Ê¹ÄÜ AXIS Ä£¿é
+//    set_axis_transmit(1);
+//
+//    // Æô¶¯Ê×´Î DMA ´«Êä
+//    XAxiDma_SimpleTransfer(&AxiDma, (u32)RxBufferPtr[RxBufferPtrReceiveIndex], (u32)(RX_BUFFER_SIZE), XAXIDMA_DEVICE_TO_DMA);
 
-    /* ç½‘å£ä¼ è¾“ */
-    #if TCP_TRANSMIT_ENABLE
-        // åˆå§‹åŒ–ç½‘å¡
-        init_eth_phy();
-        // åˆå§‹åŒ– TCP è¿æ¥
-        init_tcp();
-    #endif
-
-    /* DMA */ 
-    DMA_Intr_Init(&AxiDma, 0);
-	Init_Intr_System(&Intc);
-	Setup_Intr_Exception(&Intc);
-	DMA_Setup_Intr_System(&Intc, &AxiDma, RX_INTR_ID);
-    DMA_Handler_Init(NULL, dma_rx_handler, NULL);
-	DMA_Intr_Enable(&Intc, &AxiDma);
-
-    /* å¸§ç¼“å†²åŒº */
-    FrameCachePtrReceiveIndex  = 0;
-    FrameCachePtrLastReceiveIndex = 0;
-    FrameCachePtrTransmitIndex = 0;
-    for(int i = 0; i < FRAME_CACHE_NUMS + 1; i++)
-    {
-        FrameCachePtr[i] = RX_BUFFER_BASE + FRAME_CACHE_NUMS * i;
-    }
-
-    /* DMA æµ‹è¯•*/
-    #if DMA_CHECK_ENABLE
-        init_dma_check();
-        set_dma_check(1);
-    #else
-        // ç­‰å¾…æ‘„åƒå¤´è¾“å‡ºç¨³å®š
-        wait_camera_ready();
-    #endif
-
-    // ä½¿èƒ½ AXIS æ¨¡å—
-    set_axis_transmit(AXIS_TRANSMIT_ENABLE);
-
-    // å¯åŠ¨é¦–æ¬¡ DMA ä¼ è¾“
-    XAxiDma_SimpleTransfer(&AxiDma, (u32)FrameCachePtr[FrameCachePtrReceiveIndex], (u32)(FRAME_CACHE_SIZE), XAXIDMA_DEVICE_TO_DMA);
+    // ³õÊ¼»¯ÍøÂç´«Êä
+	eth_init();
 }
 
 
 /**
- * @brief åˆå§‹åŒ– LED
- * @return *
-*/
-void init_led()
-{
-    XGpio_Initialize(&gpio_led, GPIO_LED);
-    XGpio_SetDataDirection(&gpio_led, 1, 0x0);
-    set_led(LED_OFF);
-}
-
-
-/**
- * @brief DMA æµ‹è¯•åˆå§‹åŒ–å‡½æ•°
- * @return *
-*/
-void init_dma_check()
-{
-    XGpio_Initialize(&gpio_dma_check, GPIO_DMA_CHECK);
-    XGpio_SetDataDirection(&gpio_dma_check, 1, 0x0);
-}
-
-
-/**
- * @brief DMA æµ‹è¯•æ§åˆ¶å‡½æ•°
- * @param on ä¸º true å¯åŠ¨æµ‹è¯•ï¼Œå¦åˆ™å…³é—­
- * @return *
-*/
-void set_dma_check(uint8_t on)
-{
-    if(on)
-    {
-        XGpio_DiscreteWrite(&gpio_dma_check, 1, 0x1);
-    }    
-    else
-    {
-        XGpio_DiscreteWrite(&gpio_dma_check, 1, 0x0);
-    }
-}
-
-
-/**
- * @brief è®¾ç½® LED çŠ¶æ€
- * @param on å»ºè®®ä½¿ç”¨ LED_ON/LED_OFF æ§åˆ¶
- * @return *
-*/
-void set_led(uint8_t on)
-{
-	if(on)
-	{
-        XGpio_DiscreteWrite(&gpio_led, 1, 0x1);
-	}
-    else
-    {
-        XGpio_DiscreteWrite(&gpio_led, 1, 0x0);
-    }
-}
-
-
-/**
- * @brief åˆå§‹åŒ–æ‘„åƒå¤´
+ * @brief ³õÊ¼»¯ÉãÏñÍ·
  * @return *
 */
 void init_camera()
 {
     xil_printf("[INFO] Start to init camera...\n");
 
-    // åˆå§‹åŒ–ä¼‘çœ è¾“å‡ºå¼•è„š
-    XGpio_Initialize(&gpio_camera_pwdn, GPIO_CAMERA_PWDN);
+    // ³õÊ¼»¯ĞİÃßÊä³öÒı½Å
+    XGpio_Initialize(&gpio_camera_pwdn, DEVICE_CAMERA_PWDN);
     XGpio_SetDataDirection(&gpio_camera_pwdn, 1, 0x0);
     XGpio_DiscreteWrite(&gpio_camera_pwdn, 1, 0x0);
-    // åˆå§‹åŒ–æ—¶é’Ÿè¾“å…¥é”å®šå¼•è„š
-    XGpio_Initialize(&gpio_camera_xclk_locked, GPIO_CAMERA_XCLK_LOCKED);
+    // ³õÊ¼»¯Ê±ÖÓÊäÈëËø¶¨Òı½Å
+    XGpio_Initialize(&gpio_camera_xclk_locked, DEVICE_XCLK_LOCKED);
 	XGpio_SetDataDirection(&gpio_camera_xclk_locked, 1, 0x1);
-    // ç­‰å¾…æ‘„åƒå¤´è¾“å…¥æ—¶é’Ÿé”å®š
+    // µÈ´ıÉãÏñÍ·ÊäÈëÊ±ÖÓËø¶¨
     while(XGpio_DiscreteRead(&gpio_camera_xclk_locked, 1) == 0);
-    // åˆå§‹åŒ–åœºä¿¡å·è¾“å…¥å¼•è„š
-    XGpio_Initialize(&gpio_camera_vsync, GPIO_CAMERA_VSYNC);
+    // ³õÊ¼»¯³¡ĞÅºÅÊäÈëÒı½Å
+    XGpio_Initialize(&gpio_camera_vsync, DEVICE_CAMERA_VSYNC);
 	XGpio_SetDataDirection(&gpio_camera_vsync, 1, 0x1);
-    // æ‹‰é«˜ PWDN å¼•è„šå¯ç”¨æ‘„åƒå¤´
+    // À­¸ß PWDN Òı½ÅÆôÓÃÉãÏñÍ·
     XGpio_DiscreteWrite(&gpio_camera_pwdn, 1, 0x1);
-    // æ‹‰é«˜ PWDN åè‡³å°‘ç­‰å¾… 4ms æ‰èƒ½è®¿é—®å¯„å­˜å™¨
+    // À­¸ß PWDN ºóÖÁÉÙµÈ´ı 4ms ²ÅÄÜ·ÃÎÊ¼Ä´æÆ÷
     usleep(20 * 1000);
-    
-    // åˆå§‹åŒ–æ‘„åƒå¤´å¯„å­˜å™¨
-    #if IIC_PS_ENABLE
-        camera.i2c_device_id = IIC_PS;
-    #else
-        camera.i2c_device_id = IICS;
-    #endif
+
+    // ³õÊ¼»¯ÉãÏñÍ·¼Ä´æÆ÷
+    camera.i2c_device_id = DEVICE_IICS;
     sc035hgs_init(&camera);
-    
+
     xil_printf("[SUCCESS] Init camera done\n");
 }
 
 
 /**
- * @brief åˆå§‹åŒ– AXIS æ•°æ®ä¼ è¾“æ¨¡å—
+ * @brief ³õÊ¼»¯ AXIS Êı¾İ´«ÊäÄ£¿é
  * @return *
 */
 void init_axis_transmit()
 {
-    XGpio_Initialize(&gpio_axis_transmit_enable, GPIO_AXIS_TRANSMIT_ENABLE);
-    XGpio_SetDataDirection(&gpio_axis_transmit_enable, 1, 0x0);
-    XGpio_DiscreteWrite(&gpio_axis_transmit_enable, 1, 0x0);
+	// ¸´Î»
+	XGpio_Initialize(&gpio_bufw_rstn, DEVICE_BUFW_RSTN);
+	XGpio_SetDataDirection(&gpio_bufw_rstn, 1, 0x0);
+	XGpio_DiscreteWrite(&gpio_bufw_rstn, 1, 0x0);
+
+	// ´«Êä¿ØÖÆ
+    XGpio_Initialize(&gpio_bufw_fs, DEVICE_BUFW_FS);
+    XGpio_SetDataDirection(&gpio_bufw_fs, 1, 0x0);
+    XGpio_DiscreteWrite(&gpio_bufw_fs, 1, 0x0);
 }
 
 
 /**
- * @brief åˆå§‹åŒ–ä»¥å¤ªç½‘ PHY èŠ¯ç‰‡
- * @return *
-*/
-void init_eth_phy()
-{
-    XGpio_Initialize(&gpio_eth_phy_rstn, GPIO_ETH_PHY_RESET);
-	XGpio_SetDataDirection(&gpio_eth_phy_rstn, 1, 0x0);
-    XGpio_DiscreteWrite(&gpio_eth_phy_rstn, 1, 0x0);
-    usleep(10 * 1000);
-    XGpio_DiscreteWrite(&gpio_eth_phy_rstn, 1, 0x1);
-}
-
-
-/**
- * @brief ä¸ºç½‘å¡ç»‘å®š IP åœ°å€
- * @param ip    IP åœ°å€
- * @param mask  é»˜è®¤æ©ç 
- * @param gw    é»˜è®¤ç½‘å…³
- * @return *
-*/
-static void assign_default_ip(ip_addr_t *ip, ip_addr_t *mask, ip_addr_t *gw)
-{
-	int err;
-
-	xil_printf("[INFO] Configuring default IP %s\r\n", ip);
-
-	err = inet_aton(DEFAULT_IP_ADDRESS, ip);
-	if (!err)
-    {
-        xil_printf("[ERROR] Invalid default IP address: %d\r\n", err);
-    }
-		
-
-	err = inet_aton(DEFAULT_IP_MASK, mask);
-	if (!err)
-    {
-        xil_printf("[ERROR] Invalid default IP MASK: %d\r\n", err);
-    }
-		
-	err = inet_aton(DEFAULT_GW_ADDRESS, gw);
-	if (!err)
-    {
-        xil_printf("[ERROR] Invalid default gateway address: %d\r\n", err);
-    }
-}
-
-
-/**
- * @brief åˆå§‹åŒ– TCP
- * @return *
-*/
-void init_tcp()
-{
-    // åˆå§‹åŒ– LWIP
-	lwip_init();
-    // æ·»åŠ ç½‘å¡æ¥å£è‡³ç½‘ç»œåˆ—è¡¨
-	if(!xemac_add(&server_netif, NULL, NULL, NULL, MAC_ETHERNET_ADDRESS, PLATFORM_EMAC_BASEADDR)) 
-    {
-		xil_printf("Error adding N/W interface\r\n"); return;
-	}
-    // è®¾ç½®é»˜è®¤ç½‘å¡
-	netif_set_default(&server_netif);
-    // ä½¿èƒ½ä¸­æ–­
-	platform_enable_interrupts();
-    // å¯ç”¨ç½‘å¡
-	netif_set_up(&server_netif);
-    // è®¾ç½®ç½‘å¡ IP
-	assign_default_ip(&(server_netif.ip_addr), &(server_netif.netmask), &(server_netif.gw));
-	// åˆå§‹åŒ–å®¢æˆ·ç«¯
-    tcp_client_init();
-}
-
-
-/**
- * @brief ä½¿èƒ½ AXIS æ•°æ®ä¼ è¾“
+ * @brief Ê¹ÄÜ AXIS Êı¾İ´«Êä
  * @param start AXIS_TRANSMIT_ENABLE/AXIS_TRANSMIT_DISABLE
  * @return *
 */
@@ -391,38 +324,17 @@ void set_axis_transmit(int start)
 {
     if(start)
     {
-        XGpio_DiscreteWrite(&gpio_axis_transmit_enable, 1, 0x1);
+        XGpio_DiscreteWrite(&gpio_bufw_fs, 1, 0x1);
     }
     else
     {
-        XGpio_DiscreteWrite(&gpio_axis_transmit_enable, 1, 0x0);
+        XGpio_DiscreteWrite(&gpio_bufw_fs, 1, 0x0);
     }
 }
 
 
 /**
- * @brief DMA æ¥æ”¶ä¸­æ–­å‡½æ•°
- * @return *
-*/
-void dma_rx_handler()
-{
-    xil_printf("[INFO] DMA receive interrupt\n");
-    // ç¡®ä¿æ•°æ®å‡åœ¨ DDR ä¸­
-    Xil_DCacheInvalidateRange((u32)FrameCachePtr[FrameCachePtrReceiveIndex], FRAME_CACHE_SIZE);
-    // æ›´æ–°å¸§ç¼“å†²åŒºç´¢å¼•
-    FrameCachePtrLastReceiveIndex = FrameCachePtrReceiveIndex;
-    FrameCachePtrReceiveIndex = (FrameCachePtrReceiveIndex + 1) % FRAME_CACHE_NUMS;
-    if(FrameCachePtrReceiveIndex == FrameCachePtrTransmitIndex)
-    {
-        FrameCachePtrReceiveIndex = (FrameCachePtrTransmitIndex + 1) % FRAME_CACHE_NUMS;
-    }
-    // å¯åŠ¨ä¸‹ä¸€æ¬¡ DMA ä¼ è¾“
-    XAxiDma_SimpleTransfer(&AxiDma, (u32)FrameCachePtr[FrameCachePtrReceiveIndex], (u32)(FRAME_CACHE_SIZE), XAXIDMA_DEVICE_TO_DMA);
-}
-
-
-/**
- * @brief ç­‰å¾…æ‘„åƒå¤´å‡†å¤‡å¥½
+ * @brief µÈ´ıÉãÏñÍ·×¼±¸ºÃ
  * @return *
 */
 void wait_camera_ready()
@@ -430,7 +342,7 @@ void wait_camera_ready()
     uint16_t frame_count = 0;
     while(frame_count < CAMERA_IGNORE_FRAME_NUMS)
     {
-        xil_printf("[INFO] Camera output %u frame\n", frame_count);
+        xil_printf("[INFO] Ignore camera output %u/%u frame, \n", frame_count, CAMERA_IGNORE_FRAME_NUMS);
         while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x0);
         while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x1);
         frame_count++;

@@ -1,141 +1,32 @@
-/*
- * @Author:         Redns
- * @Date: 	2023-05-15 21:10:11
- * @LastEditTime: 	2023-12-06 15:49:47
- * @Description: 
- */
-/*******************************MILIANKE*******************************
-*Company : MiLianKe Electronic Technology Co., Ltd.
-*WebSite:https://www.milianke.com
-*TechWeb:https://www.uisrc.com
-*tmall-shop:https://milianke.tmall.com
-*jd-shop:https://milianke.jd.com
-*taobao-shop1: https://milianke.taobao.com
-*Create Date: 2021/10/15
-*File Name:dma_intr.c
-*Description:
-*axi dma test
-*The reference demo provided by Milianke is only used for learning.
-*We cannot ensure that the demo itself is free of bugs, so users
-*should be responsible for the technical problems and consequences
-*caused by the use of their own products.
-*Copyright: Copyright (c) MiLianKe
-*All rights reserved.
-*Revision: 1.0
-*********************************************************************/
-
 #include "dma_intr.h"
 
-volatile int RX_success;
+volatile XAxiDma AxiDma;
 
-void (*tx_interrupt_handler) ();
-void (*rx_interrupt_handler) ();
-void (*err_handler) ();
+volatile u32 RxBufferReceiveCount;
+volatile u32 RxBufferPtrReceiveIndex;
+volatile u32 RxBufferPtrTransmitIndex;
+volatile u32 RxBufferPtrLastReceiveIndex;
+volatile u32 RxBufferPtr[RX_BUFFER_NUMS];
+volatile u32 RxBufferFrameStartAddrPtr[RX_BUFFER_NUMS];
 
-/*****************************************************************************/
 /**
-*
-* This function disables the interrupts for DMA engine.
-*
-* @param	IntcInstancePtr is the pointer to the INTC component instance
-* @param	TxIntrId is interrupt ID associated w/ DMA TX channel
-* @param	RxIntrId is interrupt ID associated w/ DMA RX channel
-*
-* @return	None.
-*
-* @note		None.
-*
-******************************************************************************/
- void DMA_DisableIntrSystem(XScuGic * IntcInstancePtr, u16 RxIntrId)
+ * @brief
+ * */
+void DMA_DisableIntrSystem(XScuGic * IntcInstancePtr, u16 RxIntrId)
 {
-#ifdef XPAR_INTC_0_DEVICE_ID
-	/* Disconnect the interrupts for the DMA TX and RX channels */
-	XIntc_Disconnect(IntcInstancePtr, TxIntrId);
-	XIntc_Disconnect(IntcInstancePtr, RxIntrId);
-#else
-	//XScuGic_Disconnect(IntcInstancePtr, TxIntrId);
-	XScuGic_Disconnect(IntcInstancePtr, RxIntrId);
-#endif
+	#ifdef XPAR_INTC_0_DEVICE_ID
+		XIntc_Disconnect(IntcInstancePtr, TxIntrId);
+		XIntc_Disconnect(IntcInstancePtr, RxIntrId);
+	#else
+		XScuGic_Disconnect(IntcInstancePtr, RxIntrId);
+	#endif
 }
-/*****************************************************************************/
-/*
-*
-* This is the DMA TX Interrupt handler function.
-*
-* It gets the interrupt status from the hardware, acknowledges it, and if any
-* error happens, it resets the hardware. Otherwise, if a completion interrupt
-* is present, then sets the TxDone.flag
-*
-* @param	Callback is a pointer to TX channel of the DMA engine.
-*
-* @return	None.
-*
-* @note		None.
-*
-******************************************************************************/
-static void DMA_TxIntrHandler(void *Callback)
-{
 
-	u32 IrqStatus;
-	int TimeOut;
-	XAxiDma *AxiDmaInst = (XAxiDma *)Callback;
-
-	/* Read pending interrupts */
-	IrqStatus = XAxiDma_IntrGetIrq(AxiDmaInst, XAXIDMA_DMA_TO_DEVICE);
-
-	/* Acknowledge pending interrupts */
-
-
-	XAxiDma_IntrAckIrq(AxiDmaInst, IrqStatus, XAXIDMA_DMA_TO_DEVICE);
-
-	/*
-	 * If no interrupt is asserted, we do not do anything
-	 */
-	if (!(IrqStatus & XAXIDMA_IRQ_ALL_MASK)) {
-
-		return;
-	}
-
-	/*
-	 * If error interrupt is asserted, raise error flag, reset the
-	 * hardware to recover from the error, and return with no further
-	 * processing.
-	 */
-	if ((IrqStatus & XAXIDMA_IRQ_ERROR_MASK)) {
-
-		err_handler();
-
-		/*
-		 * Reset should never fail for transmit channel
-		 */
-		XAxiDma_Reset(AxiDmaInst);
-
-		TimeOut = RESET_TIMEOUT_COUNTER;
-
-		while (TimeOut) {
-			if (XAxiDma_ResetIsDone(AxiDmaInst)) {
-				break;
-			}
-
-			TimeOut -= 1;
-		}
-
-		return;
-	}
-
-	/*
-	 * If Completion interrupt is asserted, then set the TxDone flag
-	 */
-	if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
-        tx_interrupt_handler();
-	}
-}
 
 /*****************************************************************************/
 /*
 *
 * This is the DMA RX interrupt handler function
-*
 * It gets the interrupt status from the hardware, acknowledges it, and if any
 * error happens, it resets the hardware. Otherwise, if a completion interrupt
 * is present, then it sets the RxDone flag.
@@ -173,7 +64,7 @@ static void DMA_RxIntrHandler(void *Callback)
 	 */
 	if ((IrqStatus & XAXIDMA_IRQ_ERROR_MASK)) {
 
-		err_handler();
+		// TODO err_handler();
 
 		/* Reset could fail and hang
 		 * NEED a way to handle this or do not call it??
@@ -186,7 +77,6 @@ static void DMA_RxIntrHandler(void *Callback)
 			if(XAxiDma_ResetIsDone(AxiDmaInst)) {
 				break;
 			}
-
 			TimeOut -= 1;
 		}
 
@@ -196,9 +86,33 @@ static void DMA_RxIntrHandler(void *Callback)
 	/*
 	 * If completion interrupt is asserted, then set RxDone flag
 	 */
-	if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK)) {
-		RX_success++;
-        rx_interrupt_handler();
+	if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK))
+	{
+		// 确保数据均在 DDR 中
+		Xil_DCacheInvalidateRange(RxBufferPtr[RxBufferPtrReceiveIndex], RX_BUFFER_SIZE);
+
+		// 设置帧起始地址
+		RxBufferReceiveCount++;
+		u32 surplusFrameSize = (RX_BUFFER_SIZE * RxBufferReceiveCount) % FRAME_SIZE;
+		if(surplusFrameSize <= RX_BUFFER_SIZE - FRAME_SIZE)
+		{
+			RxBufferFrameStartAddrPtr[RxBufferPtrReceiveIndex] = RX_BUFFER_SIZE - (surplusFrameSize + FRAME_SIZE);
+		}
+		else
+		{
+			RxBufferFrameStartAddrPtr[RxBufferPtrReceiveIndex] = RX_BUFFER_INVALID;
+		}
+
+		// 更新帧缓冲区索引
+		RxBufferPtrLastReceiveIndex = RxBufferPtrReceiveIndex;
+		RxBufferPtrReceiveIndex = (RxBufferPtrReceiveIndex + 1) % RX_BUFFER_NUMS;
+		if(RxBufferPtrReceiveIndex == RxBufferPtrTransmitIndex)
+		{
+			RxBufferPtrReceiveIndex = (RxBufferPtrTransmitIndex + 1) % RX_BUFFER_NUMS;
+		}
+
+		// 启动下一次 DMA 传输
+		XAxiDma_SimpleTransfer(&AxiDma, RxBufferPtr[RxBufferPtrReceiveIndex], RX_BUFFER_SIZE, XAXIDMA_DEVICE_TO_DMA);
 	}
 }
 
@@ -223,7 +137,6 @@ static void DMA_RxIntrHandler(void *Callback)
 int DMA_Setup_Intr_System(XScuGic * IntcInstancePtr,XAxiDma * AxiDmaPtr, u16 RxIntrId)
 {
 	int Status;
-	//XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA0, 0x3);
 
 	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
 	/*
@@ -231,13 +144,6 @@ int DMA_Setup_Intr_System(XScuGic * IntcInstancePtr,XAxiDma * AxiDmaPtr, u16 RxI
 	 * interrupt for the device occurs, the handler defined above performs
 	 * the specific interrupt processing for the device.
 	 */
-	//Status = XScuGic_Connect(IntcInstancePtr, TxIntrId,
-	//			(Xil_InterruptHandler)DMA_TxIntrHandler,
-	//			AxiDmaPtr);
-	//if (Status != XST_SUCCESS) {
-	//	return Status;
-	//}
-
 	Status = XScuGic_Connect(IntcInstancePtr, RxIntrId,
 				(Xil_InterruptHandler)DMA_RxIntrHandler,
 				AxiDmaPtr);
@@ -245,7 +151,6 @@ int DMA_Setup_Intr_System(XScuGic * IntcInstancePtr,XAxiDma * AxiDmaPtr, u16 RxI
 		return Status;
 	}
 
-	//XScuGic_Enable(IntcInstancePtr, TxIntrId);
 	XScuGic_Enable(IntcInstancePtr, RxIntrId);
 	return XST_SUCCESS;
 }
@@ -256,17 +161,10 @@ int DMA_Intr_Enable(XScuGic * IntcInstancePtr,XAxiDma *DMAPtr)
 {
 
 	/* Disable all interrupts before setup */
-
-	//XAxiDma_IntrDisable(DMAPtr, XAXIDMA_IRQ_ALL_MASK,
-	//					XAXIDMA_DMA_TO_DEVICE);
-
 	XAxiDma_IntrDisable(DMAPtr, XAXIDMA_IRQ_ALL_MASK,
 				XAXIDMA_DEVICE_TO_DMA);
 
 	/* Enable all interrupts */
-	//XAxiDma_IntrEnable(DMAPtr, XAXIDMA_IRQ_ALL_MASK,
-	//						XAXIDMA_DMA_TO_DEVICE);
-
 	XAxiDma_IntrEnable(DMAPtr, XAXIDMA_IRQ_ALL_MASK,
 							XAXIDMA_DEVICE_TO_DMA);
 	return XST_SUCCESS;
@@ -299,12 +197,4 @@ int DMA_Intr_Init(XAxiDma *DMAPtr, u32 DeviceId)
 	}
 	return XST_SUCCESS;
 
-}
-
-
-void DMA_Handler_Init(const void *tx_interrupt_handler, const void *rx_interrupt_handler, const void *err_handler)
-{
-    tx_interrupt_handler = tx_interrupt_handler;
-    rx_interrupt_handler = rx_interrupt_handler;
-    err_handler = err_handler;
 }
