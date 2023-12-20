@@ -14,6 +14,15 @@
         "type_traits": "c",
         "xiicps.h": "c",
         "delegate.h": "c",
-        "sleep.h": "c"
+        "sleep.h": "c",
+        "open_image.h": "c",
+        "stdio.h": "c",
+        "dma_intr.h": "c",
+        "string.h": "c",
+        "crtdefs.h": "c",
+        "xil_types.h": "c",
+        "bspconfig.h": "c",
+        "global.h": "c",
+        "vofa_plus.h": "c"
     }
 }

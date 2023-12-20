@@ -9,10 +9,7 @@
 #include "sleep.h"
 #include "global.h"
 
-#define DMA_DEV_ID			XPAR_AXIDMA_0_DEVICE_ID
-#define RX_INTR_ID			XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR
-
-// ³¬Ê±¸´Î»Ê±¼ä
+// ï¿½ï¿½Ê±ï¿½ï¿½Î»Ê±ï¿½ï¿½
 #define RESET_TIMEOUT_COUNTER	10000
 
 void DMA_DisableIntrSystem(XScuGic * IntcInstancePtr, u16 RxIntrId);

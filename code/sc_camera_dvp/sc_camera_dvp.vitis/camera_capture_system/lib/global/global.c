@@ -1,10 +1,13 @@
 #include "global.h"
 
-/* DMA 相关全局变量 */
-u32 RxBufferReceiveCount;
-u32 RxBufferPtrReceiveIndex;
-u32 RxBufferPtrTransmitIndex;
-u32 RxBufferPtrLastReceiveIndex;
-u32 RxBufferPtr[RX_BUFFER_NUMS];
-u32 RxBufferFrameStartAddrPtr[RX_BUFFER_NUMS];
-u32 EthTransmitCachePtr;
+
+/************************************** DMA 传输缓冲区 **************************************/
+// TODO https://image.krins.cloud/202312202000235.jpg
+volatile u32 RxCount;
+volatile u32 RxIndex;
+volatile u32 TxIndex;
+volatile u32 RxLastIndex;
+volatile u32 RxBuffer[RX_BUFFER_NUMS][RX_BUFFER_SIZE];
+volatile u32 RxBufferFrameStart[RX_BUFFER_NUMS];
+volatile u32 EthBuffer[RX_BUFFER_SIZE];
+/******************************************************************************************/
