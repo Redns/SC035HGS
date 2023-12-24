@@ -11,6 +11,7 @@ extern u32 RxBufferPtr[RX_BUFFER_NUMS];
 extern u32 RxBufferFrameAddr[RX_BUFFER_NUMS];
 extern u32 EthTxBufferPtr;
 
+extern SemaphoreHandle_t FrameBufferSyncSemaphore;
 
 /**
  * @brief DMA 接收中断处理函数
@@ -19,7 +20,7 @@ extern u32 EthTxBufferPtr;
 */
 static void DMA_Rx_IntcHandler(void* Callback)
 {
-	XAxiDma *AxiDmaInst = (XAxiDma *)Callback;
+	XAxiDma *AxiDmaInst = (XAxiDma*)Callback;
 
 	// 检查中断是否触发
 	u32 IrqStatus = XAxiDma_IntrGetIrq(AxiDmaInst, XAXIDMA_DEVICE_TO_DMA);
@@ -50,6 +51,8 @@ static void DMA_Rx_IntcHandler(void* Callback)
 	{
 		RxCount++;
 
+		xil_printf("[INFO] RxCount: %d\n", RxCount);
+
 		// 检查当前缓冲区是否包含完整帧图像
 		u32 surplusFrameSize = (RX_BUFFER_SIZE * RxCount) % FRAME_SIZE;
 		if(surplusFrameSize <= RX_BUFFER_SIZE - FRAME_SIZE)
@@ -63,12 +66,16 @@ static void DMA_Rx_IntcHandler(void* Callback)
 		
 		// 更新缓冲区索引
 		RxLastIndex = RxIndex;
-		do {
+		do 
+		{
 			RxIndex = (RxIndex + 1) % RX_BUFFER_NUMS;
 		} while(RxIndex == TxIndex);
 
 		// 启动下一次接收
 		XAxiDma_SimpleTransfer(&AxiDma, (u32)RxBufferPtr[RxIndex], RX_BUFFER_SIZE, XAXIDMA_DEVICE_TO_DMA);
+
+		// 释放帧同步信号量
+		xSemaphoreGiveFromISR(FrameBufferSyncSemaphore, NULL);
 	}
 }
 
@@ -106,7 +113,7 @@ s32 XDMA_Intr_Init(XScuGic* IntcInstancePtr, XAxiDma* DmaInstancePtr, u16 RxIntr
 */
 void XDMA_Intr_Enable(XAxiDma* InstancePtr)
 {
-	XAxiDma_IntrDisable(InstancePtr, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
+	XAxiDma_IntrDisable(InstancePtr, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DMA_TO_DEVICE);
 	XAxiDma_IntrEnable(InstancePtr, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
 }
 

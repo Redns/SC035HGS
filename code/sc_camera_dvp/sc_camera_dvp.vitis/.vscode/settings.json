@@ -24,6 +24,8 @@
         "bspconfig.h": "c",
         "global.h": "c",
         "vofa_plus.h": "c",
-        "xadapter.h": "c"
+        "xadapter.h": "c",
+        "sockets.h": "c",
+        "lwipopts.h": "c"
     }
 }

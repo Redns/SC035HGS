@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include "FreeRTOS.h"
 #include "xparameters.h"
 #include "netif/xadapter.h"
 #include "lwip/sockets.h"
 #include "netif/xadapter.h"
 #include "lwipopts.h"
 #include "xil_printf.h"
-#include "FreeRTOS.h"
 #include "xil_printf.h"
 #include "sc035hgs.h"
 #include "dma_intr.h"
@@ -61,6 +61,8 @@ extern s32 RxLastIndex;
 extern u32 RxBufferPtr[RX_BUFFER_NUMS];
 extern u32 RxBufferFrameAddr[RX_BUFFER_NUMS];
 extern u32 EthTxBufferPtr;
+
+extern SemaphoreHandle_t FrameBufferSyncSemaphore;
 
 s32 client;
 struct netif server_netif;
@@ -154,21 +156,68 @@ void set_axisbufw_transmit(int enable)
 */
 void upper_communicate_thread(void *p)
 {
+	BaseType_t err;
+
 	while(1)
 	{
-		if(TxIndex != RxLastIndex)
+		if(FrameBufferSyncSemaphore == NULL)
 		{
-			TxIndex = RxLastIndex;
-			if(RxBufferFrameAddr[TxIndex] != RX_BUFFER_INVALID_ADDR)
-			{
-				memcpy((u8*)EthTxBufferPtr, "image:0,307200,640,480,24\n", 26);
-				memcpy((u8*)(EthTxBufferPtr + 26), (u8*)(RxBufferPtr[TxIndex] + RxBufferFrameAddr[TxIndex]), FRAME_SIZE);
-				memcpy((u8*)(EthTxBufferPtr + 26 + FRAME_SIZE), (u8*)"\n", 1);
-				write(client, (u8*)EthTxBufferPtr, 26 + FRAME_SIZE + 1);
-			}
+			continue;
 		}
+
+		// 等待帧同步信号量释放
+		err = xSemaphoreTakeFromISR(FrameBufferSyncSemaphore, NULL);
+		if(err != pdTRUE)
+		{
+			continue;
+		}
+
+		/* 更新缓冲区索引 */
+		TxIndex = RxLastIndex;
+		if(RxBufferFrameAddr[TxIndex] == RX_BUFFER_INVALID_ADDR)
+		{
+			continue;
+		}
+		Xil_DCacheInvalidateRange(RxBufferPtr[TxIndex], RX_BUFFER_SIZE);
+		xil_printf("[INFO] Sending frame %d to upper\n", TxIndex);
+
+		/* 发送帧数据 */
+		write(client, "image:0,307200,640,480,24\n", 26);
+		write(client, (u8*)(RxBufferPtr[TxIndex] + RxBufferFrameAddr[TxIndex]), FRAME_SIZE);
+		write(client, "\n", 1);
 	}
 	close(client);
+
+	vTaskDelete(NULL);
+}
+
+/**
+ * @brief 信号量测试线程
+ * @param p
+ * @return *
+*/
+void semaphore_test_thread(void *p)
+{
+	BaseType_t err;
+	
+	while(1)
+	{
+		// 等待帧同步信号量释放
+		err = xSemaphoreTakeFromISR(FrameBufferSyncSemaphore, NULL);
+		if(err != pdTRUE)
+		{
+			continue;
+		}
+
+		/* 更新缓冲区索引 */
+		TxIndex = RxLastIndex;
+		if(RxBufferFrameAddr[TxIndex] == RX_BUFFER_INVALID_ADDR)
+		{
+			continue;
+		}
+		xil_printf("[ERROR] Wakeup semaphore thread, current TxIndex is  %d\n", TxIndex);
+	}
+
 	vTaskDelete(NULL);
 }
 
@@ -176,7 +225,7 @@ void upper_communicate_thread(void *p)
  * @brief 上位机连接线程
  * @return *
 */
-void upper_connect_thread()
+void upper_connect_thread(void *p)
 {
 	struct sockaddr_in address, remote;
 
@@ -212,7 +261,7 @@ void upper_connect_thread()
         client = lwip_accept(socket, (struct sockaddr *)&remote, (socklen_t *)&size);
 		if (client > 0)
         {
-			sys_thread_new("upper_transmit_thread", upper_communicate_thread, (void*)&client, THREAD_STACKSIZE, THREAD_PRIORITY);
+			sys_thread_new("upper_transmit_thread", upper_communicate_thread, (void*)&client, THREAD_STACKSIZE, THREAD_PRIORITY); break;
 		}
 	}
 	vTaskSuspend(NULL);
@@ -227,6 +276,8 @@ void upper_connect_thread()
 void network_thread(void *p)
 {
 	ip_addr_t ipaddr, netmask, gw;
+
+	lwip_init();
 
 	// 初始化 IP & MASK & GATWALL
 	IP4_ADDR(&ipaddr, 192, 168, 1, 10);
@@ -263,6 +314,14 @@ void system_init()
 	// SC035HGS
 	camera_init();
 
+	// 创建二值信号量用以同步中断
+	FrameBufferSyncSemaphore = xSemaphoreCreateBinary();
+	if(FrameBufferSyncSemaphore == NULL)
+	{
+		xil_printf("[ERROR] Failed to create FrameBufferSyncSemaphore\n");
+		return;
+	}
+
 	/* DMA */
     // https://github.com/fuseon/zynq_freertos_interrupt/blob/master/freertos_hello_world.c
 	XDMA_Init(&AxiDma, DEVICE_DMA);
@@ -284,6 +343,14 @@ void system_init()
 	// 结束 BUFW 复位
 	XGpio_DiscreteWrite(&gpio_bufw_rstn, 1, 0x1);
 
+	// 等待上位机连接
+	xil_printf("[INFO] Waiting for upper...\n");
+	while(client <= 0)
+	{
+
+	}
+	xil_printf("[INFO] Upper is connected, ready to start DMA\n");
+	
 	// 使能 AXISBUFW 数据流转模块
 	while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x0);
 	set_axisbufw_transmit(1);
@@ -292,19 +359,22 @@ void system_init()
 	XAxiDma_SimpleTransfer(&AxiDma, (u32)RxBufferPtr[RxIndex], RX_BUFFER_SIZE, XAXIDMA_DEVICE_TO_DMA);
 }
 
+
+void system_init_thread(void *p)
+{
+	system_init();
+	vTaskDelete(NULL);
+}
+
+
 /**
  * @brief 主线程
  * @return
  */
 void main_thread(void *p)
 {
-	// 系统初始化
-	system_init();
+	sys_thread_new("network_thread", network_thread, NULL, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
+	sys_thread_new("system_init_thread", system_init_thread, NULL, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
 
-	lwip_init();
-
-	// 网络线程
-    sys_thread_new("network_thread", network_thread, NULL, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
-
-    vTaskDelete(NULL);
+	vTaskDelete(NULL);
 }
