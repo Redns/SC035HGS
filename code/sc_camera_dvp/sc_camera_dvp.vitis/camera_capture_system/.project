@@ -3,7 +3,7 @@
 	<name>camera_capture_system</name>
 	<comment>Created by Vitis v2021.2</comment>
 	<projects>
-		<project>system_wrapper_1</project>
+		<project>system_wrapper_freertos</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

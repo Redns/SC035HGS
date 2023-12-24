@@ -1,0 +1,12 @@
+vhdl xil_defaultlib  \
+"../../../bd/system/ip/system_rst_ps7_0_50M_0/sim/system_rst_ps7_0_50M_0.vhd" \
+"../../../bd/system/ip/system_axi_dma_0_0/sim/system_axi_dma_0_0.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_10/sim/system_axi_gpio_0_10.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_11/sim/system_axi_gpio_0_11.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_13/sim/system_axi_gpio_0_13.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_14/sim/system_axi_gpio_0_14.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_15/sim/system_axi_gpio_0_15.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_16/sim/system_axi_gpio_0_16.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_17/sim/system_axi_gpio_0_17.vhd" \
+
+nosort

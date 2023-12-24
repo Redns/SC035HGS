@@ -8,7 +8,9 @@
                 "${workspaceFolder}/bayer2grayscale/delegate",
                 "${workspaceFolder}/bayer2grayscale/open_image",
                 "${workspaceFolder}/bayer2grayscale/vofa",
-                "${workspaceFolder}/camera_capture_system/**"
+                "${workspaceFolder}/camera_capture_system/**",
+                "${workspaceFolder}/system_wrapper_1/ps7_cortexa9_0/freertos10_xilinx_ps7_cortexa9_0/bsp/ps7_cortexa9_0/include",
+                "${workspaceFolder}/system_wrapper_1/zynq_fsbl/zynq_fsbl_bsp/ps7_cortexa9_0/libsrc/standalone_v7_6/src/arm/cortexa9/armcc"
             ],
             "defines": [
                 "_DEBUG",

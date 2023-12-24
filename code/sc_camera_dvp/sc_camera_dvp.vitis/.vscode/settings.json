@@ -23,6 +23,7 @@
         "xil_types.h": "c",
         "bspconfig.h": "c",
         "global.h": "c",
-        "vofa_plus.h": "c"
+        "vofa_plus.h": "c",
+        "xadapter.h": "c"
     }
 }

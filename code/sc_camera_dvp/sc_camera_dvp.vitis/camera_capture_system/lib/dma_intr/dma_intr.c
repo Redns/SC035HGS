@@ -2,200 +2,147 @@
 
 XAxiDma AxiDma;
 
-extern u32 RxBufferReceiveCount;
-extern u32 RxBufferPtrReceiveIndex;
-extern u32 RxBufferPtrTransmitIndex;
-extern u32 RxBufferPtrLastReceiveIndex;
+/* DMA */
+extern s32 RxCount;
+extern s32 RxIndex;
+extern s32 TxIndex;
+extern s32 RxLastIndex;
 extern u32 RxBufferPtr[RX_BUFFER_NUMS];
-extern u32 RxBufferFrameStartAddrPtr[RX_BUFFER_NUMS];
-extern u32 EthTransmitCachePtr;
+extern u32 RxBufferFrameAddr[RX_BUFFER_NUMS];
+extern u32 EthTxBufferPtr;
+
 
 /**
- * @brief
- * */
-void DMA_DisableIntrSystem(XScuGic * IntcInstancePtr, u16 RxIntrId)
+ * @brief DMA 接收中断处理函数
+ * @param Callback 
+ * @return *
+*/
+static void DMA_Rx_IntcHandler(void* Callback)
 {
-	#ifdef XPAR_INTC_0_DEVICE_ID
-		XIntc_Disconnect(IntcInstancePtr, TxIntrId);
-		XIntc_Disconnect(IntcInstancePtr, RxIntrId);
-	#else
-		XScuGic_Disconnect(IntcInstancePtr, RxIntrId);
-	#endif
-}
-
-
-/*****************************************************************************/
-/*
-*
-* This is the DMA RX interrupt handler function
-* It gets the interrupt status from the hardware, acknowledges it, and if any
-* error happens, it resets the hardware. Otherwise, if a completion interrupt
-* is present, then it sets the RxDone flag.
-*
-* @param	Callback is a pointer to RX channel of the DMA engine.
-*
-* @return	None.
-*
-* @note		None.
-*
-******************************************************************************/
-static void DMA_RxIntrHandler(void *Callback)
-{
-	u32 IrqStatus;
-	int TimeOut;
 	XAxiDma *AxiDmaInst = (XAxiDma *)Callback;
 
-	/* Read pending interrupts */
-	IrqStatus = XAxiDma_IntrGetIrq(AxiDmaInst, XAXIDMA_DEVICE_TO_DMA);
-
-	/* Acknowledge pending interrupts */
+	// 检查中断是否触发
+	u32 IrqStatus = XAxiDma_IntrGetIrq(AxiDmaInst, XAXIDMA_DEVICE_TO_DMA);
 	XAxiDma_IntrAckIrq(AxiDmaInst, IrqStatus, XAXIDMA_DEVICE_TO_DMA);
-
-	/*
-	 * If no interrupt is asserted, we do not do anything
-	 */
-	if (!(IrqStatus & XAXIDMA_IRQ_ALL_MASK)) {
+	if(!(IrqStatus & XAXIDMA_IRQ_ALL_MASK)) 
+	{
 		return;
 	}
 
-	/*
-	 * If error interrupt is asserted, raise error flag, reset the
-	 * hardware to recover from the error, and return with no further
-	 * processing.
-	 */
-	if ((IrqStatus & XAXIDMA_IRQ_ERROR_MASK)) {
-
-		// TODO err_handler();
-
-		/* Reset could fail and hang
-		 * NEED a way to handle this or do not call it??
-		 */
+	// 错误中断是否触发
+	if(IrqStatus & XAXIDMA_IRQ_ERROR_MASK) 
+	{
+		// 复位 DMA
 		XAxiDma_Reset(AxiDmaInst);
 
-		TimeOut = RESET_TIMEOUT_COUNTER;
-
-		while (TimeOut) {
-			if(XAxiDma_ResetIsDone(AxiDmaInst)) {
-				break;
-			}
-			TimeOut -= 1;
+		// 等待复位完成
+		u32 Timeout = RESET_TIMEOUT_COUNTER;
+		while((Timeout > 0) && !XAxiDma_ResetIsDone(AxiDmaInst)) 
+		{
+			Timeout--;
 		}
 
 		return;
 	}
 
-	/*
-	 * If completion interrupt is asserted, then set RxDone flag
-	 */
-	if ((IrqStatus & XAXIDMA_IRQ_IOC_MASK))
+	// 接收完成中断触发
+	if(IrqStatus & XAXIDMA_IRQ_IOC_MASK)
 	{
-		// ȷ�����ݾ��� DDR ��
-		Xil_DCacheInvalidateRange(RxBufferPtr[RxBufferPtrReceiveIndex], RX_BUFFER_SIZE);
+		RxCount++;xil_printf("[INFO] DMA rx done\n");
 
-		// ����֡��ʼ��ַ
-		RxBufferReceiveCount++;
-		u32 surplusFrameSize = (RX_BUFFER_SIZE * RxBufferReceiveCount) % FRAME_SIZE;
+		// 检查当前缓冲区是否包含完整帧图像
+		u32 surplusFrameSize = (RX_BUFFER_SIZE * RxCount) % FRAME_SIZE;
 		if(surplusFrameSize <= RX_BUFFER_SIZE - FRAME_SIZE)
 		{
-			RxBufferFrameStartAddrPtr[RxBufferPtrReceiveIndex] = RX_BUFFER_SIZE - (surplusFrameSize + FRAME_SIZE);
+			RxBufferFrameAddr[RxIndex] = RX_BUFFER_SIZE - (surplusFrameSize + FRAME_SIZE);
 		}
 		else
 		{
-			RxBufferFrameStartAddrPtr[RxBufferPtrReceiveIndex] = RX_BUFFER_INVALID;
+			RxBufferFrameAddr[RxIndex] = RX_BUFFER_INVALID_ADDR;
 		}
+		
+		// 更新缓冲区索引
+		RxLastIndex = RxIndex;
+		do {
+			RxIndex = (RxIndex + 1) % RX_BUFFER_NUMS;
+		} while(RxIndex == TxIndex);
 
-		// ����֡����������
-		RxBufferPtrLastReceiveIndex = RxBufferPtrReceiveIndex;
-		RxBufferPtrReceiveIndex = (RxBufferPtrReceiveIndex + 1) % RX_BUFFER_NUMS;
-		if(RxBufferPtrReceiveIndex == RxBufferPtrTransmitIndex)
-		{
-			RxBufferPtrReceiveIndex = (RxBufferPtrTransmitIndex + 1) % RX_BUFFER_NUMS;
-		}
-
-		// ������һ�� DMA ����
-		XAxiDma_SimpleTransfer(&AxiDma, RxBufferPtr[RxBufferPtrReceiveIndex], RX_BUFFER_SIZE, XAXIDMA_DEVICE_TO_DMA);
+		// 启动下一次接收
+		XAxiDma_SimpleTransfer(&AxiDma, (u32)RxBufferPtr[RxIndex], RX_BUFFER_SIZE, XAXIDMA_DEVICE_TO_DMA);
 	}
 }
 
-/*****************************************************************************/
-/*
-*
-* This function setups the interrupt system so interrupts can occur for the
-* DMA, it assumes INTC component exists in the hardware system.
-*
-* @param	IntcInstancePtr is a pointer to the instance of the INTC.
-* @param	AxiDmaPtr is a pointer to the instance of the DMA engine
-* @param	TxIntrId is the TX channel Interrupt ID.
-* @param	RxIntrId is the RX channel Interrupt ID.
-*
-* @return
-*		- XST_SUCCESS if successful,
-*		- XST_FAILURE.if not succesful
-*
-* @note		None.
-*
-******************************************************************************/
-int DMA_Setup_Intr_System(XScuGic * IntcInstancePtr,XAxiDma * AxiDmaPtr, u16 RxIntrId)
-{
-	int Status;
 
+/**
+ * @brief 初始化 DMA 中断
+ * @param IntcInstancePtr 中断管理单元句柄
+ * @param DmaInstancePtr DMA 句柄
+ * @param RxIntrId  DMA 接收中断 ID
+ * @return 初始化成功返回 XST_SUCCESS，否则返回 XST_FAILURE
+*/
+s32 XDMA_Intr_Init(XScuGic* IntcInstancePtr, XAxiDma* DmaInstancePtr, u16 RxIntrId)
+{
+	s32 Status;
+
+	// 设置中断优先级为 0xA0，上升沿触发
 	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
-	/*
-	 * Connect the device driver handler that will be called when an
-	 * interrupt for the device occurs, the handler defined above performs
-	 * the specific interrupt processing for the device.
-	 */
-	Status = XScuGic_Connect(IntcInstancePtr, RxIntrId,
-				(Xil_InterruptHandler)DMA_RxIntrHandler,
-				AxiDmaPtr);
-	if (Status != XST_SUCCESS) {
+
+	// 设置中断处理函数
+	Status = XScuGic_Connect(IntcInstancePtr, RxIntrId, (Xil_InterruptHandler)DMA_Rx_IntcHandler, DmaInstancePtr);
+	if(Status != XST_SUCCESS) 
+	{
 		return Status;
 	}
-
 	XScuGic_Enable(IntcInstancePtr, RxIntrId);
+
 	return XST_SUCCESS;
 }
 
 
-
-int DMA_Intr_Enable(XScuGic * IntcInstancePtr,XAxiDma *DMAPtr)
+/**
+ * @brief 使能 DMA 中断
+ * @param InstancePtr
+ * @return *
+*/
+void XDMA_Intr_Enable(XAxiDma* InstancePtr)
 {
-
-	/* Disable all interrupts before setup */
-	XAxiDma_IntrDisable(DMAPtr, XAXIDMA_IRQ_ALL_MASK,
-				XAXIDMA_DEVICE_TO_DMA);
-
-	/* Enable all interrupts */
-	XAxiDma_IntrEnable(DMAPtr, XAXIDMA_IRQ_ALL_MASK,
-							XAXIDMA_DEVICE_TO_DMA);
-	return XST_SUCCESS;
-
+	XAxiDma_IntrDisable(InstancePtr, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
+	XAxiDma_IntrEnable(InstancePtr, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
 }
 
 
-int DMA_Intr_Init(XAxiDma *DMAPtr, u32 DeviceId)
+/**
+ * @brief 初始化 DMA
+ * @param InstancePtr
+ * @param DeviceId	
+ * @return 初始化成功返回 XST_SUCCESS，否则返回 XST_FAILURE
+*/
+s32 XDMA_Init(XAxiDma* InstancePtr, u32 DeviceId)
 {
-	int Status;
-	XAxiDma_Config *Config=NULL;
+	s32 Status;
 
-	Config = XAxiDma_LookupConfig(DeviceId);
-	if (!Config) {
-		xil_printf("No config found for %d\r\n", DeviceId);
+	// 查找 DMA 配置信息
+	XAxiDma_Config* Config = XAxiDma_LookupConfig(DeviceId);
+	if(Config == NULL) 
+	{
+		xil_printf("[ERROR] No config found for DMA %d\n", DeviceId);
 		return XST_FAILURE;
 	}
 
-	/* Initialize DMA engine */
-	Status = XAxiDma_CfgInitialize(DMAPtr, Config);
-
-	if (Status != XST_SUCCESS) {
-		xil_printf("Initialization failed %d\r\n", Status);
+	// 初始化 DMA 
+	Status = XAxiDma_CfgInitialize(InstancePtr, Config);
+	if(Status != XST_SUCCESS) 
+	{
+		xil_printf("[ERROR] Failed to init DMA %d, status code is %d\n", DeviceId, Status);
 		return XST_FAILURE;
 	}
 
-	if(XAxiDma_HasSg(DMAPtr)){
-		xil_printf("Device configured as SG mode \r\n");
+	// 检查 DMA 运行模式
+	if(XAxiDma_HasSg(InstancePtr))
+	{
+		xil_printf("[ERROR] Failed to init DMA %d, device configured as SG mode\n", DeviceId);
 		return XST_FAILURE;
 	}
+
 	return XST_SUCCESS;
-
 }

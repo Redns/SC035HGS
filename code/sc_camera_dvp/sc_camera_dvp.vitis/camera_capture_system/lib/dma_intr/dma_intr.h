@@ -9,12 +9,11 @@
 #include "sleep.h"
 #include "global.h"
 
-// ��ʱ��λʱ��
-#define RESET_TIMEOUT_COUNTER	10000
+// 复位超时计数器
+#define RESET_TIMEOUT_COUNTER   10000
 
-void DMA_DisableIntrSystem(XScuGic * IntcInstancePtr, u16 RxIntrId);
-int  DMA_Setup_Intr_System(XScuGic * IntcInstancePtr,XAxiDma * AxiDmaPtr,  u16 RxIntrId);
-int  DMA_Intr_Enable(XScuGic * IntcInstancePtr,XAxiDma *DMAPtr);
-int  DMA_Intr_Init(XAxiDma *DMAPtr, u32 DeviceId);
+s32 XDMA_Init(XAxiDma* InstancePtr, u32 DeviceId);
+s32 XDMA_Intr_Init(XScuGic* IntcInstancePtr, XAxiDma* DmaInstancePtr, u16 RxIntrId);
+void XDMA_Intr_Enable(XAxiDma* InstancePtr);
 
 #endif

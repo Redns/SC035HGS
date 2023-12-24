@@ -14,33 +14,34 @@
 #include "vofa_plus.h"
 #include "global.h"
 
-/* Ïà¹ØÍâÉè ID */
+/* ç›¸å…³å¤–è®¾ ID */
 #define DEVICE_DMA			        XPAR_AXIDMA_0_DEVICE_ID                 // DMA
-#define DEVICE_IICS                 XPAR_I2CS_DEVICE_ID                     // IIC£¨AXI GPIO Ä£Äâ£©
-#define DEVICE_BUFW_FS				XPAR_BUFW_FS_DEVICE_ID                  // AXISBUFW ´«ÊäÊ¹ÄÜ£¨¸ßµçÆ½ÓĞĞ§£©
-#define DEVICE_BUFW_RSTN			XPAR_BUFW_RSTN_DEVICE_ID                // AXISBUFW ¸´Î»£¨µÍµçÆ½ÓĞĞ§£©
-#define DEVICE_CAMERA_PWDN			XPAR_CAMERA_PWDN_DEVICE_ID              // SC035HGS ĞİÃß¿ØÖÆ£¨Õı³£¹¤×÷Ê±Ó¦À­¸ß£©
-#define DEVICE_CAMERA_VSYNC			XPAR_CAMERA_VSYNC_DEVICE_ID             // SC035HGS Êä³ö³¡Í¬²½ĞÅºÅ
-#define DEVICE_XCLK_LOCKED			XPAR_XCLK_LOCKED_DEVICE_ID              // SC035HGS ÊäÈëÊ±ÖÓËø¶¨¼à²â£¨¸ßµçÆ½´ú±íËø¶¨£©
-#define DEVICE_PHY_RETN				XPAR_PHY_RSTN_DEVICE_ID                 // PHY ¸´Î»¿ØÖÆ£¨µÍµçÆ½ÓĞĞ§£©
+#define DEVICE_IICS                 XPAR_I2CS_DEVICE_ID                     // IICï¼ˆAXI GPIO æ¨¡æ‹Ÿï¼‰
+#define DEVICE_BUFW_FS				XPAR_BUFW_FS_DEVICE_ID                  // AXISBUFW ä¼ è¾“ä½¿èƒ½ï¼ˆé«˜ç”µå¹³æœ‰æ•ˆï¼‰
+#define DEVICE_BUFW_RSTN			XPAR_BUFW_RSTN_DEVICE_ID                // AXISBUFW å¤ä½ï¼ˆä½ç”µå¹³æœ‰æ•ˆï¼‰
+#define DEVICE_CAMERA_PWDN			XPAR_CAMERA_PWDN_DEVICE_ID              // SC035HGS ä¼‘çœ æ§åˆ¶ï¼ˆæ­£å¸¸å·¥ä½œæ—¶åº”æ‹‰é«˜ï¼‰
+#define DEVICE_CAMERA_VSYNC			XPAR_CAMERA_VSYNC_DEVICE_ID             // SC035HGS è¾“å‡ºåœºåŒæ­¥ä¿¡å·
+#define DEVICE_XCLK_LOCKED			XPAR_XCLK_LOCKED_DEVICE_ID              // SC035HGS è¾“å…¥æ—¶é’Ÿé”å®šç›‘æµ‹ï¼ˆé«˜ç”µå¹³ä»£è¡¨é”å®šï¼‰
+#define DEVICE_PHY_RETN				XPAR_PHY_RSTN_DEVICE_ID                 // PHY å¤ä½æ§åˆ¶ï¼ˆä½ç”µå¹³æœ‰æ•ˆï¼‰
+#define PLATFORM_EMAC_BASEADDR 		XPAR_XEMACPS_0_BASEADDR
 
-/* DMA ÖĞ¶ÏºÅ */
+/* DMA ä¸­æ–­å· */
 #define DMA_RX_INTR_ID			    XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR
 
 /* FreeRTOS */
-#define THREAD_PRIORITY             DEFAULT_THREAD_PRIO                     // ÈÎÎñÓÅÏÈ¼¶
-#define THREAD_STACKSIZE 			2048                                    // ÈÎÎñ¶ÑÕ»´óĞ¡
+#define THREAD_PRIORITY             DEFAULT_THREAD_PRIO                     // ä»»åŠ¡ä¼˜å…ˆçº§
+#define THREAD_STACKSIZE 			2048                                    // ä»»åŠ¡å †æ ˆå¤§å°
 
-/* »º³åÇøÏà¹ØÉèÖÃ */
-#define CAMERA_IGNORE_FRAME_NUMS    10                                      // ÉãÏñÍ·ÎÈ¶¨ËùĞèÖ¡Êı£¨³õÊ¼»¯ºóÒ»¶ÎÊ±¼äÄÚÊä³ö²»ÎÈ¶¨£©
+/* ç¼“å†²åŒºç›¸å…³è®¾ç½® */
+#define CAMERA_IGNORE_FRAME_NUMS    10                                      // æ‘„åƒå¤´ç¨³å®šæ‰€éœ€å¸§æ•°ï¼ˆåˆå§‹åŒ–åä¸€æ®µæ—¶é—´å†…è¾“å‡ºä¸ç¨³å®šï¼‰
 
 /* TCP Server */
 #define TCP_SERVER_PORT             7
 
-/* ÍâÉè¾ä±ú */
+/* å¤–è®¾å¥æŸ„ */
 camera_t camera;                                        
 
-/* GPIO & È«¾ÖÖĞ¶Ï¾ä±ú */
+/* GPIO & å…¨å±€ä¸­æ–­å¥æŸ„ */
 XGpio gpio_bufw_fs;
 XGpio gpio_bufw_rstn;
 XGpio gpio_camera_pwdn;
@@ -48,20 +49,23 @@ XGpio gpio_camera_xclk_locked;
 XGpio gpio_camera_vsync;
 XGpio gpio_phy_rstn;
 
-// TODO DMA ½ø³ÌÓë TCP ÎŞ·¨Í¬Ê±ÔËĞĞ£¬DMA Ò»¿ª ping ²»Í¨
 // https://www.codeprj.com/blog/a4dd341.html
 extern XAxiDma AxiDma;
 extern XScuGic xInterruptController;
 
-/* DMA »º³åÇø */
-extern u32 RxCount;
-extern u32 RxIndex;
-extern u32 TxIndex;
-extern u32 RxLastIndex;
-extern u32 RxBuffer[RX_BUFFER_NUMS][RX_BUFFER_SIZE];
-extern u32 RxBufferFrameStart[RX_BUFFER_NUMS];
-extern u32 EthBuffer[RX_BUFFER_SIZE];
+/* DMA ç¼“å†²åŒº */
+extern s32 RxCount;
+extern s32 RxIndex;
+extern s32 TxIndex;
+extern s32 RxLastIndex;
+extern u32 RxBufferPtr[RX_BUFFER_NUMS];
+extern u32 RxBufferFrameAddr[RX_BUFFER_NUMS];
+extern u32 EthTxBufferPtr;
 
+s32 client;
+struct netif server_netif;
+
+/* å‡½æ•°å£°æ˜ */
 void lwip_init();
 void main_thread(void *p);
 
@@ -75,27 +79,27 @@ int main()
 
 
 /**
- * @brief ³õÊ¼»¯ÉãÏñÍ·
+ * @brief åˆå§‹åŒ–æ‘„åƒå¤´
  * @return *
 */
 void camera_init()
 {
     xil_printf("[INFO] Start to init camera...\n");
 
-    // ³õÊ¼»¯Ïà¹ØÒı½Å
+    // åˆå§‹åŒ–ç›¸å…³å¼•è„š
     XGpio_Initialize(&gpio_camera_pwdn, DEVICE_CAMERA_PWDN);
     XGpio_Initialize(&gpio_camera_vsync, DEVICE_CAMERA_VSYNC);
     XGpio_Initialize(&gpio_camera_xclk_locked, DEVICE_XCLK_LOCKED);
 
-    // µÈ´ıÉãÏñÍ·ÊäÈëÊ±ÖÓËø¶¨
+    // ç­‰å¾…æ‘„åƒå¤´è¾“å…¥æ—¶é’Ÿé”å®š
     while(XGpio_DiscreteRead(&gpio_camera_xclk_locked, 1) == 0);
 
-    // À­¸ß PWDN Òı½ÅÆôÓÃÉãÏñÍ·
-    // À­¸ß PWDN ºóÖÁÉÙµÈ´ı 4ms ²ÅÄÜ·ÃÎÊ¼Ä´æÆ÷
+    // æ‹‰é«˜ PWDN å¼•è„šå¯ç”¨æ‘„åƒå¤´
+    // æ‹‰é«˜ PWDN åè‡³å°‘ç­‰å¾… 4ms æ‰èƒ½è®¿é—®å¯„å­˜å™¨
     XGpio_DiscreteWrite(&gpio_camera_pwdn, 1, 0x1);
     usleep(20 * 1000);
 
-    // ³õÊ¼»¯ÉãÏñÍ·¼Ä´æÆ÷
+    // åˆå§‹åŒ–æ‘„åƒå¤´å¯„å­˜å™¨
     camera.i2c_device_id = DEVICE_IICS;
     if(sc035hgs_init(&camera) != XST_SUCCESS)
     {
@@ -104,7 +108,7 @@ void camera_init()
     }
     xil_printf("[SUCCESS] Success to init sc035hgs\n");
 
-    // µÈ´ıÉãÏñÍ·Êä³öÎÈ¶¨
+    // ç­‰å¾…æ‘„åƒå¤´è¾“å‡ºç¨³å®š
     uint16_t frame_count = 0;
     while(frame_count < CAMERA_IGNORE_FRAME_NUMS)
     {
@@ -116,7 +120,7 @@ void camera_init()
 }
 
 /**
- * @brief ³õÊ¼»¯ AXISBUFW Êı¾İ´«ÊäÄ£¿é
+ * @brief åˆå§‹åŒ– AXISBUFW æ•°æ®ä¼ è¾“æ¨¡å—
  * @return *
 */
 void axisbufw_init()
@@ -126,7 +130,7 @@ void axisbufw_init()
 }
 
 /**
- * @brief Ê¹ÄÜ AXIS Êı¾İ´«Êä
+ * @brief ä½¿èƒ½ AXIS æ•°æ®ä¼ è¾“
  * @param enable AXIS_TRANSMIT_ENABLE/AXIS_TRANSMIT_DISABLE
  * @return *
 */
@@ -142,23 +146,103 @@ void set_axisbufw_transmit(int enable)
     }
 }
 
+
 /**
- * @brief ÍøÂçÏß³Ì
+ * @brief ä¸Šä½æœºä¼ è¾“çº¿ç¨‹
+ * @param p å®¢æˆ·ç«¯å¥æŸ„
+ * @return *
+*/
+void upper_communicate_thread(void *p)
+{
+	s32 client = *(s32 *)p;
+	// for(u32 i = 0; i < RX_BUFFER_SIZE / 4; i++)
+	// {
+	// 	RxBuffer[0][i * 4] 		= (i >> 24);
+	// 	RxBuffer[0][i * 4 + 1] 	= (i >> 16);
+	// 	RxBuffer[0][i * 4 + 2] 	= (i >> 8);
+	// 	RxBuffer[0][i * 4 + 3]	= (i >> 0);
+	// }
+	write(client, "Hello", 5);
+	// while(1)
+	// {
+	// 	if(TxIndex != RxLastIndex)
+	// 	{
+	// 		TxIndex = RxLastIndex;
+	// 		if(RxBufferFrameStart[TxIndex] != RX_BUFFER_INVALID_FLAG)
+	// 		{
+	// 			memcpy((u8*)EthBuffer, "image:0,307200,640,480,24\n", 26);
+	// 			memcpy((u8*)(EthBuffer + 26), (u8*)(RxBuffer[TxIndex] + RxBufferFrameStart[TxIndex]), FRAME_SIZE);
+	// 			memcpy((u8*)(EthBuffer + 26 + FRAME_SIZE), (u8*)"\n", 1);
+	// 			write(client, (u8*)EthBuffer, 26 + FRAME_SIZE + 1);
+	// 		}
+	// 	}
+	// }
+	//close(client);
+	vTaskDelete(NULL);
+}
+
+/**
+ * @brief ä¸Šä½æœºè¿æ¥çº¿ç¨‹
+ * @return *
+*/
+void upper_connect_thread()
+{
+	struct sockaddr_in address, remote;
+
+    // åˆ›å»ºå¥—æ¥å­—
+    s32 socket = lwip_socket(AF_INET, SOCK_STREAM, 0);
+	if (socket < 0)
+    {
+        xil_printf("[ERROR] Failed to create socket\n");
+        return;
+    }
+
+    // åˆå§‹åŒ–æœåŠ¡å™¨åœ°å€
+    memset(&address, 0, sizeof(address));
+
+	address.sin_family = AF_INET;
+	address.sin_port = htons(TCP_SERVER_PORT);
+	address.sin_addr.s_addr = INADDR_ANY;
+
+    // ç»‘å®šå¥—æ¥å­—ä¿¡æ¯
+	if(lwip_bind(socket, (struct sockaddr *)&address, sizeof(address)) < 0)
+    {
+        xil_printf("[ERROR] Failed to bind socket\n");
+        return;
+    }
+
+    // ç›‘å¬å¥—æ¥å­—
+	lwip_listen(socket, 0);
+
+    // ç­‰å¾…å®¢æˆ·ç«¯è¿æ¥
+	s32 size = sizeof(remote);
+	while(1)
+    {
+        client = lwip_accept(socket, (struct sockaddr *)&remote, (socklen_t *)&size);
+		if (client > 0)
+        {
+			sys_thread_new("upper_transmit_thread", upper_communicate_thread, (void*)&client, THREAD_STACKSIZE, THREAD_PRIORITY);
+		}
+	}
+	vTaskSuspend(NULL);
+}
+
+
+/**
+ * @brief ç½‘ç»œçº¿ç¨‹
  * @param p *
  * @return *
 */
 void network_thread(void *p)
 {
-	lwip_init();
+	ip_addr_t ipaddr, netmask, gw;
 
-	// ³õÊ¼»¯ IP & MASK & GATWALL
-    ip_addr_t ipaddr, netmask, gw;
+	// åˆå§‹åŒ– IP & MASK & GATWALL
 	IP4_ADDR(&ipaddr, 192, 168, 1, 10);
 	IP4_ADDR(&netmask, 255, 255, 255, 0);
 	IP4_ADDR(&gw, 192, 168, 1, 1);
 
-	// Ìí¼ÓÍøÂç½Ó¿Ú
-    struct netif server_netif;
+	// æ·»åŠ ç½‘ç»œæ¥å£
     unsigned char mac_ethernet_address[] = { 0x00, 0x0a, 0x35, 0x00, 0x01, 0x02 };
 	if(!xemac_add(&server_netif, &ipaddr, &netmask, &gw, mac_ethernet_address, PLATFORM_EMAC_BASEADDR))
 	{
@@ -168,7 +252,7 @@ void network_thread(void *p)
     netif_set_default(&server_netif);
     netif_set_up(&server_netif);
 
-    // ´´½¨ÉÏÎ»»ú´«ÊäÏß³Ì
+    // åˆ›å»ºä¸Šä½æœºä¼ è¾“çº¿ç¨‹
 	sys_thread_new("xemacif_input_thread", (void(*)(void*))xemacif_input_thread, &server_netif, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
 	sys_thread_new("upper_transmit_thread", upper_connect_thread, 0, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
 
@@ -176,7 +260,7 @@ void network_thread(void *p)
 }
 
 /**
- * @brief:ÏµÍ³³õÊ¼»¯º¯Êı
+ * @brief:ç³»ç»Ÿåˆå§‹åŒ–å‡½æ•°
  * @param p
  * @return *
  */
@@ -189,115 +273,47 @@ void system_init()
 	camera_init();
 
 	/* DMA */
-    // TODO https://github.com/fuseon/zynq_freertos_interrupt/blob/master/freertos_hello_world.c
-	DMA_Intr_Init(&AxiDma, DEVICE_DMA);
-	DMA_Setup_Intr_System(&xInterruptController, &AxiDma, DMA_RX_INTR_ID);
-	DMA_Intr_Enable(&xInterruptController, &AxiDma);
+    // https://github.com/fuseon/zynq_freertos_interrupt/blob/master/freertos_hello_world.c
+	XDMA_Init(&AxiDma, DEVICE_DMA);
+	XDMA_Intr_Init(&xInterruptController, &AxiDma, DMA_RX_INTR_ID);
+	XDMA_Intr_Enable(&AxiDma);
 
-	/* Ö¡»º³åÇø */
+	/* å¸§ç¼“å†²åŒº */
     RxCount = 0;
     RxIndex = 0;
     RxLastIndex = -1;
     TxIndex = -1;
 	for(int i = 0; i < RX_BUFFER_NUMS; i++)
 	{
-		memset(RxBuffer[i], 0, sizeof(RxBuffer[i])); 
-        RxBufferFrameStart[i] = RX_BUFFER_INVALID_FLAG;
+		RxBufferPtr[i] = RX_BUFFER_BASE + i * RX_BUFFER_SIZE;
+        RxBufferFrameAddr[i] = RX_BUFFER_INVALID_ADDR;
 	}
-    memset(EthBuffer, 0, sizeof(EthBuffer));
+    EthTxBufferPtr = RX_BUFFER_BASE + RX_BUFFER_NUMS * RX_BUFFER_SIZE;
 
-	// ½áÊø BUFW ¸´Î»
+	// ç»“æŸ BUFW å¤ä½
 	XGpio_DiscreteWrite(&gpio_bufw_rstn, 1, 0x1);
 
-	// Ê¹ÄÜ AXISBUFW Êı¾İÁ÷×ªÄ£¿é
+	// ä½¿èƒ½ AXISBUFW æ•°æ®æµè½¬æ¨¡å—
 	while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x0);
 	set_axisbufw_transmit(1);
 
-	// Æô¶¯Ê×´Î DMA ´«Êä
-	XAxiDma_SimpleTransfer(&AxiDma, (u32)RxBuffer[RxIndex], RX_BUFFER_SIZE, XAXIDMA_DEVICE_TO_DMA);
+	// å¯åŠ¨é¦–æ¬¡ DMA ä¼ è¾“
+	XAxiDma_SimpleTransfer(&AxiDma, (u32)RxBufferPtr[RxIndex], RX_BUFFER_SIZE, XAXIDMA_DEVICE_TO_DMA);
 }
 
 /**
- * @brief Ö÷Ïß³Ì
+ * @brief ä¸»çº¿ç¨‹
  * @return
  */
 void main_thread(void *p)
 {
-	// ÍøÂçÏß³Ì
+	// ç³»ç»Ÿåˆå§‹åŒ–
+	// TODO system_init();
+
+	lwip_init();
+
+	// ç½‘ç»œçº¿ç¨‹
     sys_thread_new("network_thread", network_thread, NULL, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
 
-    // ÏµÍ³³õÊ¼»¯
-	system_init();
-
     vTaskDelete(NULL);
-}
-
-/**
- * @brief ÉÏÎ»»ú´«ÊäÏß³Ì
- * @param p ¿Í»§¶Ë¾ä±ú
- * @return *
-*/
-void upper_communicate_thread(void *p)
-{
-	s32 client = *(s32 *)p;
-	while(1)
-	{
-		if(TxIndex != RxLastIndex)
-		{
-			TxIndex = RxLastIndex;
-			if(RxBufferFrameStart[TxIndex] != RX_BUFFER_INVALID_FLAG)
-			{
-				memcpy((u8*)EthBuffer, "image:0,307200,640,480,24\n", 26);
-				memcpy((u8*)(EthBuffer + 26), (u8*)(RxBuffer[TxIndex] + RxBufferFrameStart[TxIndex]), FRAME_SIZE);
-				memcpy((u8*)(EthBuffer + 26 + FRAME_SIZE), (u8*)"\n", 1);
-				write(client, (u8*)EthBuffer, 26 + FRAME_SIZE + 1);
-			}
-		}
-	}
-	close(sd);
-	vTaskDelete(NULL);
-}
-
-/**
- * @brief ÉÏÎ»»úÁ¬½ÓÏß³Ì
- * @return *
-*/
-void upper_connect_thread()
-{
-	struct sockaddr_in address, remote;	
-
-    // ´´½¨Ì×½Ó×Ö
-    s32 socket = lwip_socket(AF_INET, SOCK_STREAM, 0);
-	if (socket < 0)
-    {
-        xil_printf("[ERROR] Failed to create socket\n");
-        return;
-    }
-
-    // ³õÊ¼»¯·şÎñÆ÷µØÖ·
-    memset(&address, 0, sizeof(address));
-	address.sin_family = AF_INET;
-	address.sin_port = htons(TCP_SERVER_PORT);
-	address.sin_addr.s_addr = INADDR_ANY;
-
-    // °ó¶¨Ì×½Ó×ÖĞÅÏ¢
-	if(lwip_bind(socket, (struct sockaddr *)&address, sizeof(address)) < 0)
-    {
-        xil_printf("[ERROR] Failed to bind socket\n");
-        return;
-    }
-
-    // ¼àÌıÌ×½Ó×Ö
-	lwip_listen(socket, 0);
-
-    // µÈ´ı¿Í»§¶ËÁ¬½Ó
-	while(1) 
-    {
-        s32 client = lwip_accept(sock, (struct sockaddr *)&remote, (socklen_t *)&sizeof(remote))
-		if (client > 0) 
-        {
-			sys_thread_new("upper_transmit_thread", upper_communicate_thread, (void*)&client, THREAD_STACKSIZE, THREAD_PRIORITY);
-		}
-	}
-	vTaskSuspend(NULL);
 }
