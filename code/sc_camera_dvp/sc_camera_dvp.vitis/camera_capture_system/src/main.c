@@ -154,30 +154,21 @@ void set_axisbufw_transmit(int enable)
 */
 void upper_communicate_thread(void *p)
 {
-	s32 client = *(s32 *)p;
-	// for(u32 i = 0; i < RX_BUFFER_SIZE / 4; i++)
-	// {
-	// 	RxBuffer[0][i * 4] 		= (i >> 24);
-	// 	RxBuffer[0][i * 4 + 1] 	= (i >> 16);
-	// 	RxBuffer[0][i * 4 + 2] 	= (i >> 8);
-	// 	RxBuffer[0][i * 4 + 3]	= (i >> 0);
-	// }
-	write(client, "Hello", 5);
-	// while(1)
-	// {
-	// 	if(TxIndex != RxLastIndex)
-	// 	{
-	// 		TxIndex = RxLastIndex;
-	// 		if(RxBufferFrameStart[TxIndex] != RX_BUFFER_INVALID_FLAG)
-	// 		{
-	// 			memcpy((u8*)EthBuffer, "image:0,307200,640,480,24\n", 26);
-	// 			memcpy((u8*)(EthBuffer + 26), (u8*)(RxBuffer[TxIndex] + RxBufferFrameStart[TxIndex]), FRAME_SIZE);
-	// 			memcpy((u8*)(EthBuffer + 26 + FRAME_SIZE), (u8*)"\n", 1);
-	// 			write(client, (u8*)EthBuffer, 26 + FRAME_SIZE + 1);
-	// 		}
-	// 	}
-	// }
-	//close(client);
+	while(1)
+	{
+		if(TxIndex != RxLastIndex)
+		{
+			TxIndex = RxLastIndex;
+			if(RxBufferFrameAddr[TxIndex] != RX_BUFFER_INVALID_ADDR)
+			{
+				memcpy((u8*)EthTxBufferPtr, "image:0,307200,640,480,24\n", 26);
+				memcpy((u8*)(EthTxBufferPtr + 26), (u8*)(RxBufferPtr[TxIndex] + RxBufferFrameAddr[TxIndex]), FRAME_SIZE);
+				memcpy((u8*)(EthTxBufferPtr + 26 + FRAME_SIZE), (u8*)"\n", 1);
+				write(client, (u8*)EthTxBufferPtr, 26 + FRAME_SIZE + 1);
+			}
+		}
+	}
+	close(client);
 	vTaskDelete(NULL);
 }
 
@@ -308,7 +299,7 @@ void system_init()
 void main_thread(void *p)
 {
 	// 系统初始化
-	// TODO system_init();
+	system_init();
 
 	lwip_init();
 

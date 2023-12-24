@@ -48,7 +48,7 @@ static void DMA_Rx_IntcHandler(void* Callback)
 	// 接收完成中断触发
 	if(IrqStatus & XAXIDMA_IRQ_IOC_MASK)
 	{
-		RxCount++;xil_printf("[INFO] DMA rx done\n");
+		RxCount++;
 
 		// 检查当前缓冲区是否包含完整帧图像
 		u32 surplusFrameSize = (RX_BUFFER_SIZE * RxCount) % FRAME_SIZE;

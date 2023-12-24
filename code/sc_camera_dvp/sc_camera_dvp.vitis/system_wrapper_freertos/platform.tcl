@@ -35,3 +35,62 @@ platform generate -domains freertos10_xilinx_ps7_cortexa9_0
 catch {platform remove system_wrapper_1}
 platform clean
 platform generate
+platform generate
+platform active {system_wrapper_freertos}
+bsp reload
+domain active {zynq_fsbl}
+bsp reload
+domain active {freertos10_xilinx_ps7_cortexa9_0}
+bsp config stdin "ps7_coresight_comp_0"
+bsp reload
+platform generate -domains 
+bsp config tcp_snd_buf "8192"
+bsp config tcp_queue_ooseq "1"
+bsp config tcp_snd_buf "307200"
+bsp write
+bsp reload
+catch {bsp regenerate}
+bsp config mem_size "307200"
+bsp config tcp_snd_buf "8192"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate
+bsp config memp_n_pbuf "1024"
+bsp config mem_size "409600"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains freertos10_xilinx_ps7_cortexa9_0 
+bsp config mem_size "131072"
+bsp config memp_n_pbuf "128"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains freertos10_xilinx_ps7_cortexa9_0 
+bsp config tcp_snd_buf "65536"
+bsp write
+bsp reload
+catch {bsp regenerate}
+bsp config tcp_snd_buf "16384"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate
+bsp config tcp_snd_buf "32768"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate
+bsp reload
+bsp config memp_n_tcp_seg "512"
+bsp config tcp_snd_buf "16384"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate
+bsp config pbuf_pool_size "4096"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains freertos10_xilinx_ps7_cortexa9_0 

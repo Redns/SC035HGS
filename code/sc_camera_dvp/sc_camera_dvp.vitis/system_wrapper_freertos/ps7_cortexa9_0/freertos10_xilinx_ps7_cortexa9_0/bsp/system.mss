@@ -246,7 +246,10 @@ BEGIN LIBRARY
  PARAMETER LIBRARY_VER = 1.6
  PARAMETER PROC_INSTANCE = ps7_cortexa9_0
  PARAMETER api_mode = SOCKET_API
- PARAMETER pbuf_pool_size = 2048
+ PARAMETER memp_n_pbuf = 128
+ PARAMETER memp_n_tcp_seg = 512
+ PARAMETER pbuf_pool_size = 4096
+ PARAMETER tcp_snd_buf = 16384
 END
 
 
