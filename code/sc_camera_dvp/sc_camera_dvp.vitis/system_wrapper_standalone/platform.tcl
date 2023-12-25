@@ -202,3 +202,4 @@ platform generate -domains standalone_ps7_cortexa9_0
 platform generate -domains standalone_ps7_cortexa9_0 
 platform config -updatehw {D:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
 platform generate -domains 
+catch {platform remove system_wrapper_freertos}

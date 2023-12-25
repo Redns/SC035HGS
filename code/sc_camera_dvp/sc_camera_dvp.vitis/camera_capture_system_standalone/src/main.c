@@ -21,10 +21,9 @@
 #define FRAME_BUFFER_BASE           0x00080000                              // 基地址
 #define FRAME_BUFFER_NUMS			3	
 
-u32 RxCount;
-u32 RxIndex;
 u32 TxIndex;
-u32 TxLastIndex;
+u32 RxIndex;
+u32 RxLastIndex;
 u32 FrameBufferPtr[FRAME_BUFFER_NUMS];
 
 extern u8 RxDone;
@@ -72,9 +71,12 @@ void set_axisbufw_transmit(int enable);
 
 int main()
 {
+	init_platform();
+
 	system_init();
-	// network_init();
+	network_init();
 	
+	XAxiDma_SimpleTransfer(&axiDma, (u32)FrameBufferPtr[RxIndex], (u32)FRAME_SIZE, XAXIDMA_DEVICE_TO_DMA);
 	while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0);
 	set_axisbufw_transmit(1);
 	while(1) 
@@ -82,11 +84,18 @@ int main()
 		if(RxDone)
 		{
 			RxDone = 0;
-			xil_printf("RxCount: %d\n", RxCount++);
-			XAxiDma_SimpleTransfer(&axiDma, (u32)FrameBufferPtr[RxIndex], (u32)FRAME_SIZE, XAXIDMA_DEVICE_TO_DMA);
+			
+			RxLastIndex = RxIndex;
+			do
+			{
+				RxIndex = (RxIndex + 1) % FRAME_BUFFER_NUMS;
+			} while(RxIndex == TxIndex);
+
+			xil_printf("Rx-RxLast-Tx is %d-%d-%d\n", RxIndex, RxLastIndex, TxIndex);
+
+			XAxiDma_SimpleTransfer(&axiDma, (u32)FrameBufferPtr[0], (u32)FRAME_SIZE, XAXIDMA_DEVICE_TO_DMA);
 		}
-		// xemacif_input(&server_netif);
-		
+		xemacif_input(&server_netif);
 	}
 
 	return 0;
@@ -101,6 +110,8 @@ void system_init()
 
 s32 network_init()
 {
+	//init_platform();
+
 	// 初始化网口
 	if(eth_init() != XST_SUCCESS)
 	{
@@ -172,18 +183,16 @@ void axisbufw_init()
 */
 void dma_init()
 {
-	XAxiDma_Init(&axiDma, DEVICE_DMA);
 	Intr_Init(&scuGic);
 	Intr_Exception_Setup(&scuGic);
-	XAxiDma_Intr_Setup(&scuGic, &axiDma, DMA_RX_INTR_ID);
+	XAxiDma_Init(&axiDma, DEVICE_DMA);
 	XAxiDma_Intr_Enable(&axiDma);
+	XAxiDma_Intr_Setup(&scuGic, &axiDma, DMA_RX_INTR_ID);
 
 	for(u8 i = 0; i < FRAME_BUFFER_NUMS; i++)
 	{
 		FrameBufferPtr[i] = FRAME_BUFFER_BASE + FRAME_SIZE * i;
 	}
-
-	XAxiDma_SimpleTransfer(&axiDma, (u32)FrameBufferPtr[RxIndex], (u32)FRAME_SIZE, XAXIDMA_DEVICE_TO_DMA);
 }
 
 /**
@@ -198,8 +207,6 @@ void set_axisbufw_transmit(int enable)
 
 static s32 eth_init()
 {
-	init_platform();
-
 	lwip_init();
 
 	// 初始化 IP 地址
