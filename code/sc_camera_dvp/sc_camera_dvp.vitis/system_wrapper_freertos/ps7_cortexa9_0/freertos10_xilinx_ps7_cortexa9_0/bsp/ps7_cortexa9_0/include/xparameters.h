@@ -299,7 +299,7 @@
 /******************************************************************/
 
 /* Definitions for driver GPIO */
-#define XPAR_XGPIO_NUM_INSTANCES 7
+#define XPAR_XGPIO_NUM_INSTANCES 8
 
 /* Definitions for peripheral BUFW_FS */
 #define XPAR_BUFW_FS_BASEADDR 0x41200000
@@ -357,6 +357,14 @@
 #define XPAR_XCLK_LOCKED_IS_DUAL 0
 
 
+/* Definitions for peripheral LED_STATE */
+#define XPAR_LED_STATE_BASEADDR 0x41240000
+#define XPAR_LED_STATE_HIGHADDR 0x4124FFFF
+#define XPAR_LED_STATE_DEVICE_ID 7
+#define XPAR_LED_STATE_INTERRUPT_PRESENT 0
+#define XPAR_LED_STATE_IS_DUAL 0
+
+
 /******************************************************************/
 
 /* Canonical definitions for peripheral BUFW_FS */
@@ -407,6 +415,13 @@
 #define XPAR_GPIO_6_DEVICE_ID XPAR_XCLK_LOCKED_DEVICE_ID
 #define XPAR_GPIO_6_INTERRUPT_PRESENT 0
 #define XPAR_GPIO_6_IS_DUAL 0
+
+/* Canonical definitions for peripheral LED_STATE */
+#define XPAR_GPIO_7_BASEADDR 0x41240000
+#define XPAR_GPIO_7_HIGHADDR 0x4124FFFF
+#define XPAR_GPIO_7_DEVICE_ID XPAR_LED_STATE_DEVICE_ID
+#define XPAR_GPIO_7_INTERRUPT_PRESENT 0
+#define XPAR_GPIO_7_IS_DUAL 0
 
 
 /******************************************************************/

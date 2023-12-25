@@ -62,11 +62,6 @@
 -makelib xcelium_lib/xil_defaultlib \
   "../../../bd/system/ip/system_rst_ps7_0_50M_0/sim/system_rst_ps7_0_50M_0.vhd" \
 -endlib
--makelib xcelium_lib/xil_defaultlib \
-  "../../../bd/system/ipshared/7bbf/fs_cap.v" \
-  "../../../bd/system/ipshared/7bbf/ui_axisbufw.v" \
-  "../../../bd/system/ip/system_ui_axisbufw_0_0/sim/system_ui_axisbufw_0_0.v" \
--endlib
 -makelib xcelium_lib/lib_pkg_v1_0_2 \
   "../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/0513/hdl/lib_pkg_v1_0_rfs.vhd" \
 -endlib
@@ -105,6 +100,11 @@
   "../../../bd/system/ip/system_axi_gpio_0_10/sim/system_axi_gpio_0_10.vhd" \
   "../../../bd/system/ip/system_axi_gpio_0_11/sim/system_axi_gpio_0_11.vhd" \
 -endlib
+-makelib xcelium_lib/xil_defaultlib \
+  "../../../bd/system/ipshared/7bbf/fs_cap.v" \
+  "../../../bd/system/ipshared/7bbf/ui_axisbufw.v" \
+  "../../../bd/system/ip/system_ui_axisbufw_0_0/sim/system_ui_axisbufw_0_0.v" \
+-endlib
 -makelib xcelium_lib/util_vector_logic_v2_0_1 \
   "../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/3f90/hdl/util_vector_logic_v2_0_vl_rfs.v" \
 -endlib
@@ -118,6 +118,12 @@
   "../../../bd/system/ip/system_axi_gpio_0_15/sim/system_axi_gpio_0_15.vhd" \
   "../../../bd/system/ip/system_axi_gpio_0_16/sim/system_axi_gpio_0_16.vhd" \
   "../../../bd/system/ip/system_axi_gpio_0_17/sim/system_axi_gpio_0_17.vhd" \
+-endlib
+-makelib xcelium_lib/xil_defaultlib \
+  "../../../bd/system/sim/system.v" \
+-endlib
+-makelib xcelium_lib/xil_defaultlib \
+  "../../../bd/system/ip/system_axi_gpio_0_18/sim/system_axi_gpio_0_18.vhd" \
 -endlib
 -makelib xcelium_lib/axi_protocol_converter_v2_1_25 \
   "../../../../sc_camera_dvp.gen/sources_1/bd/system/ipshared/8fe4/hdl/axi_protocol_converter_v2_1_vl_rfs.v" \
@@ -137,7 +143,6 @@
 -endlib
 -makelib xcelium_lib/xil_defaultlib \
   "../../../bd/system/ip/system_auto_us_0/sim/system_auto_us_0.v" \
-  "../../../bd/system/sim/system.v" \
 -endlib
 -makelib xcelium_lib/xil_defaultlib \
   glbl.v

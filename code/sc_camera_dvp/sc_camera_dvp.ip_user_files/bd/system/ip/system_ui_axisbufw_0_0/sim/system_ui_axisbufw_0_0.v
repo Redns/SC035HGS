@@ -91,10 +91,10 @@ output wire axis_last;
   ui_axisbufw #(
     .VIDEO_ENABLE(1'B0),
     .AXI_DATA_WIDTH(32),
-    .W_BUFDEPTH(16384),
+    .W_BUFDEPTH(2048),
     .W_DATAWIDTH(8),
-    .W_XSIZE(512),
-    .W_YSIZE(1024)
+    .W_XSIZE(1024),
+    .W_YSIZE(512)
   ) inst (
     .ui_rstn(ui_rstn),
     .W_wclk_i(W_wclk_i),

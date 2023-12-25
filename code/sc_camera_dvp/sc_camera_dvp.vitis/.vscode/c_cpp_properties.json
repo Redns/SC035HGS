@@ -11,7 +11,13 @@
                 "${workspaceFolder}/system_wrapper_freertos/export/system_wrapper_freertos/sw/system_wrapper_freertos/freertos10_xilinx_ps7_cortexa9_0/bspinclude/include",
                 "${workspaceFolder}/system_wrapper_freertos/export/system_wrapper_freertos/sw/system_wrapper_freertos/freertos10_xilinx_ps7_cortexa9_0/bspinclude/include",
                 "${workspaceFolder}/system_wrapper_freertos/export/system_wrapper_freertos/sw/system_wrapper_freertos/freertos10_xilinx_ps7_cortexa9_0/bspinclude/include",
-                "${workspaceFolder}/system_wrapper_freertos/export/system_wrapper_freertos/sw/system_wrapper_freertos/freertos10_xilinx_ps7_cortexa9_0/bspinclude/include"
+                "${workspaceFolder}/system_wrapper_freertos/export/system_wrapper_freertos/sw/system_wrapper_freertos/freertos10_xilinx_ps7_cortexa9_0/bspinclude/include",
+                "${workspaceFolder}/system_wrapper_freertos/export/system_wrapper_freertos/sw/system_wrapper_freertos/freertos10_xilinx_ps7_cortexa9_0/bspinclude/include",
+                "${workspaceFolder}/system_wrapper_freertos/export/system_wrapper_freertos/sw/system_wrapper_freertos/freertos10_xilinx_ps7_cortexa9_0/bspinclude/include",
+                "${workspaceFolder}/camera_capture_system_standalone/src",
+                "${workspaceFolder}/camera_capture_system_standalone/eth",
+                "${workspaceFolder}/camera_capture_system_standalone/lib/dma_intr",
+                "${workspaceFolder}/camera_capture_system_standalone/lib/intr"
             ],
             "defines": [
                 "_DEBUG",

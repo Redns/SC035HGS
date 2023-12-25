@@ -104,3 +104,20 @@ platform generate
 platform clean
 platform generate
 platform generate -domains freertos10_xilinx_ps7_cortexa9_0 
+platform generate -domains freertos10_xilinx_ps7_cortexa9_0 
+platform config -updatehw {D:/Project/sc_camera/code/sc_camera_dvp/system_wrapper.xsa}
+platform generate -domains 
+platform clean
+platform generate
+platform generate -domains freertos10_xilinx_ps7_cortexa9_0 
+platform write
+platform active {system_wrapper_freertos}
+domain active {freertos10_xilinx_ps7_cortexa9_0}
+bsp reload
+platform active {system_wrapper_freertos}
+domain active {zynq_fsbl}
+bsp reload
+platform active {system_wrapper_freertos}
+bsp reload
+domain active {zynq_fsbl}
+bsp reload

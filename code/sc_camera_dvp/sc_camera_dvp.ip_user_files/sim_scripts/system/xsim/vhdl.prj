@@ -8,5 +8,6 @@ vhdl xil_defaultlib  \
 "../../../bd/system/ip/system_axi_gpio_0_15/sim/system_axi_gpio_0_15.vhd" \
 "../../../bd/system/ip/system_axi_gpio_0_16/sim/system_axi_gpio_0_16.vhd" \
 "../../../bd/system/ip/system_axi_gpio_0_17/sim/system_axi_gpio_0_17.vhd" \
+"../../../bd/system/ip/system_axi_gpio_0_18/sim/system_axi_gpio_0_18.vhd" \
 
 nosort

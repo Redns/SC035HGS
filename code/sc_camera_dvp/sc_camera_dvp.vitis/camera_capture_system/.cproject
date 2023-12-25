@@ -65,19 +65,13 @@
                                     									
                                     <listOptionValue builtIn="false" value="${resolvePlatformFile:project=camera_capture_system,fileType=bspInclude}"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system/lib/dma_intr}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system/lib/i2cs}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system/lib/iic}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system/lib/open_image}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system/lib/sc035hgs}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system/lib/vofa_plus}&quot;"/>
-                                    									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system/lib/global}&quot;"/>
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system/lib/dma}&quot;"/>
                                     								
                                 </option>
                                 								

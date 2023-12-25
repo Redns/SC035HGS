@@ -51,3 +51,12 @@ set_property PULLUP true [get_ports {I2Cs_SDA_tri_io[0]}]
 # Camera power down
 set_property PACKAGE_PIN AH16 [get_ports {PWDN_tri_o[0]}]
 set_property IOSTANDARD LVCMOS18 [get_ports {PWDN_tri_o[0]}]
+
+set_property PACKAGE_PIN AA19 [get_ports {LED_STATE_tri_o[3]}]
+set_property PACKAGE_PIN AB19 [get_ports {LED_STATE_tri_o[2]}]
+set_property PACKAGE_PIN AB20 [get_ports {LED_STATE_tri_o[1]}]
+set_property PACKAGE_PIN AD20 [get_ports {LED_STATE_tri_o[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_STATE_tri_o[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_STATE_tri_o[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_STATE_tri_o[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {LED_STATE_tri_o[0]}]

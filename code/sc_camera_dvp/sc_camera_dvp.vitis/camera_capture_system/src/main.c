@@ -7,12 +7,17 @@
 #include "netif/xadapter.h"
 #include "lwipopts.h"
 #include "xil_printf.h"
-#include "xil_printf.h"
 #include "sc035hgs.h"
-#include "dma_intr.h"
-#include "open_image.h"
-#include "vofa_plus.h"
-#include "global.h"
+#include "dma.h"
+
+/* 帧属性 */
+#define FRAME_WIDTH                 640                                     // 帧宽度
+#define FRAME_HEIGHT                480                                     // 帧高度
+#define FRAME_SIZE					(FRAME_WIDTH * FRAME_HEIGHT)            // 帧尺寸（字节）
+
+/* 接收缓冲区 */
+#define RX_BUFFER_ADDR              0x01000000                              // 基地址
+#define RX_BUFFER_SIZE		        0x00080000                              // 大小（单位：字节，默认 512 KB）
 
 /* 相关外设 ID */
 #define DEVICE_DMA			        XPAR_AXIDMA_0_DEVICE_ID                 // DMA
@@ -23,25 +28,21 @@
 #define DEVICE_CAMERA_VSYNC			XPAR_CAMERA_VSYNC_DEVICE_ID             // SC035HGS 输出场同步信号
 #define DEVICE_XCLK_LOCKED			XPAR_XCLK_LOCKED_DEVICE_ID              // SC035HGS 输入时钟锁定监测（高电平代表锁定）
 #define DEVICE_PHY_RETN				XPAR_PHY_RSTN_DEVICE_ID                 // PHY 复位控制（低电平有效）
-#define PLATFORM_EMAC_BASEADDR 		XPAR_XEMACPS_0_BASEADDR
-
-/* DMA 中断号 */
-#define DMA_RX_INTR_ID			    XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR
 
 /* FreeRTOS */
 #define THREAD_PRIORITY             DEFAULT_THREAD_PRIO                     // 任务优先级
-#define THREAD_STACKSIZE 			2048                                    // 任务堆栈大小
+#define THREAD_STACKSIZE 			1024                                    // 任务堆栈大小
 
 /* 缓冲区相关设置 */
 #define CAMERA_IGNORE_FRAME_NUMS    10                                      // 摄像头稳定所需帧数（初始化后一段时间内输出不稳定）
 
-/* TCP Server */
-#define TCP_SERVER_PORT             7
+/* LWIP */
+#define TCP_SERVER_PORT             7         								// TCP 服务器端口号
+#define PLATFORM_EMAC_BASEADDR 		XPAR_XEMACPS_0_BASEADDR                 
 
 /* 外设句柄 */
-camera_t camera;                                        
+XAxiDma dma;
 
-/* GPIO & 全局中断句柄 */
 XGpio gpio_bufw_fs;
 XGpio gpio_bufw_rstn;
 XGpio gpio_camera_pwdn;
@@ -49,27 +50,13 @@ XGpio gpio_camera_xclk_locked;
 XGpio gpio_camera_vsync;
 XGpio gpio_phy_rstn;
 
-// https://www.codeprj.com/blog/a4dd341.html
-extern XAxiDma AxiDma;
-extern XScuGic xInterruptController;
-
-/* DMA 缓冲区 */
-extern s32 RxCount;
-extern s32 RxIndex;
-extern s32 TxIndex;
-extern s32 RxLastIndex;
-extern u32 RxBufferPtr[RX_BUFFER_NUMS];
-extern u32 RxBufferFrameAddr[RX_BUFFER_NUMS];
-extern u32 EthTxBufferPtr;
-
-extern SemaphoreHandle_t FrameBufferSyncSemaphore;
-
+/* TCP Handlers */
 s32 client;
 struct netif server_netif;
 
 /* 函数声明 */
 void lwip_init();
-void main_thread(void *p);
+void main_thread();
 
 int main()
 {
@@ -84,8 +71,10 @@ int main()
  * @brief 初始化摄像头
  * @return *
 */
-void camera_init()
+void SC035HGS_Init()
 {
+	camera_t camera;   
+
     xil_printf("[INFO] Start to init camera...\n");
 
     // 初始化相关引脚
@@ -125,10 +114,13 @@ void camera_init()
  * @brief 初始化 AXISBUFW 数据传输模块
  * @return *
 */
-void axisbufw_init()
+void Axisbufw_Init()
 {
 	XGpio_Initialize(&gpio_bufw_rstn, DEVICE_BUFW_RSTN);
     XGpio_Initialize(&gpio_bufw_fs, DEVICE_BUFW_FS);
+
+	// 结束 BUFW 复位
+	XGpio_DiscreteWrite(&gpio_bufw_rstn, 1, 0x1);
 }
 
 /**
@@ -148,84 +140,11 @@ void set_axisbufw_transmit(int enable)
     }
 }
 
-
-/**
- * @brief 上位机传输线程
- * @param p 客户端句柄
- * @return *
-*/
-void upper_communicate_thread(void *p)
-{
-	BaseType_t err;
-
-	while(1)
-	{
-		if(FrameBufferSyncSemaphore == NULL)
-		{
-			continue;
-		}
-
-		// 等待帧同步信号量释放
-		err = xSemaphoreTakeFromISR(FrameBufferSyncSemaphore, NULL);
-		if(err != pdTRUE)
-		{
-			continue;
-		}
-
-		/* 更新缓冲区索引 */
-		TxIndex = RxLastIndex;
-		if(RxBufferFrameAddr[TxIndex] == RX_BUFFER_INVALID_ADDR)
-		{
-			continue;
-		}
-		Xil_DCacheInvalidateRange(RxBufferPtr[TxIndex], RX_BUFFER_SIZE);
-		xil_printf("[INFO] Sending frame %d to upper\n", TxIndex);
-
-		/* 发送帧数据 */
-		write(client, "image:0,307200,640,480,24\n", 26);
-		write(client, (u8*)(RxBufferPtr[TxIndex] + RxBufferFrameAddr[TxIndex]), FRAME_SIZE);
-		write(client, "\n", 1);
-	}
-	close(client);
-
-	vTaskDelete(NULL);
-}
-
-/**
- * @brief 信号量测试线程
- * @param p
- * @return *
-*/
-void semaphore_test_thread(void *p)
-{
-	BaseType_t err;
-	
-	while(1)
-	{
-		// 等待帧同步信号量释放
-		err = xSemaphoreTakeFromISR(FrameBufferSyncSemaphore, NULL);
-		if(err != pdTRUE)
-		{
-			continue;
-		}
-
-		/* 更新缓冲区索引 */
-		TxIndex = RxLastIndex;
-		if(RxBufferFrameAddr[TxIndex] == RX_BUFFER_INVALID_ADDR)
-		{
-			continue;
-		}
-		xil_printf("[ERROR] Wakeup semaphore thread, current TxIndex is  %d\n", TxIndex);
-	}
-
-	vTaskDelete(NULL);
-}
-
 /**
  * @brief 上位机连接线程
  * @return *
 */
-void upper_connect_thread(void *p)
+void upper_communicate_thread()
 {
 	struct sockaddr_in address, remote;
 
@@ -256,30 +175,61 @@ void upper_connect_thread(void *p)
 
     // 等待客户端连接
 	s32 size = sizeof(remote);
-	while(1)
-    {
-        client = lwip_accept(socket, (struct sockaddr *)&remote, (socklen_t *)&size);
-		if (client > 0)
-        {
-			sys_thread_new("upper_transmit_thread", upper_communicate_thread, (void*)&client, THREAD_STACKSIZE, THREAD_PRIORITY); break;
-		}
+	if((client = lwip_accept(socket, (struct sockaddr *)&remote, (socklen_t *)&size)) <= 0)
+	{
+		return;
 	}
-	vTaskSuspend(NULL);
+
+	// 等待帧起始信号
+	while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x0);
+	set_axisbufw_transmit(1);
+
+	XAxiDma_SingleReceive(&dma, (INTPTR)RX_BUFFER_ADDR, RX_BUFFER_SIZE);
+	Xil_DCacheInvalidateRange((INTPTR)RX_BUFFER_ADDR, RX_BUFFER_SIZE);
+	write(client, "image:0,307200,640,480,24\n", 26);
+	write(client, (u8*)RX_BUFFER_ADDR, FRAME_SIZE);
+	write(client, "\n", 1);
+
+	// while(1)
+	// {
+	// 	// 启动首次 DMA 传输
+	// 	XAxiDma_SingleReceive(&dma, (INTPTR)RX_BUFFER_ADDR, RX_BUFFER_SIZE);
+
+	// 	// 检查当前缓冲区是否包含完整帧图像
+	// 	// RxCount++;
+	// 	// SurplusFrameSize = (RX_BUFFER_SIZE * RxCount) % FRAME_SIZE; 
+	// 	// if(SurplusFrameSize > RX_BUFFER_SIZE - FRAME_SIZE)
+	// 	// {
+	// 	// 	XAxiDma_SimpleTransfer(&AxiDma, (INTPTR)RX_BUFFER_ADDR, RX_BUFFER_SIZE, XAXIDMA_DEVICE_TO_DMA); return;
+	// 	// }
+	// 	// FrameAddrOffset = RX_BUFFER_SIZE - (SurplusFrameSize + FRAME_SIZE);
+
+	// 	Xil_DCacheInvalidateRange((INTPTR)RX_BUFFER_ADDR, RX_BUFFER_SIZE);
+		
+	// 	/* 发送帧数据 */
+	// 	// write(client, "image:0,307200,640,480,24\n", 26);
+	// 	// write(client, (u8*)RX_BUFFER_ADDR, FRAME_SIZE);
+	// 	// write(client, "\n", 1);
+	// 	xil_printf("[INFO] DMA RX DONE, first byte is %d\n", ((u8*)RX_BUFFER_ADDR)[0]);
+	// }
+	close(client);
+	vTaskDelete(NULL);
 }
 
-
 /**
- * @brief 网络线程
- * @param p *
- * @return *
-*/
-void network_thread(void *p)
+ * @brief 主线程
+ * @return
+ */
+void main_thread()
 {
 	ip_addr_t ipaddr, netmask, gw;
 
+	SC035HGS_Init();
+	Axisbufw_Init();
+	XAxiDma_Init(&dma, DEVICE_DMA);
+
 	lwip_init();
 
-	// 初始化 IP & MASK & GATWALL
 	IP4_ADDR(&ipaddr, 192, 168, 1, 10);
 	IP4_ADDR(&netmask, 255, 255, 255, 0);
 	IP4_ADDR(&gw, 192, 168, 1, 1);
@@ -296,85 +246,7 @@ void network_thread(void *p)
 
     // 创建上位机传输线程
 	sys_thread_new("xemacif_input_thread", (void(*)(void*))xemacif_input_thread, &server_netif, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
-	sys_thread_new("upper_transmit_thread", upper_connect_thread, 0, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
-
-	vTaskDelete(NULL);
-}
-
-/**
- * @brief:系统初始化函数
- * @param p
- * @return *
- */
-void system_init()
-{
-	// AXISBUFW
-	axisbufw_init();
-
-	// SC035HGS
-	camera_init();
-
-	// 创建二值信号量用以同步中断
-	FrameBufferSyncSemaphore = xSemaphoreCreateBinary();
-	if(FrameBufferSyncSemaphore == NULL)
-	{
-		xil_printf("[ERROR] Failed to create FrameBufferSyncSemaphore\n");
-		return;
-	}
-
-	/* DMA */
-    // https://github.com/fuseon/zynq_freertos_interrupt/blob/master/freertos_hello_world.c
-	XDMA_Init(&AxiDma, DEVICE_DMA);
-	XDMA_Intr_Init(&xInterruptController, &AxiDma, DMA_RX_INTR_ID);
-	XDMA_Intr_Enable(&AxiDma);
-
-	/* 帧缓冲区 */
-    RxCount = 0;
-    RxIndex = 0;
-    RxLastIndex = -1;
-    TxIndex = -1;
-	for(int i = 0; i < RX_BUFFER_NUMS; i++)
-	{
-		RxBufferPtr[i] = RX_BUFFER_BASE + i * RX_BUFFER_SIZE;
-        RxBufferFrameAddr[i] = RX_BUFFER_INVALID_ADDR;
-	}
-    EthTxBufferPtr = RX_BUFFER_BASE + RX_BUFFER_NUMS * RX_BUFFER_SIZE;
-
-	// 结束 BUFW 复位
-	XGpio_DiscreteWrite(&gpio_bufw_rstn, 1, 0x1);
-
-	// 等待上位机连接
-	xil_printf("[INFO] Waiting for upper...\n");
-	while(client <= 0)
-	{
-
-	}
-	xil_printf("[INFO] Upper is connected, ready to start DMA\n");
-	
-	// 使能 AXISBUFW 数据流转模块
-	while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0x0);
-	set_axisbufw_transmit(1);
-
-	// 启动首次 DMA 传输
-	XAxiDma_SimpleTransfer(&AxiDma, (u32)RxBufferPtr[RxIndex], RX_BUFFER_SIZE, XAXIDMA_DEVICE_TO_DMA);
-}
-
-
-void system_init_thread(void *p)
-{
-	system_init();
-	vTaskDelete(NULL);
-}
-
-
-/**
- * @brief 主线程
- * @return
- */
-void main_thread(void *p)
-{
-	sys_thread_new("network_thread", network_thread, NULL, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
-	sys_thread_new("system_init_thread", system_init_thread, NULL, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
+	sys_thread_new("upper_communicate_thread", upper_communicate_thread, 0, THREAD_STACKSIZE, DEFAULT_THREAD_PRIO);
 
 	vTaskDelete(NULL);
 }
