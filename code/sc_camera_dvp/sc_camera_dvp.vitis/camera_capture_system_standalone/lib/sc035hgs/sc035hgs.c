@@ -1,10 +1,10 @@
 #include "sc035hgs.h"
 
 /**
- * @brief ¶Áµ¥¸ö¼Ä´æÆ÷
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param reg_addr  ¼Ä´æÆ÷µØÖ·
- * @return ¼Ä´æÆ÷Öµ
+ * @brief è¯»å•ä¸ªå¯„å­˜å™¨
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param reg_addr  å¯„å­˜å™¨åœ°å€
+ * @return å¯„å­˜å™¨å€¼
 */
 static uint8_t get_reg(camera_t *camera, uint16_t reg_addr)
 {
@@ -13,12 +13,12 @@ static uint8_t get_reg(camera_t *camera, uint16_t reg_addr)
 
 
 /**
- * @brief Ğ´µ¥¸ö¼Ä´æÆ÷
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param reg_addr  ¼Ä´æÆ÷µØÖ·
- * @param mask      ÑÚÂë£¨¶ÔÓ¦ BIT Îª 1 ÔòĞŞ¸Ä£©
- * @param value     ´ıĞ´ÈëµÄÖµ
- * @return Ğ´Èë³É¹¦·µ»Ø XST_SUCCESS£¬·ñÔò·µ»Ø XST_FAILURE
+ * @brief å†™å•ä¸ªå¯„å­˜å™¨
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param reg_addr  å¯„å­˜å™¨åœ°å€
+ * @param mask      æ©ç ï¼ˆå¯¹åº” BIT ä¸º 1 åˆ™ä¿®æ”¹ï¼‰
+ * @param value     å¾…å†™å…¥çš„å€¼
+ * @return å†™å…¥æˆåŠŸè¿”å› XST_SUCCESSï¼Œå¦åˆ™è¿”å› XST_FAILURE
 */
 static s32 set_reg(camera_t *camera, uint16_t reg_addr, uint8_t value)
 {
@@ -26,52 +26,35 @@ static s32 set_reg(camera_t *camera, uint16_t reg_addr, uint8_t value)
 }
 
 
-static s32 set_reg_best_effort(camera_t *camera, uint16_t reg_addr, uint8_t value, uint8_t max_try_nums)
-{
-    while(max_try_nums--)
-    {
-        if(set_reg(camera, reg_addr, value) == XST_SUCCESS)
-        {
-            return XST_SUCCESS;
-        }
-
-        xil_printf("[WARN] Do something to reset i2c module...\n");
-
-        usleep(1 * 1000);
-    }
-    return XST_FAILURE;
-}
-
-
 /**
- * @brief Ğ´µ¥¸ö¼Ä´æÆ÷¶à¸ö±ÈÌØ
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param reg_addr  ¼Ä´æÆ÷µØÖ·
- * @param offset    ¼Ä´æÆ÷±ÈÌØÆ«ÒÆ
- * @param length    ¼Ä´æÆ÷±ÈÌØĞ´ÈëÊıÁ¿£¨ÒÔÎ»Îªµ¥Î»£¬ÓÉµÍÎ»ÖÁ¸ßÎ»£©
- * @param value     ´ıĞ´ÈëµÄÖµ
- * @return ³É¹¦·µ»Ø XST_SUCCESS£¬·ñÔò·µ»Ø XST_FAILURE
+ * @brief å†™å•ä¸ªå¯„å­˜å™¨å¤šä¸ªæ¯”ç‰¹
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param reg_addr  å¯„å­˜å™¨åœ°å€
+ * @param offset    å¯„å­˜å™¨æ¯”ç‰¹åç§»
+ * @param length    å¯„å­˜å™¨æ¯”ç‰¹å†™å…¥æ•°é‡ï¼ˆä»¥ä½ä¸ºå•ä½ï¼Œç”±ä½ä½è‡³é«˜ä½ï¼‰
+ * @param value     å¾…å†™å…¥çš„å€¼
+ * @return æˆåŠŸè¿”å› XST_SUCCESSï¼Œå¦åˆ™è¿”å› XST_FAILURE
 */
 static s32 set_reg_bits(camera_t *camera, uint16_t reg_addr, uint8_t offset, uint8_t length, uint8_t value)
 {
     uint8_t origin_value;
 
-    // »ñÈ¡¼Ä´æÆ÷Ô­Ê¼Öµ
+    // è·å–å¯„å­˜å™¨åŸå§‹å€¼
     origin_value = I2Cs_ReadReg(camera->slv_addr, reg_addr);
 
-    // ĞŞ¸Ä¼Ä´æÆ÷ÏàÓ¦±ÈÌØÎ»
+    // ä¿®æ”¹å¯„å­˜å™¨ç›¸åº”æ¯”ç‰¹ä½
     uint8_t mask = ((1 << length) - 1) << offset;
     value = (origin_value & ~mask) | ((value << offset) & mask);
 
-    // Ğ´¼Ä´æÆ÷
+    // å†™å¯„å­˜å™¨
     return I2Cs_WriteReg(camera->slv_addr, reg_addr, value);
 }
 
 
 /**
- * @brief Ğ´¶à¸ö¼Ä´æÆ÷
- * @param camera            ÉãÏñÍ·¾ä±ú
- * @param reg_value_pairs   ¼Ä´æÆ÷¼üÖµ¶Ô
+ * @brief å†™å¤šä¸ªå¯„å­˜å™¨
+ * @param camera            æ‘„åƒå¤´å¥æŸ„
+ * @param reg_value_pairs   å¯„å­˜å™¨é”®å€¼å¯¹
  * @return *
 */
 static s32 write_regs(camera_t *camera, const RegValuePair *reg_value_pairs)
@@ -81,15 +64,14 @@ static s32 write_regs(camera_t *camera, const RegValuePair *reg_value_pairs)
     {
         if(reg_value_pairs[i].Addr == REG_DELAY_ADDR)
         {
-            // ÑÓÊ±
             usleep(reg_value_pairs[i].Value * 1000);
-            xil_printf("[INFO] Delay %u ms\n", reg_value_pairs[i].Value);
         }
         else
         {
-            if(set_reg_best_effort(camera, reg_value_pairs[i].Addr, reg_value_pairs[i].Value, MAX_SET_REG_NUMS) != XST_SUCCESS)
+            if(set_reg(camera, reg_value_pairs[i].Addr, reg_value_pairs[i].Value) != XST_SUCCESS)
             {
                 xil_printf("[ERROR] Failed to Write reg {0x%04x} << 0x%02x\n", reg_value_pairs[i].Addr, reg_value_pairs[i].Value);
+                return XST_FAILURE;
             }
             else
             {
@@ -104,9 +86,9 @@ static s32 write_regs(camera_t *camera, const RegValuePair *reg_value_pairs)
 
 
 /**
- * @brief Ë®Æ½¾µÏñ
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param enable    Ë®Æ½¾µÏñÊ¹ÄÜ
+ * @brief æ°´å¹³é•œåƒ
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param enable    æ°´å¹³é•œåƒä½¿èƒ½
  * @return *
 */
 static void set_hmirror(camera_t *camera, int enable)
@@ -123,9 +105,9 @@ static void set_hmirror(camera_t *camera, int enable)
 
 
 /**
- * @brief ´¹Ö±·­×ª
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param enable    Ê¹ÄÜ¿ØÖÆ
+ * @brief å‚ç›´ç¿»è½¬
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param enable    ä½¿èƒ½æ§åˆ¶
  * @return *
 */
 static void set_vflip(camera_t *camera, int enable)
@@ -142,7 +124,7 @@ static void set_vflip(camera_t *camera, int enable)
 
 
 /** // TODO
- * @brief ÔöÒæ¿ØÖÆ
+ * @brief å¢ç›Šæ§åˆ¶
  * @param
 */
 static s32 set_agc(camera_t *camera, int gain)
@@ -177,21 +159,21 @@ static s32 set_agc(camera_t *camera, int gain)
 
 
 /**
- * @brief ²âÊÔÄ£Ê½
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param enable    Ê¹ÄÜ¿ØÖÆ
+ * @brief æµ‹è¯•æ¨¡å¼
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param enable    ä½¿èƒ½æ§åˆ¶
  * @return *
 */
 static void set_increment_pattern(camera_t *camera, int enable)
 {
     if(enable)
     {
-        // Ê¹ÄÜ»Ò¶È½¥±ä²âÊÔÄ£Ê½
+        // ä½¿èƒ½ç°åº¦æ¸å˜æµ‹è¯•æ¨¡å¼
         set_reg_bits(camera, REG_INCREMENT_PATTERN_ENABLE_ADDR, 3, 1, 0x1);
-        // Ê¹ÄÜ×Ô¶¯ BLC
+        // ä½¿èƒ½è‡ªåŠ¨ BLC
         set_reg_bits(camera, REG_BLC_ENABLE_ADDR, 0, 1, 0x1);
         set_reg_bits(camera, REG_BLC_MODE_CTRL_ADDR, 6, 1, 0x1);
-        // ÉèÖÃÔöÒæÎª 4
+        // è®¾ç½®å¢ç›Šä¸º 4
         set_agc(camera, 4);
     }
     else
@@ -202,9 +184,9 @@ static void set_increment_pattern(camera_t *camera, int enable)
 
 
 /**
- * @brief ÈíĞİÃß£¨Í¨¹ıĞŞ¸Ä¼Ä´æÆ÷ĞİÃß£¬´ËÊ±ÈÔ¿É·ÃÎÊ´«¸ĞÆ÷¼Ä´æÆ÷£©
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param enable    Ê¹ÄÜ¿ØÖÆ
+ * @brief è½¯ä¼‘çœ ï¼ˆé€šè¿‡ä¿®æ”¹å¯„å­˜å™¨ä¼‘çœ ï¼Œæ­¤æ—¶ä»å¯è®¿é—®ä¼ æ„Ÿå™¨å¯„å­˜å™¨ï¼‰
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param enable    ä½¿èƒ½æ§åˆ¶
  * @return *
 */
 static void set_sleep_mode(camera_t *camera, int enable)
@@ -214,29 +196,29 @@ static void set_sleep_mode(camera_t *camera, int enable)
 
 
 /**
- * @brief BLC ÉèÖÃ
- * @param camera    ÉãÏñÍ·¾ä±ú
- * @param args      BLC ²ÎÊı
+ * @brief BLC è®¾ç½®
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
+ * @param args      BLC å‚æ•°
  * @return *
 */
 static void set_blc(camera_t *camera, blc_args *args)
 {
-    // Ê¹ÄÜ BLC
+    // ä½¿èƒ½ BLC
     set_reg_bits(camera, REG_BLC_ENABLE_ADDR, 0, 1, args->enable ? 0x1 : 0x0);
-    // Ä£Ê½Ñ¡Ôñ
+    // æ¨¡å¼é€‰æ‹©
     set_reg_bits(camera, REG_BLC_MODE_CTRL_ADDR, 6, 1, args->auto_mode_enable ? 0x1 : 0x0);
-    // TODO Í¨µÀÑ¡Ôñ
-    // ÉèÖÃÄ¿±êÖµ
+    // TODO é€šé“é€‰æ‹©
+    // è®¾ç½®ç›®æ ‡å€¼
     set_reg_bits(camera, REG_BLC_TARGET_VALUE_HIGH_ADDR, 0, 5, args->target_value >> 8);
     set_reg_bits(camera, REG_BLC_TARGET_VALUE_LOW_ADDR, 0, 8, args->target_value & 0xff);
 }
 
 
 /**
- * @brief AEC ÆØ¹âÊ±¼äÉèÖÃ
- * @param camera                ÉãÏñÍ·¾ä±ú
- * @param total_exposure_time   ×ÜÆØ¹âÊ±¼ä£¨ÒÔ 1/16 ĞĞÎªµ¥Î»£©
- * @param hdr_exposure_time     HDR ÆØ¹âÊ±¼ä£¨ÒÔ 1/16 ĞĞÎªµ¥Î»£¬Normal Ä£Ê½ÏÂÎŞĞ§£©
+ * @brief AEC æ›å…‰æ—¶é—´è®¾ç½®
+ * @param camera                æ‘„åƒå¤´å¥æŸ„
+ * @param total_exposure_time   æ€»æ›å…‰æ—¶é—´ï¼ˆä»¥ 1/16 è¡Œä¸ºå•ä½ï¼‰
+ * @param hdr_exposure_time     HDR æ›å…‰æ—¶é—´ï¼ˆä»¥ 1/16 è¡Œä¸ºå•ä½ï¼ŒNormal æ¨¡å¼ä¸‹æ— æ•ˆï¼‰
  * @return *
 */
 static void set_aec(camera_t *camera, uint16_t total_exposure_time, uint16_t hdr_exposure_time)
@@ -252,8 +234,8 @@ static void set_aec(camera_t *camera, uint16_t total_exposure_time, uint16_t hdr
 
 
 /**
- * @brief ¸´Î»ÉãÏñÍ·
- * @param camera    ÉãÏñÍ·¾ä±ú
+ * @brief å¤ä½æ‘„åƒå¤´
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
 */
 static void reset(camera_t *camera)
 {
@@ -262,8 +244,8 @@ static void reset(camera_t *camera)
 
 
 /**
- * @brief »ñÈ¡ÉãÏñÍ·Çı¶¯Ğ¾Æ¬ĞòÁĞ»¯
- * @param camera    ÉãÏñÍ·¾ä±ú
+ * @brief è·å–æ‘„åƒå¤´é©±åŠ¨èŠ¯ç‰‡åºåˆ—åŒ–
+ * @param camera    æ‘„åƒå¤´å¥æŸ„
  * @return chip id
 */
 static uint16_t get_chip_id(camera_t *camera)
@@ -276,17 +258,17 @@ static uint16_t get_chip_id(camera_t *camera)
 
 
 /**
- * @brief ³õÊ¼»¯ SC035HGS ÉãÏñÍ·
- * @param camera ÉãÏñÍ·¾ä±ú
+ * @brief åˆå§‹åŒ– SC035HGS æ‘„åƒå¤´
+ * @param camera æ‘„åƒå¤´å¥æŸ„
  * @return *
 */
 s32 sc035hgs_init(camera_t *camera)
 {
-    // ³õÊ¼»¯ÉãÏñÍ·´Ó»úµØÖ·
-    // ZYNQ PS IIC Ğ´µØÖ·»á×óÒÆÒ»Î»£¬ÈôÇı¶¯Ğ´µØÖ·²»×óÒÆÔòĞèÒªÊ¹ÓÃ SLAVE_ADDR << 1
+    // åˆå§‹åŒ–æ‘„åƒå¤´ä»æœºåœ°å€
+    // ZYNQ PS IIC å†™åœ°å€ä¼šå·¦ç§»ä¸€ä½ï¼Œè‹¥é©±åŠ¨å†™åœ°å€ä¸å·¦ç§»åˆ™éœ€è¦ä½¿ç”¨ SLAVE_ADDR << 1
     camera->slv_addr = SLAVE_ADDR;
 
-    // ³õÊ¼»¯ÉãÏñÍ· IIC ¾ä±ú
+    // åˆå§‹åŒ–æ‘„åƒå¤´ IIC å¥æŸ„
     #if IIC_PS_ENABLE
         camera->i2c_sclk_frq = IIC_FRQ_HZ;
         PS_IIC_Init(&camera->i2c_instance_ptr, camera->i2c_device_id, camera->i2c_sclk_frq);
@@ -294,9 +276,7 @@ s32 sc035hgs_init(camera_t *camera)
         I2Cs_Init(camera->i2c_device_id);
     #endif
 
-    // ¼ì²éÉãÏñÍ· ID
-    xil_printf("[INFO] Checking camera's chip id...\n");
-
+    // æ£€æŸ¥æ‘„åƒå¤´ ID
     uint16_t chip_id = get_chip_id(camera);
     if(chip_id != CHIP_ID)
     {
@@ -304,9 +284,7 @@ s32 sc035hgs_init(camera_t *camera)
         return XST_FAILURE;
     }
 
-    xil_printf("[INFO] Success to check camera's chip id\n");
-
-    // ³õÊ¼»¯ÉãÏñÍ·²Ù×÷º¯Êı
+    // åˆå§‹åŒ–æ‘„åƒå¤´æ“ä½œå‡½æ•°
     camera->reset = reset;
     camera->set_sleep_mode = set_sleep_mode;
     camera->set_agc = set_agc;
@@ -317,14 +295,12 @@ s32 sc035hgs_init(camera_t *camera)
     camera->set_increment_pattern = set_increment_pattern;
     camera->get_chip_id = get_chip_id;
 
-    // ³õÊ¼»¯ÉãÏñÍ·¼Ä´æÆ÷
-    xil_printf("[INFO] Configing camera's regs...\n");
+    // åˆå§‹åŒ–æ‘„åƒå¤´å¯„å­˜å™¨
     if(write_regs(camera, REGS_INIT_640_480_50FPS_24M_XCLK) != XST_SUCCESS)
     {
-        xil_printf("[ERROR] Failed to config camera's regs\n");
+        xil_printf("[ERROR] SC035HGS's regs init failed\n");
         return XST_FAILURE;
     }
-    xil_printf("[INFO] Success to config camera's regs\n");
 
     return XST_SUCCESS;
 }

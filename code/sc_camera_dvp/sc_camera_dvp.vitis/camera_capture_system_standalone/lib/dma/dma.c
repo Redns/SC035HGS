@@ -1,7 +1,12 @@
 #include "dma.h"
 
+volatile s32 TxIndex;
+volatile s32 RxIndex;
+volatile s32 RxLastIndex;
+volatile u32 FrameBufferPtr[FRAME_BUFFER_NUMS];
+
 volatile u8 RxDone;
-volatile u8 Error;
+volatile u8 RxError;
 
 /**
  * @brief 中断处理函数
@@ -25,7 +30,7 @@ static void DMA_RxIntrHandler(void *Callback)
 	// 中断发生错误
 	if(IrqStatus & XAXIDMA_IRQ_ERROR_MASK) 
     {
-		Error = 1;
+		RxError = 1;
 
 		XAxiDma_Reset(AxiDmaInstance);
 
@@ -100,7 +105,7 @@ s32 XAxiDma_Intr_Setup(XScuGic *ScuGicInstancePtr, XAxiDma *AxiDmaInstancePtr, u
 	}
 
     // 设置中断优先级（0xA0）和触发条件（上升沿）
-    XScuGic_SetPriorityTriggerType(ScuGicInstancePtr, RxIntrId, 0x0, 0x3);
+    XScuGic_SetPriorityTriggerType(ScuGicInstancePtr, RxIntrId, 0xA0, 0x3);
 
 	// 使能全局中断
 	XScuGic_Enable(ScuGicInstancePtr, RxIntrId);

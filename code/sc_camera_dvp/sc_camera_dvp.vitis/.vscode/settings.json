@@ -35,6 +35,9 @@
         "platform_config.h": "c",
         "xil_exception.h": "c",
         "ip_addr.h": "c",
-        "xstatus.h": "c"
+        "xstatus.h": "c",
+        "i2cs.h": "c",
+        "xgpio.h": "c",
+        "xaxidma.h": "c"
     }
 }

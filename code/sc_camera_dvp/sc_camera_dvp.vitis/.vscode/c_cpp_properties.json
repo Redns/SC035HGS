@@ -18,7 +18,13 @@
                 "${workspaceFolder}/camera_capture_system_standalone/eth",
                 "${workspaceFolder}/camera_capture_system_standalone/lib/dma_intr",
                 "${workspaceFolder}/camera_capture_system_standalone/lib/intr",
-                "${workspaceFolder}/system_wrapper_standalone/export/system_wrapper_standalone/sw/system_wrapper_standalone/standalone_ps7_cortexa9_0/bspinclude/include"
+                "${workspaceFolder}/system_wrapper_standalone/export/system_wrapper_standalone/sw/system_wrapper_standalone/standalone_ps7_cortexa9_0/bspinclude/include",
+                "${workspaceFolder}/camera_capture_system_standalone/lib/sc035hgs",
+                "${workspaceFolder}/camera_capture_system_standalone/lib/i2cs",
+                "${workspaceFolder}/camera_capture_system_standalone/lib/iic",
+                "${workspaceFolder}/camera_capture_system_standalone/lib/dma",
+                "${workspaceFolder}/system_wrapper_standalone/export/system_wrapper_standalone/sw/system_wrapper_standalone/standalone_ps7_cortexa9_0/bspinclude/include",
+                "${workspaceFolder}/system_wrapper_standalone/ps7_cortexa9_0/standalone_ps7_cortexa9_0/bsp/ps7_cortexa9_0/include"
             ],
             "defines": [
                 "_DEBUG",

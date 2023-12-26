@@ -465,7 +465,7 @@ static u32_t get_Realtek_phy_speed(XEmacPs *xemacpsp, u32_t phy_addr)
 	u32_t timeout_counter = 0;
 	u32_t temp_speed;
 
-	xil_printf("Start PHY autonegotiation \r\n");
+	xil_printf("[INFO] Start PHY autonegotiation\n");
 
 	XEmacPs_PhyRead(xemacpsp, phy_addr, IEEE_AUTONEGO_ADVERTISE_REG, &control);
 	control |= IEEE_ASYMMETRIC_PAUSE_MASK;
@@ -499,19 +499,19 @@ static u32_t get_Realtek_phy_speed(XEmacPs *xemacpsp, u32_t phy_addr)
 
 	XEmacPs_PhyRead(xemacpsp, phy_addr, IEEE_STATUS_REG_OFFSET, &status);
 
-	xil_printf("Waiting for PHY to complete autonegotiation.\r\n");
+	xil_printf("[INFO] Waiting for PHY to complete autonegotiation\n");
 
 	while ( !(status & IEEE_STAT_AUTONEGOTIATE_COMPLETE) ) {
 		sleep(1);
 		timeout_counter++;
 
 		if (timeout_counter == 30) {
-			xil_printf("Auto negotiation error \r\n");
+			xil_printf("[ERROR] Auto negotiation error\n");
 			return XST_FAILURE;
 		}
 		XEmacPs_PhyRead(xemacpsp, phy_addr, IEEE_STATUS_REG_OFFSET, &status);
 	}
-	xil_printf("autonegotiation complete \r\n");
+	xil_printf("[INFO] Autonegotiation complete\n");
 
 	XEmacPs_PhyRead(xemacpsp, phy_addr,0X1A,&status_speed);
 	if (status_speed & 0x04) {
@@ -538,7 +538,7 @@ static u32_t get_phy_speed_ksz9031(XEmacPs *xemacpsp, u32_t phy_addr)
 	u16_t status_speed;
 	u32_t timeout_counter = 0;
 
-	xil_printf("Start PHY autonegotiation \r\n");
+	xil_printf("[INFO] Start PHY autonegotiation\n");
 
 	XEmacPs_PhyWrite(xemacpsp,phy_addr, IEEE_PAGE_ADDRESS_REGISTER, 2);
 	XEmacPs_PhyRead(xemacpsp, phy_addr, IEEE_CONTROL_REG_MAC, &control);
@@ -586,7 +586,7 @@ static u32_t get_phy_speed_ksz9031(XEmacPs *xemacpsp, u32_t phy_addr)
 
 	XEmacPs_PhyRead(xemacpsp, phy_addr, IEEE_STATUS_REG_OFFSET, &status);
 
-	xil_printf("Waiting for PHY to complete autonegotiation.\r\n");
+	xil_printf("[INFO] Waiting for PHY to complete autonegotiation\n");
 
 	while ( !(status & IEEE_STAT_AUTONEGOTIATE_COMPLETE) ) {
 		sleep(1);
@@ -595,12 +595,12 @@ static u32_t get_phy_speed_ksz9031(XEmacPs *xemacpsp, u32_t phy_addr)
 		timeout_counter++;
 
 		if (timeout_counter == 30) {
-			xil_printf("Auto negotiation error \r\n");
+			xil_printf("[ERROR] Auto negotiation error\n");
 			return 0;
 		}
 		XEmacPs_PhyRead(xemacpsp, phy_addr, IEEE_STATUS_REG_OFFSET, &status);
 	}
-	xil_printf("autonegotiation complete \r\n");
+	xil_printf("[INFO] Autonegotiation complete\n");
 
 	XEmacPs_PhyRead(xemacpsp, phy_addr,0x1f,
 					&status_speed);
@@ -645,7 +645,7 @@ static u32_t get_IEEE_phy_speed(XEmacPs *xemacpsp, u32_t phy_addr)
 		xil_printf("Phy %d is TI_phy\n\r", phy_addr);
 		RetStatus = get_TI_phy_speed(xemacpsp, phy_addr);
 	} else if (phy_identity == PHY_REALTEK_IDENTIFIER) {
-		xil_printf("Phy %d is RTL8211FDI\n\r", phy_addr);
+		xil_printf("[INFO] Phy %d is RTL8211FDI\r", phy_addr);
 		RetStatus = get_Realtek_phy_speed(xemacpsp, phy_addr);
 	} else {
 		xil_printf("Phy %d is Marvell_phy\n\r", phy_addr);

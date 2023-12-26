@@ -3,8 +3,8 @@
 XGpio GPIO_I2Cs;
 
 /**
- * @brief ÑÓÊ±º¯Êı
- * @param us ÑÓÊ±Ê±¼ä£¨Î¢Ãë£©
+ * @brief å»¶æ—¶å‡½æ•°
+ * @param us å»¶æ—¶æ—¶é—´ï¼ˆå¾®ç§’ï¼‰
  * @return *
 */
 static void Delay_Us(uint8_t us)
@@ -14,8 +14,8 @@ static void Delay_Us(uint8_t us)
 
 
 /**
- * @brief ÑÓÊ±º¯Êı
- * @param us ÑÓÊ±Ê±¼ä£¨ºÁÃë£©
+ * @brief å»¶æ—¶å‡½æ•°
+ * @param us å»¶æ—¶æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰
  * @return *
 */
 static void Delay_Ms(uint8_t ms)
@@ -25,7 +25,7 @@ static void Delay_Ms(uint8_t ms)
 
 
 /**
-  * @brief I2C ¿ªÊ¼ĞÅºÅ
+  * @brief I2C å¼€å§‹ä¿¡å·
   * @return *
   */
 static void I2Cs_Start()
@@ -44,7 +44,7 @@ static void I2Cs_Start()
 
 
 /**
- * @brief I2C ½áÊøĞÅºÅ
+ * @brief I2C ç»“æŸä¿¡å·
  * @return *
 */
 static void I2Cs_Stop()
@@ -66,8 +66,8 @@ static void I2Cs_Stop()
 
 
 /**
- * @brief ·¢ËÍµ¥¸ö×Ö½Ú
- * @param byte ´ı·¢ËÍµÄ×Ö½Ú
+ * @brief å‘é€å•ä¸ªå­—èŠ‚
+ * @param byte å¾…å‘é€çš„å­—èŠ‚
  * @return *
 */
 static void I2Cs_WriteByte(uint8_t byte)
@@ -99,8 +99,8 @@ static void I2Cs_WriteByte(uint8_t byte)
 
 
 /**
- * @brief ¶Áµ¥¸ö×Ö½Ú
- * @return ¶ÁÈ¡µÄ×Ö½ÚÊı¾İ
+ * @brief è¯»å•ä¸ªå­—èŠ‚
+ * @return è¯»å–çš„å­—èŠ‚æ•°æ®
 */
 static uint8_t I2Cs_ReadByte()
 {
@@ -138,8 +138,8 @@ static uint8_t I2Cs_ReadByte()
 
 
 /**
- * @brief µÈ´ı ACK ĞÅºÅ
- * @return ÕıÈ·Ó¦´ğ·µ»Ø XST_SUCCESS£¬·ñÔò·µ»Ø XST_FAILURE
+ * @brief ç­‰å¾… ACK ä¿¡å·
+ * @return æ­£ç¡®åº”ç­”è¿”å› XST_SUCCESSï¼Œå¦åˆ™è¿”å› XST_FAILURE
 */
 static s32 I2Cs_WaitAck()
 {
@@ -161,7 +161,7 @@ static s32 I2Cs_WaitAck()
 
 
 /**
- * @brief ²úÉú ACK ĞÅºÅ
+ * @brief äº§ç”Ÿ ACK ä¿¡å·
  * @return *
 */
 //static void I2Cs_Ack()
@@ -183,7 +183,7 @@ static s32 I2Cs_WaitAck()
 
 
 /**
- * @brief ²úÉú NACK ĞÅºÅ
+ * @brief äº§ç”Ÿ NACK ä¿¡å·
  * @return *
 */
 static void I2Cs_NAck()
@@ -205,9 +205,9 @@ static void I2Cs_NAck()
 
 
 /**
- * @brief ¼ì²â I2C ´ÓÉè±¸ÊÇ·ñ´æÔÚ
- * @param SlaveAddr ´ÓÉè±¸µØÖ·
- * @return ÈôÉè±¸´æÔÚÔò·µ»Ø XST_SUCCESS£¬·ñÔò·µ»Ø XST_FAILURE
+ * @brief æ£€æµ‹ I2C ä»è®¾å¤‡æ˜¯å¦å­˜åœ¨
+ * @param SlaveAddr ä»è®¾å¤‡åœ°å€
+ * @return è‹¥è®¾å¤‡å­˜åœ¨åˆ™è¿”å› XST_SUCCESSï¼Œå¦åˆ™è¿”å› XST_FAILURE
 */
 s32 I2Cs_CheckDev(uint8_t SlaveAddr)
 {
@@ -223,17 +223,17 @@ s32 I2Cs_CheckDev(uint8_t SlaveAddr)
 
 
 /**
- * @brief Ğ´¼Ä´æÆ÷Êı¾İ
- * @param SlaveAddr ´Ó»úµØÖ÷
- * @param RegAddr ¼Ä´æÆ÷µØÖ·
- * @param Value ´ıĞ´ÈëµÄÊı¾İ
- * @return Ğ´Èë³É¹¦·µ»Ø XST_SUCCESS£¬·ñÔò·µ»Ø XST_FAILURE
+ * @brief å†™å¯„å­˜å™¨æ•°æ®
+ * @param SlaveAddr ä»æœºåœ°ä¸»
+ * @param RegAddr å¯„å­˜å™¨åœ°å€
+ * @param Value å¾…å†™å…¥çš„æ•°æ®
+ * @return å†™å…¥æˆåŠŸè¿”å› XST_SUCCESSï¼Œå¦åˆ™è¿”å› XST_FAILURE
 */
 s32 I2Cs_WriteReg(uint8_t SlaveAddr, uint16_t RegAddr, uint8_t Value)
 {
     I2Cs_Start();
 
-    // Ğ´´Ó»úÉè±¸µØÖ·
+    // å†™ä»æœºè®¾å¤‡åœ°å€
     I2Cs_WriteByte(SlaveAddr << 1);
     if(I2Cs_WaitAck(ACK_TIMEOUT_TICKS) != XST_SUCCESS)
     {
@@ -241,7 +241,7 @@ s32 I2Cs_WriteReg(uint8_t SlaveAddr, uint16_t RegAddr, uint8_t Value)
         return XST_FAILURE;
     }
 
-    // Ğ´¼Ä´æÆ÷µØÖ·
+    // å†™å¯„å­˜å™¨åœ°å€
     I2Cs_WriteByte(RegAddr >> 8);
     if(I2Cs_WaitAck(ACK_TIMEOUT_TICKS) != XST_SUCCESS)
     {
@@ -255,7 +255,7 @@ s32 I2Cs_WriteReg(uint8_t SlaveAddr, uint16_t RegAddr, uint8_t Value)
         return XST_FAILURE;
     }
 
-    // Ğ´¼Ä´æÆ÷Êı¾İ
+    // å†™å¯„å­˜å™¨æ•°æ®
     I2Cs_WriteByte(Value);
     if(I2Cs_WaitAck(ACK_TIMEOUT_TICKS) != XST_SUCCESS)
     {
@@ -271,10 +271,10 @@ s32 I2Cs_WriteReg(uint8_t SlaveAddr, uint16_t RegAddr, uint8_t Value)
 
 
 /**
- * @brief ¶Á¼Ä´æÆ÷
- * @param SlaveAddr ´Ó»úµØÖ·
- * @param RegAddr ¼Ä´æÆ÷µØÖ·
- * @return ¼Ä´æÆ÷Êı¾İ
+ * @brief è¯»å¯„å­˜å™¨
+ * @param SlaveAddr ä»æœºåœ°å€
+ * @param RegAddr å¯„å­˜å™¨åœ°å€
+ * @return å¯„å­˜å™¨æ•°æ®
 */
 uint8_t I2Cs_ReadReg(uint8_t SlaveAddr, uint16_t RegAddr)
 {
@@ -282,7 +282,7 @@ uint8_t I2Cs_ReadReg(uint8_t SlaveAddr, uint16_t RegAddr)
 
     I2Cs_Start();
 
-    // Ğ´´Ó»úÉè±¸µØÖ·
+    // å†™ä»æœºè®¾å¤‡åœ°å€
     I2Cs_WriteByte(SlaveAddr << 1);
     if(I2Cs_WaitAck(ACK_TIMEOUT_TICKS) != XST_SUCCESS)
     {
@@ -290,7 +290,7 @@ uint8_t I2Cs_ReadReg(uint8_t SlaveAddr, uint16_t RegAddr)
         return XST_FAILURE;
     }
 
-    // Ğ´¼Ä´æÆ÷µØÖ·
+    // å†™å¯„å­˜å™¨åœ°å€
     I2Cs_WriteByte(RegAddr >> 8);
     if(I2Cs_WaitAck(ACK_TIMEOUT_TICKS) != XST_SUCCESS)
     {
@@ -304,7 +304,7 @@ uint8_t I2Cs_ReadReg(uint8_t SlaveAddr, uint16_t RegAddr)
         return XST_FAILURE;
     }
 
-    // Ğ´´Ó»úµØÖ·
+    // å†™ä»æœºåœ°å€
     I2Cs_Start();
     I2Cs_WriteByte((SlaveAddr << 1) | 0x01);
     if(I2Cs_WaitAck(ACK_TIMEOUT_TICKS) != XST_SUCCESS)
@@ -313,7 +313,7 @@ uint8_t I2Cs_ReadReg(uint8_t SlaveAddr, uint16_t RegAddr)
         return XST_FAILURE;
     }
 
-    // ¶ÁÈ¡¼Ä´æÆ÷Êı¾İ
+    // è¯»å–å¯„å­˜å™¨æ•°æ®
     value = I2Cs_ReadByte();
 
     I2Cs_NAck();
@@ -324,19 +324,19 @@ uint8_t I2Cs_ReadReg(uint8_t SlaveAddr, uint16_t RegAddr)
 
 
 /**
- * @brief ³õÊ¼»¯ I2Cs
- * @param Éè±¸ ID
+ * @brief åˆå§‹åŒ– I2Cs
+ * @param è®¾å¤‡ ID
  * @return *
 */
 void I2Cs_Init(uint16_t DeviceId)
 {
     XGpio_Initialize(&GPIO_I2Cs, DeviceId);
 
-    // ÉèÖÃÊäÈë/Êä³ö
+    // è®¾ç½®è¾“å…¥/è¾“å‡º
     XGpio_SetDataDirection(&GPIO_I2Cs, 1, 0x0);
     XGpio_SetDataDirection(&GPIO_I2Cs, 2, 0x0);
 
-    // ³õÊ¼»¯×ÜÏßÊä³ö
+    // åˆå§‹åŒ–æ€»çº¿è¾“å‡º
     XGpio_DiscreteWrite(&GPIO_I2Cs, 1, 0x1);
     XGpio_DiscreteWrite(&GPIO_I2Cs, 2, 0x1);
 }

@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x2E0ECED85B066F96",
+      "boundary_crc": "0x1475A65D78C3D2A1",
       "device": "xc7z100ffg900-2",
       "gen_directory": "../../../../sc_camera_dvp.gen/sources_1/bd/system",
       "name": "system",
@@ -28,26 +28,26 @@
         "m08_couplers": {},
         "m09_couplers": {}
       },
-      "rst_ps7_0_50M": "",
-      "axi_dma_0": "",
+      "SOFTWARE_RESET": "",
+      "AXI_DMA": "",
+      "camera_clk_wiz": "",
+      "I2Cs": "",
+      "BUFW_RSTN": "",
+      "BUFW": "",
+      "CAMERA_HREF_INVERT": "",
+      "CAMERA_VSYNC_FILTER": "",
+      "XCLK_LOCKED": "",
+      "BUFW_TRANS_EN": "",
+      "CAMERA_VSYNC": "",
+      "PHY_RSTN": "",
+      "CAMERA_PWDN": "",
+      "SYSTEM_STATE": "",
       "axi_mem_intercon": {
         "s00_couplers": {
           "auto_pc": "",
           "auto_us": ""
         }
-      },
-      "camera_clk_wiz": "",
-      "I2Cs": "",
-      "BUFW_RSTN": "",
-      "ui_axisbufw_0": "",
-      "util_vector_logic_0": "",
-      "util_vector_logic_1": "",
-      "XCLK_LOCKED": "",
-      "BUFW_FS": "",
-      "CAMERA_VSYNC": "",
-      "PHY_RSTN": "",
-      "CAMERA_PWDN": "",
-      "LED_STATE": ""
+      }
     },
     "interface_ports": {
       "DDR": {
@@ -150,7 +150,7 @@
         "vlnv_bus_definition": "xilinx.com:interface:gpio:1.0",
         "vlnv": "xilinx.com:interface:gpio_rtl:1.0"
       },
-      "LED_STATE": {
+      "SYS_STATE": {
         "mode": "Master",
         "vlnv_bus_definition": "xilinx.com:interface:gpio:1.0",
         "vlnv": "xilinx.com:interface:gpio_rtl:1.0"
@@ -1153,15 +1153,6 @@
           "PCW_S_AXI_HP0_ID_WIDTH": {
             "value": "6"
           },
-          "PCW_S_AXI_HP1_DATA_WIDTH": {
-            "value": "64"
-          },
-          "PCW_S_AXI_HP2_DATA_WIDTH": {
-            "value": "64"
-          },
-          "PCW_S_AXI_HP3_DATA_WIDTH": {
-            "value": "64"
-          },
           "PCW_TPIU_PERIPHERAL_CLKSRC": {
             "value": "External"
           },
@@ -2006,8 +1997,8 @@
             "components": {
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
-                "xci_name": "system_auto_pc_0",
-                "xci_path": "ip\\system_auto_pc_0\\system_auto_pc_0.xci",
+                "xci_name": "system_auto_pc_2",
+                "xci_path": "ip\\system_auto_pc_2\\system_auto_pc_2.xci",
                 "inst_hier_path": "ps7_0_axi_periph/s00_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
@@ -2811,23 +2802,29 @@
           }
         }
       },
-      "rst_ps7_0_50M": {
+      "SOFTWARE_RESET": {
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
         "xci_name": "system_rst_ps7_0_50M_0",
         "xci_path": "ip\\system_rst_ps7_0_50M_0\\system_rst_ps7_0_50M_0.xci",
-        "inst_hier_path": "rst_ps7_0_50M"
+        "inst_hier_path": "SOFTWARE_RESET"
       },
-      "axi_dma_0": {
+      "AXI_DMA": {
         "vlnv": "xilinx.com:ip:axi_dma:7.1",
         "xci_name": "system_axi_dma_0_0",
         "xci_path": "ip\\system_axi_dma_0_0\\system_axi_dma_0_0.xci",
-        "inst_hier_path": "axi_dma_0",
+        "inst_hier_path": "AXI_DMA",
         "parameters": {
+          "c_addr_width": {
+            "value": "32"
+          },
           "c_include_mm2s": {
             "value": "0"
           },
           "c_include_sg": {
             "value": "0"
+          },
+          "c_s2mm_burst_size": {
+            "value": "16"
           },
           "c_sg_length_width": {
             "value": "20"
@@ -2854,11 +2851,257 @@
           }
         }
       },
+      "camera_clk_wiz": {
+        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
+        "xci_name": "system_clk_wiz_0_0",
+        "xci_path": "ip\\system_clk_wiz_0_0\\system_clk_wiz_0_0.xci",
+        "inst_hier_path": "camera_clk_wiz",
+        "parameters": {
+          "CLKIN1_JITTER_PS": {
+            "value": "50.0"
+          },
+          "CLKIN2_JITTER_PS": {
+            "value": "166.66"
+          },
+          "CLKOUT1_JITTER": {
+            "value": "228.662"
+          },
+          "CLKOUT1_PHASE_ERROR": {
+            "value": "190.896"
+          },
+          "CLKOUT1_REQUESTED_OUT_FREQ": {
+            "value": "24.000"
+          },
+          "CLK_OUT1_PORT": {
+            "value": "clk_out_24MHz"
+          },
+          "MMCM_CLKFBOUT_MULT_F": {
+            "value": "25.125"
+          },
+          "MMCM_CLKIN1_PERIOD": {
+            "value": "5.000"
+          },
+          "MMCM_CLKIN2_PERIOD": {
+            "value": "10.0"
+          },
+          "MMCM_CLKOUT0_DIVIDE_F": {
+            "value": "41.875"
+          },
+          "MMCM_DIVCLK_DIVIDE": {
+            "value": "5"
+          },
+          "PRIM_IN_FREQ": {
+            "value": "200.000"
+          },
+          "PRIM_SOURCE": {
+            "value": "Differential_clock_capable_pin"
+          },
+          "RESET_PORT": {
+            "value": "resetn"
+          },
+          "RESET_TYPE": {
+            "value": "ACTIVE_LOW"
+          },
+          "SECONDARY_SOURCE": {
+            "value": "Single_ended_clock_capable_pin"
+          },
+          "USE_INCLK_SWITCHOVER": {
+            "value": "false"
+          },
+          "USE_LOCKED": {
+            "value": "true"
+          },
+          "USE_RESET": {
+            "value": "true"
+          }
+        }
+      },
+      "I2Cs": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "system_axi_gpio_0_10",
+        "xci_path": "ip\\system_axi_gpio_0_10\\system_axi_gpio_0_10.xci",
+        "inst_hier_path": "I2Cs",
+        "parameters": {
+          "C_ALL_OUTPUTS": {
+            "value": "1"
+          },
+          "C_DOUT_DEFAULT": {
+            "value": "0x00000001"
+          },
+          "C_DOUT_DEFAULT_2": {
+            "value": "0x00000001"
+          },
+          "C_GPIO2_WIDTH": {
+            "value": "1"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "1"
+          },
+          "C_IS_DUAL": {
+            "value": "1"
+          }
+        }
+      },
+      "BUFW_RSTN": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "system_axi_gpio_0_11",
+        "xci_path": "ip\\system_axi_gpio_0_11\\system_axi_gpio_0_11.xci",
+        "inst_hier_path": "BUFW_RSTN",
+        "parameters": {
+          "C_ALL_OUTPUTS": {
+            "value": "1"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "1"
+          }
+        }
+      },
+      "BUFW": {
+        "vlnv": "xilinx.com:user:ui_axisbufw:1.0",
+        "xci_name": "system_ui_axisbufw_0_0",
+        "xci_path": "ip\\system_ui_axisbufw_0_0\\system_ui_axisbufw_0_0.xci",
+        "inst_hier_path": "BUFW",
+        "parameters": {
+          "AXI_DATA_WIDTH": {
+            "value": "32"
+          },
+          "VIDEO_ENABLE": {
+            "value": "false"
+          },
+          "W_BUFDEPTH": {
+            "value": "2048"
+          },
+          "W_DATAWIDTH": {
+            "value": "8"
+          },
+          "W_XSIZE": {
+            "value": "640"
+          },
+          "W_YSIZE": {
+            "value": "480"
+          }
+        }
+      },
+      "CAMERA_HREF_INVERT": {
+        "vlnv": "xilinx.com:ip:util_vector_logic:2.0",
+        "xci_name": "system_util_vector_logic_0_0",
+        "xci_path": "ip\\system_util_vector_logic_0_0_1\\system_util_vector_logic_0_0.xci",
+        "inst_hier_path": "CAMERA_HREF_INVERT",
+        "parameters": {
+          "C_OPERATION": {
+            "value": "not"
+          },
+          "C_SIZE": {
+            "value": "1"
+          }
+        }
+      },
+      "CAMERA_VSYNC_FILTER": {
+        "vlnv": "xilinx.com:ip:util_vector_logic:2.0",
+        "xci_name": "system_util_vector_logic_1_0",
+        "xci_path": "ip\\system_util_vector_logic_1_0\\system_util_vector_logic_1_0.xci",
+        "inst_hier_path": "CAMERA_VSYNC_FILTER",
+        "parameters": {
+          "C_SIZE": {
+            "value": "1"
+          }
+        }
+      },
+      "XCLK_LOCKED": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "system_axi_gpio_0_13",
+        "xci_path": "ip\\system_axi_gpio_0_13\\system_axi_gpio_0_13.xci",
+        "inst_hier_path": "XCLK_LOCKED",
+        "parameters": {
+          "C_ALL_INPUTS": {
+            "value": "1"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "1"
+          }
+        }
+      },
+      "BUFW_TRANS_EN": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "system_axi_gpio_0_14",
+        "xci_path": "ip\\system_axi_gpio_0_14\\system_axi_gpio_0_14.xci",
+        "inst_hier_path": "BUFW_TRANS_EN",
+        "parameters": {
+          "C_ALL_OUTPUTS": {
+            "value": "1"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "1"
+          }
+        }
+      },
+      "CAMERA_VSYNC": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "system_axi_gpio_0_15",
+        "xci_path": "ip\\system_axi_gpio_0_15\\system_axi_gpio_0_15.xci",
+        "inst_hier_path": "CAMERA_VSYNC",
+        "parameters": {
+          "C_ALL_INPUTS": {
+            "value": "1"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "1"
+          }
+        }
+      },
+      "PHY_RSTN": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "system_axi_gpio_0_16",
+        "xci_path": "ip\\system_axi_gpio_0_16\\system_axi_gpio_0_16.xci",
+        "inst_hier_path": "PHY_RSTN",
+        "parameters": {
+          "C_ALL_OUTPUTS": {
+            "value": "1"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "1"
+          }
+        }
+      },
+      "CAMERA_PWDN": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "system_axi_gpio_0_17",
+        "xci_path": "ip\\system_axi_gpio_0_17\\system_axi_gpio_0_17.xci",
+        "inst_hier_path": "CAMERA_PWDN",
+        "parameters": {
+          "C_ALL_OUTPUTS": {
+            "value": "1"
+          },
+          "C_DOUT_DEFAULT": {
+            "value": "0x00000001"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "1"
+          }
+        }
+      },
+      "SYSTEM_STATE": {
+        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
+        "xci_name": "system_axi_gpio_0_18",
+        "xci_path": "ip\\system_axi_gpio_0_18\\system_axi_gpio_0_18.xci",
+        "inst_hier_path": "SYSTEM_STATE",
+        "parameters": {
+          "C_ALL_OUTPUTS": {
+            "value": "1"
+          },
+          "C_DOUT_DEFAULT": {
+            "value": "0x00000000"
+          },
+          "C_GPIO_WIDTH": {
+            "value": "4"
+          }
+        }
+      },
       "axi_mem_intercon": {
         "vlnv": "xilinx.com:ip:axi_interconnect:2.1",
-        "xci_path": "ip\\system_axi_mem_intercon_0\\system_axi_mem_intercon_0.xci",
+        "xci_path": "ip\\system_axi_mem_intercon_1\\system_axi_mem_intercon_1.xci",
         "inst_hier_path": "axi_mem_intercon",
-        "xci_name": "system_axi_mem_intercon_0",
+        "xci_name": "system_axi_mem_intercon_1",
         "parameters": {
           "NUM_MI": {
             "value": "1"
@@ -2974,8 +3217,8 @@
             "components": {
               "auto_pc": {
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
-                "xci_name": "system_auto_pc_1",
-                "xci_path": "ip\\system_auto_pc_1\\system_auto_pc_1.xci",
+                "xci_name": "system_auto_pc_3",
+                "xci_path": "ip\\system_auto_pc_3\\system_auto_pc_3.xci",
                 "inst_hier_path": "axi_mem_intercon/s00_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
@@ -3097,252 +3340,15 @@
             ]
           }
         }
-      },
-      "camera_clk_wiz": {
-        "vlnv": "xilinx.com:ip:clk_wiz:6.0",
-        "xci_name": "system_clk_wiz_0_0",
-        "xci_path": "ip\\system_clk_wiz_0_0\\system_clk_wiz_0_0.xci",
-        "inst_hier_path": "camera_clk_wiz",
-        "parameters": {
-          "CLKIN1_JITTER_PS": {
-            "value": "50.0"
-          },
-          "CLKIN2_JITTER_PS": {
-            "value": "166.66"
-          },
-          "CLKOUT1_JITTER": {
-            "value": "228.662"
-          },
-          "CLKOUT1_PHASE_ERROR": {
-            "value": "190.896"
-          },
-          "CLKOUT1_REQUESTED_OUT_FREQ": {
-            "value": "24.000"
-          },
-          "CLK_OUT1_PORT": {
-            "value": "clk_out_24MHz"
-          },
-          "MMCM_CLKFBOUT_MULT_F": {
-            "value": "25.125"
-          },
-          "MMCM_CLKIN1_PERIOD": {
-            "value": "5.000"
-          },
-          "MMCM_CLKIN2_PERIOD": {
-            "value": "10.0"
-          },
-          "MMCM_CLKOUT0_DIVIDE_F": {
-            "value": "41.875"
-          },
-          "MMCM_DIVCLK_DIVIDE": {
-            "value": "5"
-          },
-          "PRIM_IN_FREQ": {
-            "value": "200.000"
-          },
-          "PRIM_SOURCE": {
-            "value": "Differential_clock_capable_pin"
-          },
-          "RESET_PORT": {
-            "value": "resetn"
-          },
-          "RESET_TYPE": {
-            "value": "ACTIVE_LOW"
-          },
-          "SECONDARY_SOURCE": {
-            "value": "Single_ended_clock_capable_pin"
-          },
-          "USE_INCLK_SWITCHOVER": {
-            "value": "false"
-          },
-          "USE_LOCKED": {
-            "value": "true"
-          },
-          "USE_RESET": {
-            "value": "true"
-          }
-        }
-      },
-      "I2Cs": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "system_axi_gpio_0_10",
-        "xci_path": "ip\\system_axi_gpio_0_10\\system_axi_gpio_0_10.xci",
-        "inst_hier_path": "I2Cs",
-        "parameters": {
-          "C_ALL_OUTPUTS": {
-            "value": "1"
-          },
-          "C_DOUT_DEFAULT": {
-            "value": "0x00000001"
-          },
-          "C_DOUT_DEFAULT_2": {
-            "value": "0x00000001"
-          },
-          "C_GPIO2_WIDTH": {
-            "value": "1"
-          },
-          "C_GPIO_WIDTH": {
-            "value": "1"
-          },
-          "C_IS_DUAL": {
-            "value": "1"
-          }
-        }
-      },
-      "BUFW_RSTN": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "system_axi_gpio_0_11",
-        "xci_path": "ip\\system_axi_gpio_0_11\\system_axi_gpio_0_11.xci",
-        "inst_hier_path": "BUFW_RSTN",
-        "parameters": {
-          "C_ALL_OUTPUTS": {
-            "value": "1"
-          },
-          "C_GPIO_WIDTH": {
-            "value": "1"
-          }
-        }
-      },
-      "ui_axisbufw_0": {
-        "vlnv": "xilinx.com:user:ui_axisbufw:1.0",
-        "xci_name": "system_ui_axisbufw_0_0",
-        "xci_path": "ip\\system_ui_axisbufw_0_0\\system_ui_axisbufw_0_0.xci",
-        "inst_hier_path": "ui_axisbufw_0",
-        "parameters": {
-          "AXI_DATA_WIDTH": {
-            "value": "32"
-          },
-          "VIDEO_ENABLE": {
-            "value": "false"
-          },
-          "W_BUFDEPTH": {
-            "value": "2048"
-          },
-          "W_DATAWIDTH": {
-            "value": "8"
-          },
-          "W_XSIZE": {
-            "value": "640"
-          },
-          "W_YSIZE": {
-            "value": "480"
-          }
-        }
-      },
-      "util_vector_logic_0": {
-        "vlnv": "xilinx.com:ip:util_vector_logic:2.0",
-        "xci_name": "system_util_vector_logic_0_0",
-        "xci_path": "ip\\system_util_vector_logic_0_0_1\\system_util_vector_logic_0_0.xci",
-        "inst_hier_path": "util_vector_logic_0",
-        "parameters": {
-          "C_OPERATION": {
-            "value": "not"
-          },
-          "C_SIZE": {
-            "value": "1"
-          }
-        }
-      },
-      "util_vector_logic_1": {
-        "vlnv": "xilinx.com:ip:util_vector_logic:2.0",
-        "xci_name": "system_util_vector_logic_1_0",
-        "xci_path": "ip\\system_util_vector_logic_1_0\\system_util_vector_logic_1_0.xci",
-        "inst_hier_path": "util_vector_logic_1",
-        "parameters": {
-          "C_SIZE": {
-            "value": "1"
-          }
-        }
-      },
-      "XCLK_LOCKED": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "system_axi_gpio_0_13",
-        "xci_path": "ip\\system_axi_gpio_0_13\\system_axi_gpio_0_13.xci",
-        "inst_hier_path": "XCLK_LOCKED",
-        "parameters": {
-          "C_ALL_INPUTS": {
-            "value": "1"
-          },
-          "C_GPIO_WIDTH": {
-            "value": "1"
-          }
-        }
-      },
-      "BUFW_FS": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "system_axi_gpio_0_14",
-        "xci_path": "ip\\system_axi_gpio_0_14\\system_axi_gpio_0_14.xci",
-        "inst_hier_path": "BUFW_FS",
-        "parameters": {
-          "C_ALL_OUTPUTS": {
-            "value": "1"
-          },
-          "C_GPIO_WIDTH": {
-            "value": "1"
-          }
-        }
-      },
-      "CAMERA_VSYNC": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "system_axi_gpio_0_15",
-        "xci_path": "ip\\system_axi_gpio_0_15\\system_axi_gpio_0_15.xci",
-        "inst_hier_path": "CAMERA_VSYNC",
-        "parameters": {
-          "C_ALL_INPUTS": {
-            "value": "1"
-          },
-          "C_GPIO_WIDTH": {
-            "value": "1"
-          }
-        }
-      },
-      "PHY_RSTN": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "system_axi_gpio_0_16",
-        "xci_path": "ip\\system_axi_gpio_0_16\\system_axi_gpio_0_16.xci",
-        "inst_hier_path": "PHY_RSTN",
-        "parameters": {
-          "C_ALL_OUTPUTS": {
-            "value": "1"
-          },
-          "C_GPIO_WIDTH": {
-            "value": "1"
-          }
-        }
-      },
-      "CAMERA_PWDN": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "system_axi_gpio_0_17",
-        "xci_path": "ip\\system_axi_gpio_0_17\\system_axi_gpio_0_17.xci",
-        "inst_hier_path": "CAMERA_PWDN",
-        "parameters": {
-          "C_ALL_OUTPUTS": {
-            "value": "1"
-          },
-          "C_DOUT_DEFAULT": {
-            "value": "0x00000001"
-          },
-          "C_GPIO_WIDTH": {
-            "value": "1"
-          }
-        }
-      },
-      "LED_STATE": {
-        "vlnv": "xilinx.com:ip:axi_gpio:2.0",
-        "xci_name": "system_axi_gpio_0_18",
-        "xci_path": "ip\\system_axi_gpio_0_18\\system_axi_gpio_0_18.xci",
-        "inst_hier_path": "LED_STATE",
-        "parameters": {
-          "C_ALL_OUTPUTS": {
-            "value": "1"
-          },
-          "C_GPIO_WIDTH": {
-            "value": "4"
-          }
-        }
       }
     },
     "interface_nets": {
+      "AXI_DMA_M_AXI_S2MM": {
+        "interface_ports": [
+          "AXI_DMA/M_AXI_S2MM",
+          "axi_mem_intercon/S00_AXI"
+        ]
+      },
       "CAMERA_PWDN_GPIO": {
         "interface_ports": [
           "PWDN",
@@ -3351,20 +3357,14 @@
       },
       "LED_STATE_GPIO": {
         "interface_ports": [
-          "LED_STATE",
-          "LED_STATE/GPIO"
+          "SYS_STATE",
+          "SYSTEM_STATE/GPIO"
         ]
       },
       "PHY_RSTN_GPIO": {
         "interface_ports": [
           "PHY_RSTN",
           "PHY_RSTN/GPIO"
-        ]
-      },
-      "axi_dma_0_M_AXI_S2MM": {
-        "interface_ports": [
-          "axi_dma_0/M_AXI_S2MM",
-          "axi_mem_intercon/S00_AXI"
         ]
       },
       "axi_gpio_0_GPIO": {
@@ -3418,13 +3418,13 @@
       "ps7_0_axi_periph_M01_AXI": {
         "interface_ports": [
           "ps7_0_axi_periph/M01_AXI",
-          "axi_dma_0/S_AXI_LITE"
+          "AXI_DMA/S_AXI_LITE"
         ]
       },
       "ps7_0_axi_periph_M02_AXI": {
         "interface_ports": [
           "ps7_0_axi_periph/M02_AXI",
-          "BUFW_FS/S_AXI"
+          "BUFW_TRANS_EN/S_AXI"
         ]
       },
       "ps7_0_axi_periph_M03_AXI": {
@@ -3448,7 +3448,7 @@
       "ps7_0_axi_periph_M06_AXI": {
         "interface_ports": [
           "ps7_0_axi_periph/M06_AXI",
-          "LED_STATE/S_AXI"
+          "SYSTEM_STATE/S_AXI"
         ]
       },
       "ps7_0_axi_periph_M07_AXI": {
@@ -3465,40 +3465,40 @@
       },
       "ui_axisbufw_0_axis_m": {
         "interface_ports": [
-          "ui_axisbufw_0/axis_m",
-          "axi_dma_0/S_AXIS_S2MM"
+          "BUFW/axis_m",
+          "AXI_DMA/S_AXIS_S2MM"
         ]
       }
     },
     "nets": {
-      "BUFW_FS_gpio_io_o": {
+      "BUFW_TRANS_EN_gpio_io_o": {
         "ports": [
-          "BUFW_FS/gpio_io_o",
-          "ui_axisbufw_0/W_FS_i"
+          "BUFW_TRANS_EN/gpio_io_o",
+          "BUFW/W_FS_i"
         ]
       },
       "W_data_i_0_1": {
         "ports": [
           "pixel",
-          "ui_axisbufw_0/W_data_i"
+          "BUFW/W_data_i"
         ]
       },
       "W_wclk_i_0_1": {
         "ports": [
           "pclk",
-          "ui_axisbufw_0/W_wclk_i"
+          "BUFW/W_wclk_i"
         ]
       },
       "axi_dma_0_s2mm_introut": {
         "ports": [
-          "axi_dma_0/s2mm_introut",
+          "AXI_DMA/s2mm_introut",
           "processing_system7_0/IRQ_F2P"
         ]
       },
       "axi_gpio_0_gpio_io_o": {
         "ports": [
           "BUFW_RSTN/gpio_io_o",
-          "ui_axisbufw_0/ui_rstn"
+          "BUFW/ui_rstn"
         ]
       },
       "camera_clk_wiz_locked": {
@@ -3516,8 +3516,8 @@
       "i_href_1": {
         "ports": [
           "href",
-          "ui_axisbufw_0/W_wren_i",
-          "util_vector_logic_0/Op1"
+          "BUFW/W_wren_i",
+          "CAMERA_HREF_INVERT/Op1"
         ]
       },
       "processing_system7_0_FCLK_CLK0": {
@@ -3527,15 +3527,12 @@
           "ps7_0_axi_periph/ACLK",
           "ps7_0_axi_periph/S00_ACLK",
           "ps7_0_axi_periph/M00_ACLK",
-          "rst_ps7_0_50M/slowest_sync_clk",
-          "axi_dma_0/s_axi_lite_aclk",
+          "SOFTWARE_RESET/slowest_sync_clk",
+          "AXI_DMA/s_axi_lite_aclk",
           "ps7_0_axi_periph/M01_ACLK",
-          "axi_dma_0/m_axi_s2mm_aclk",
+          "AXI_DMA/m_axi_s2mm_aclk",
           "ps7_0_axi_periph/M02_ACLK",
-          "axi_mem_intercon/S00_ACLK",
           "processing_system7_0/S_AXI_HP0_ACLK",
-          "axi_mem_intercon/M00_ACLK",
-          "axi_mem_intercon/ACLK",
           "ps7_0_axi_periph/M03_ACLK",
           "ps7_0_axi_periph/M04_ACLK",
           "ps7_0_axi_periph/M05_ACLK",
@@ -3545,34 +3542,34 @@
           "I2Cs/s_axi_aclk",
           "ps7_0_axi_periph/M09_ACLK",
           "BUFW_RSTN/s_axi_aclk",
-          "ui_axisbufw_0/axis_clk",
+          "BUFW/axis_clk",
           "XCLK_LOCKED/s_axi_aclk",
-          "BUFW_FS/s_axi_aclk",
+          "BUFW_TRANS_EN/s_axi_aclk",
           "CAMERA_PWDN/s_axi_aclk",
           "CAMERA_VSYNC/s_axi_aclk",
           "PHY_RSTN/s_axi_aclk",
-          "LED_STATE/s_axi_aclk"
+          "SYSTEM_STATE/s_axi_aclk",
+          "axi_mem_intercon/ACLK",
+          "axi_mem_intercon/S00_ACLK",
+          "axi_mem_intercon/M00_ACLK"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {
         "ports": [
           "processing_system7_0/FCLK_RESET0_N",
-          "rst_ps7_0_50M/ext_reset_in",
+          "SOFTWARE_RESET/ext_reset_in",
           "camera_clk_wiz/resetn"
         ]
       },
       "rst_ps7_0_50M_peripheral_aresetn": {
         "ports": [
-          "rst_ps7_0_50M/peripheral_aresetn",
+          "SOFTWARE_RESET/peripheral_aresetn",
           "ps7_0_axi_periph/ARESETN",
           "ps7_0_axi_periph/S00_ARESETN",
           "ps7_0_axi_periph/M00_ARESETN",
-          "axi_dma_0/axi_resetn",
+          "AXI_DMA/axi_resetn",
           "ps7_0_axi_periph/M01_ARESETN",
           "ps7_0_axi_periph/M02_ARESETN",
-          "axi_mem_intercon/S00_ARESETN",
-          "axi_mem_intercon/M00_ARESETN",
-          "axi_mem_intercon/ARESETN",
           "ps7_0_axi_periph/M03_ARESETN",
           "ps7_0_axi_periph/M04_ARESETN",
           "ps7_0_axi_periph/M05_ARESETN",
@@ -3583,29 +3580,32 @@
           "ps7_0_axi_periph/M09_ARESETN",
           "BUFW_RSTN/s_axi_aresetn",
           "XCLK_LOCKED/s_axi_aresetn",
-          "BUFW_FS/s_axi_aresetn",
+          "BUFW_TRANS_EN/s_axi_aresetn",
           "CAMERA_PWDN/s_axi_aresetn",
           "CAMERA_VSYNC/s_axi_aresetn",
           "PHY_RSTN/s_axi_aresetn",
-          "LED_STATE/s_axi_aresetn"
+          "SYSTEM_STATE/s_axi_aresetn",
+          "axi_mem_intercon/S00_ARESETN",
+          "axi_mem_intercon/M00_ARESETN",
+          "axi_mem_intercon/ARESETN"
         ]
       },
       "util_vector_logic_0_Res": {
         "ports": [
-          "util_vector_logic_0/Res",
-          "util_vector_logic_1/Op2"
+          "CAMERA_HREF_INVERT/Res",
+          "CAMERA_VSYNC_FILTER/Op2"
         ]
       },
       "util_vector_logic_1_Res": {
         "ports": [
-          "util_vector_logic_1/Res",
+          "CAMERA_VSYNC_FILTER/Res",
           "CAMERA_VSYNC/gpio_io_i"
         ]
       },
       "vsync_1": {
         "ports": [
           "vsync",
-          "util_vector_logic_1/Op1"
+          "CAMERA_VSYNC_FILTER/Op1"
         ]
       }
     },
@@ -3615,7 +3615,7 @@
           "Data": {
             "segments": {
               "SEG_BUFW_FS_Reg": {
-                "address_block": "/BUFW_FS/S_AXI/Reg",
+                "address_block": "/BUFW_TRANS_EN/S_AXI/Reg",
                 "offset": "0x41200000",
                 "range": "64K"
               },
@@ -3630,7 +3630,7 @@
                 "range": "64K"
               },
               "SEG_LED_STATE_Reg": {
-                "address_block": "/LED_STATE/S_AXI/Reg",
+                "address_block": "/SYSTEM_STATE/S_AXI/Reg",
                 "offset": "0x41240000",
                 "range": "64K"
               },
@@ -3645,7 +3645,7 @@
                 "range": "64K"
               },
               "SEG_axi_dma_0_Reg": {
-                "address_block": "/axi_dma_0/S_AXI_LITE/Reg",
+                "address_block": "/AXI_DMA/S_AXI_LITE/Reg",
                 "offset": "0x40400000",
                 "range": "64K"
               },
@@ -3663,7 +3663,7 @@
           }
         }
       },
-      "/axi_dma_0": {
+      "/AXI_DMA": {
         "address_spaces": {
           "Data_S2MM": {
             "segments": {
