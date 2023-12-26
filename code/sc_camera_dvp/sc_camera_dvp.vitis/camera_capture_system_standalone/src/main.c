@@ -14,6 +14,10 @@
 #include "dma.h"
 #include "intr.h"
 
+#define DEBUG
+// #define DMA_ENABLE
+#define ETH_ENABLE
+
 /* 相关外设 ID */
 #define DEVICE_DMA			        XPAR_AXIDMA_0_DEVICE_ID                 // DMA
 #define DEVICE_IICS                 XPAR_I2CS_DEVICE_ID                     // IIC（AXI GPIO 模拟）
@@ -25,42 +29,40 @@
 #define DEVICE_PHY_RETN				XPAR_PHY_RSTN_DEVICE_ID                 // PHY 复位控制（低电平有效）
 #define DMA_RX_INTR_ID				XPAR_FABRIC_AXI_DMA_0_S2MM_INTROUT_INTR
 
-/* 外设句柄 */
-XAxiDma axiDma;
-XScuGic scuGic;
-XGpio gpio_bufw_fs;
-XGpio gpio_bufw_rstn;
-XGpio gpio_camera_pwdn;
-XGpio gpio_camera_xclk_locked;
-XGpio gpio_camera_vsync;
-XGpio gpio_phy_rstn;
-XGpio gpio_sys_state;
+#define LWIP_PACKAGE_MAX_SIZE		(16 * 1024)
 
-volatile u8 LOCK;
+/* 外设句柄 */
+static XAxiDma axiDma;
+static XScuGic scuGic;
+static XGpio gpio_bufw_fs;
+static XGpio gpio_bufw_rstn;
+static XGpio gpio_camera_pwdn;
+static XGpio gpio_camera_xclk_locked;
+static XGpio gpio_camera_vsync;
 
 extern u8 RxDone;
 extern u8 RxError;
 
-extern s32 TxIndex;
-extern s32 RxIndex;
-extern s32 RxLastIndex;
-extern u32 FrameBufferPtr[FRAME_BUFFER_NUMS];
-
-static s32 eth_init();
-static s32 tcp_server_init();
-static err_t accept_callback(void *arg, struct tcp_pcb *newpcb, err_t err);
+static s32 TxIndex;
+static s32 RxIndex;
+static s32 RxLastIndex;
+static u32 FrameBufferPtr[FRAME_BUFFER_NUMS];
 
 struct netif *echo_netif;
 static struct netif server_netif;
-struct tcp_pcb *client = NULL;
+static struct tcp_pcb *client;
 
 void lwip_init();
-s32 system_init();
-s32 network_init();
-s32 camera_init();
-s32 axisbufw_init();
-s32 dma_init(XScuGic *ScuGicInstancePtr, XAxiDma *AxiDmaInstancePtr, u16 AxiDmaDeviceId, u16 AxiDmaRxIntrId);
-void set_axisbufw_transmit(int enable);
+
+static s32 eth_init();
+static s32 camera_init();
+static s32 system_init();
+static s32 network_init();
+static s32 axisbufw_init();
+static s32 tcp_server_init();
+static s32 set_axisbufw_transmit(int enable);
+static err_t accept_callback(void *arg, struct tcp_pcb *newpcb, err_t err);
+static s32 dma_init(XScuGic *ScuGicInstancePtr, XAxiDma *AxiDmaInstancePtr, u16 AxiDmaDeviceId, u16 AxiDmaRxIntrId);
 
 int main()
 {
@@ -69,6 +71,7 @@ int main()
 	/* 平台初始化 */
 	init_platform();
 
+	#ifdef DMA_ENABLE
 	/* 系统初始化 */
 	Status = system_init();
 	if(Status != XST_SUCCESS)
@@ -76,7 +79,9 @@ int main()
 		xil_printf("[ERROR] System init failed\n");
 		return 0;
 	}
+	#endif
 
+	#ifdef ETH_ENABLE
 	/* 网络初始化 */
 	Status = network_init();
 	if(Status != XST_SUCCESS)
@@ -85,45 +90,93 @@ int main()
 		return 0;
 	}
 
+	#ifdef DEBUG
+	/* 测试大量数据发送 */
+	u8 *buffer = (u8*)FRAME_BUFFER_BASE;
+	for(u32 i = 0; i < FRAME_SIZE / 4; i++)
+	{
+		buffer[i * 4] 		= (i >> 24);
+		buffer[i * 4 + 1]	= (i >> 16);
+		buffer[i * 4 + 2]	= (i >> 8);
+		buffer[i * 4 + 3]	= (i >> 0);
+	}
+	Xil_DCacheFlushRange((u32)buffer, FRAME_SIZE);
+	#endif
+	#endif
+
+	#ifdef DMA_ENABLE
 	/* 等待场同步信号 */
 	while(XGpio_DiscreteRead(&gpio_camera_vsync, 1) == 0);
 	set_axisbufw_transmit(1);
+	#endif
 
+	u32 sndbuf_bytes = 0;
+	u32 package_size = 0;
+	u32 total_send_bytes = 0;
 	while(1) 
 	{
-		// if(RxDone)
-		// {
-		// 	RxDone = 0;
-		// 	xil_printf("[INFO] Rx-RxLast-Tx >> %d-%d-%d\n", RxIndex, RxLastIndex, TxIndex);
+		#ifdef DMA_ENABLE
+		/* 复位系统 */
+		if(RxError)
+		{
+			RxError = 0;
+			xil_printf("[ERROR] DMA rx error\n");
+		}
 
-		// 	RxLastIndex = RxIndex;
-		// 	do
-		// 	{
-		// 		RxIndex = (RxIndex + 1) % FRAME_BUFFER_NUMS;
-		// 	} while (RxIndex == TxIndex);
-
-		// 	Status = XAxiDma_SimpleTransfer(&axiDma, (u32)FrameBufferPtr[RxIndex], (u32)FRAME_SIZE, XAXIDMA_DEVICE_TO_DMA);
-		// 	if(Status != XST_SUCCESS)
-		// 	{
-		// 		xil_printf("[ERROR] Failed to launch new dma transfer\n");
-		// 	}
-		// }
-
-		// if(RxError)
-		// {
-		// 	xil_printf("[ERROR] DMA transfer failed\n");
-		// }
-		xemacif_input(&server_netif);
 		if(RxDone)
 		{
 			RxDone = 0;
+
+			/* 更新缓冲区索引 */
+			RxLastIndex = RxIndex;
+			do
+			{
+				RxIndex = (RxIndex + 1) % FRAME_BUFFER_NUMS;
+			} while (RxIndex == TxIndex);
+
+			// TODO 非调试情况下应尽量避免打印，会严重影响系统性能
+			// 关闭打印情况下 PING 平均延时  1ms, TTL = 255
+			// 启动打印情况下 PING 平均延时 38ms, TTL = 255
+			#ifdef DEBUG
 			xil_printf("[INFO] Rx-RxLast-Tx >> %d-%d-%d\n", RxIndex, RxLastIndex, TxIndex);
+			#endif
+
+			/* 启动下一次传输 */
 			Status = XAxiDma_SimpleTransfer(&axiDma, (u32)FrameBufferPtr[0], (u32)FRAME_SIZE, XAXIDMA_DEVICE_TO_DMA);
 			if(Status != XST_SUCCESS)
 			{
-				xil_printf("[ERROR] Failed to launch new dma transfer\n");
+				RxError = 1;
+				xil_printf("[ERROR] Failed to launch new dma transfer\n"); 
 			}
 		}
+		#endif
+
+		#ifdef ETH_ENABLE
+		xemacif_input(&server_netif);
+
+		#ifdef DEBUG
+		if(client && (total_send_bytes < FRAME_SIZE))
+		{
+			sndbuf_bytes = tcp_sndbuf(client);
+			if(sndbuf_bytes == 0)
+			{
+				continue;
+			}
+
+			package_size = (FRAME_SIZE - total_send_bytes > sndbuf_bytes) ? sndbuf_bytes : (FRAME_SIZE - total_send_bytes);
+
+			xil_printf("[INFO] Package size is %dKB\n", package_size / 1024);
+			
+			if(tcp_write(client, (u8*)(buffer + total_send_bytes), package_size, 1) != ERR_OK)
+			{
+				xil_printf("[ERROR] TCP send package failed\n"); return 0;
+			}
+			tcp_output(client);
+
+			total_send_bytes += package_size;
+		}
+		#endif
+		#endif
 	}
 
 	return 0;
@@ -133,7 +186,7 @@ int main()
  * @brief 初始化系统
  * @return 初始化成功返回 XST_SUCCESS，否则返回 XST_FAILURE
 */
-s32 system_init()
+static s32 system_init()
 {
 	s32 Status;
 
@@ -168,7 +221,7 @@ s32 system_init()
  * @brief 网络初始化
  * @return 初始化成功返回 XST_SUCCESS，否则返回 XST_FAILURE
 */
-s32 network_init()
+static s32 network_init()
 {
 	// 初始化网口
 	if(eth_init() != XST_SUCCESS)
@@ -191,7 +244,7 @@ s32 network_init()
  * @brief 初始化摄像头
  * @return 
 */
-s32 camera_init()
+static s32 camera_init()
 {
 	camera_t camera;   
 
@@ -215,7 +268,7 @@ s32 camera_init()
     	xil_printf("[ERROR] SC035HGS's regs init failed\n");
     	return XST_FAILURE;
     }
-    xil_printf("[INFO] SC035HGS init successfully\n");
+    xil_printf("[INFO] Success to init SC035HGS\n");
 
 	return XST_SUCCESS;
 }
@@ -224,7 +277,7 @@ s32 camera_init()
  * @brief 初始化 AXISBUFW 数据传输模块
  * @return *
 */
-s32 axisbufw_init()
+static s32 axisbufw_init()
 {
 	XGpio_Initialize(&gpio_bufw_rstn, DEVICE_BUFW_RSTN);
     XGpio_Initialize(&gpio_bufw_fs, DEVICE_BUFW_FS);
@@ -243,7 +296,7 @@ s32 axisbufw_init()
  * @param AxiDmaRxIntrId
  * @return *
 */
-s32 dma_init(XScuGic *ScuGicInstancePtr, XAxiDma *AxiDmaInstancePtr, u16 AxiDmaDeviceId, u16 AxiDmaRxIntrId)
+static s32 dma_init(XScuGic *ScuGicInstancePtr, XAxiDma *AxiDmaInstancePtr, u16 AxiDmaDeviceId, u16 AxiDmaRxIntrId)
 {
 	s32 Status;
 
@@ -276,9 +329,11 @@ s32 dma_init(XScuGic *ScuGicInstancePtr, XAxiDma *AxiDmaInstancePtr, u16 AxiDmaD
  * @param enable AXIS_TRANSMIT_ENABLE/AXIS_TRANSMIT_DISABLE
  * @return *
 */
-void set_axisbufw_transmit(int enable)
+static s32 set_axisbufw_transmit(int enable)
 {
 	XGpio_DiscreteWrite(&gpio_bufw_fs, 1, enable ? 0x1 : 0x0);
+
+	return XST_SUCCESS;
 }
 
 /**

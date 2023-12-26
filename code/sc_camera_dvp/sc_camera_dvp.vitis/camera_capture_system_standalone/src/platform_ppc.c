@@ -42,7 +42,10 @@
 #include "xparameters.h"
 
 #define MHZ 400
+
+// TODO 轮询时间调整
 #define PIT_INTERVAL (250*MHZ*1000)
+// #define PIT_INTERVAL (50*MHZ*1000)
 
 void
 xadapter_timer_handler(void *p)

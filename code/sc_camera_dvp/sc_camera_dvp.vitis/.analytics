@@ -885,3 +885,43 @@ timestamp=[2023-12-26 16:45:34], mode=PLATFORM_GENERATION, duration=0:00:03.033,
 timestamp=[2023-12-26 16:45:35], mode=BUILD, duration=0:00:00.976, duration_ms=976, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
 timestamp=[2023-12-26 16:50:58], mode=BUILD, duration=0:00:00.149, duration_ms=149, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
 timestamp=[2023-12-26 16:51:38], mode=BUILD, duration=0:00:00.612, duration_ms=612, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:30:36], mode=BUILD, duration=0:00:00.769, duration_ms=769, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:31:11], mode=BUILD, duration=0:00:00.403, duration_ms=403, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:32:01], mode=BUILD, duration=0:00:00.423, duration_ms=423, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:32:12], mode=BUILD, duration=0:00:00.728, duration_ms=728, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:33:58], mode=BUILD, duration=0:00:00.616, duration_ms=616, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:35:42], mode=BUILD, duration=0:00:00.587, duration_ms=587, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:46:45], mode=PLATFORM_GENERATION, duration=0:00:02.781, duration_ms=2781, data={name=system_wrapper_standalone}
+timestamp=[2023-12-26 20:46:46], mode=BUILD, duration=0:00:00.522, duration_ms=522, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:46:50], mode=BUILD, duration=0:00:00.570, duration_ms=570, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:51:51], mode=PLATFORM_GENERATION, duration=0:00:02.612, duration_ms=2612, data={name=system_wrapper_standalone}
+timestamp=[2023-12-26 20:51:51], mode=BUILD, duration=0:00:00.521, duration_ms=521, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:52:20], mode=PLATFORM_GENERATION, duration=0:00:02.830, duration_ms=2830, data={name=system_wrapper_standalone}
+timestamp=[2023-12-26 20:52:21], mode=BUILD, duration=0:00:00.524, duration_ms=524, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:54:13], mode=PLATFORM_GENERATION, duration=0:00:03.306, duration_ms=3306, data={name=system_wrapper_standalone}
+timestamp=[2023-12-26 20:54:14], mode=BUILD, duration=0:00:00.527, duration_ms=527, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:56:00], mode=PLATFORM_GENERATION, duration=0:00:02.561, duration_ms=2561, data={name=system_wrapper_standalone}
+timestamp=[2023-12-26 20:56:01], mode=BUILD, duration=0:00:00.523, duration_ms=523, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 20:57:26], mode=BUILD, duration=0:00:00.704, duration_ms=704, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:17:26], mode=BUILD, duration=0:00:00.607, duration_ms=607, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:20:46], mode=BUILD, duration=0:00:00.591, duration_ms=591, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:21:40], mode=BUILD, duration=0:00:00.575, duration_ms=575, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:22:12], mode=BUILD, duration=0:00:00.586, duration_ms=586, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:23:47], mode=BUILD, duration=0:00:00.586, duration_ms=586, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:24:52], mode=BUILD, duration=0:00:00.627, duration_ms=627, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:25:33], mode=BUILD, duration=0:00:00.397, duration_ms=397, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:29:42], mode=BUILD, duration=0:00:00.340, duration_ms=340, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:29:52], mode=BUILD, duration=0:00:00.155, duration_ms=155, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:34:40], mode=BUILD, duration=0:00:00.589, duration_ms=589, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:35:04], mode=BUILD, duration=0:00:00.400, duration_ms=400, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:36:49], mode=BUILD, duration=0:00:00.345, duration_ms=345, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:38:22], mode=BUILD, duration=0:00:00.634, duration_ms=634, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:41:10], mode=BUILD, duration=0:00:00.343, duration_ms=343, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:41:33], mode=BUILD, duration=0:00:00.685, duration_ms=685, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:43:58], mode=BUILD, duration=0:00:00.643, duration_ms=643, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:45:06], mode=BUILD, duration=0:00:00.631, duration_ms=631, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:46:07], mode=BUILD, duration=0:00:00.756, duration_ms=756, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:55:31], mode=BUILD, duration=0:00:00.600, duration_ms=600, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 21:58:09], mode=BUILD, duration=0:00:00.404, duration_ms=404, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 22:00:15], mode=BUILD, duration=0:00:00.398, duration_ms=398, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}
+timestamp=[2023-12-26 22:03:02], mode=BUILD, duration=0:00:00.404, duration_ms=404, data={name=camera_capture_system_standalone, configuration=Debug, clean_build=false}

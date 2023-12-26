@@ -1,10 +1,5 @@
 #include "dma.h"
 
-volatile s32 TxIndex;
-volatile s32 RxIndex;
-volatile s32 RxLastIndex;
-volatile u32 FrameBufferPtr[FRAME_BUFFER_NUMS];
-
 volatile u8 RxDone;
 volatile u8 RxError;
 
