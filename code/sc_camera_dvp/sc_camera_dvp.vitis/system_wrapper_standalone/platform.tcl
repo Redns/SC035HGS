@@ -217,3 +217,60 @@ platform generate -domains standalone_ps7_cortexa9_0
 platform generate -domains standalone_ps7_cortexa9_0 
 platform generate -domains standalone_ps7_cortexa9_0 
 platform generate -domains standalone_ps7_cortexa9_0 
+bsp reload
+bsp config tcp_wnd "2048"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp write
+bsp config phy_link_speed "CONFIG_LINKSPEED100"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp config phy_link_speed "CONFIG_LINKSPEED_AUTODETECT"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp config emac_number "0"
+bsp config mem_size "1048576"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp config mem_size "640000"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp config mem_size "131072"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp config mem_size "262144"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp reload
+bsp config mem_size "786432"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp config tcp_snd_buf "8192"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp config tcp_snd_buf "32768"
+bsp reload
+bsp config mem_size "524288"
+bsp config tcp_snd_buf "16384"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 

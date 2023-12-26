@@ -86,8 +86,8 @@
 
 #define LWIP_TCP 1
 #define TCP_MSS 1460
-#define TCP_SND_BUF 65535
-#define TCP_WND 65535
+#define TCP_SND_BUF 16384
+#define TCP_WND 2048
 #define TCP_TTL 255
 #define TCP_MAXRTX 12
 #define TCP_SYNMAXRTX 4

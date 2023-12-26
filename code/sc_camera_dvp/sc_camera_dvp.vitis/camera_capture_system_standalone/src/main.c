@@ -14,8 +14,8 @@
 #include "dma.h"
 #include "intr.h"
 
-#define DEBUG
-// #define DMA_ENABLE
+// #define DEBUG
+#define DMA_ENABLE
 #define ETH_ENABLE
 
 /* 相关外设 ID */
@@ -43,10 +43,20 @@ static XGpio gpio_camera_vsync;
 extern u8 RxDone;
 extern u8 RxError;
 
+/* 帧缓冲区 */
 static s32 TxIndex;
 static s32 RxIndex;
 static s32 RxLastIndex;
 static u32 FrameBufferPtr[FRAME_BUFFER_NUMS];
+static u8  FrameFrontBuffer[FRAME_FRONT_SIZE] = "image:0,307200,640,480,24\n";
+
+/* LWIP */
+static err_t LwipStatus;
+
+static s32 LwipSendBusy;
+static s32 LwipSendBuffBytes;
+static s32 LwipPackageBytes;
+static s32 LwipTotalSendBytes;
 
 struct netif *echo_netif;
 static struct netif server_netif;
@@ -91,6 +101,10 @@ int main()
 	}
 
 	#ifdef DEBUG
+	u32 sndbuf_bytes = 0;
+	u32 package_size = 0;
+	u32 total_send_bytes = 0;
+
 	/* 测试大量数据发送 */
 	u8 *buffer = (u8*)FRAME_BUFFER_BASE;
 	for(u32 i = 0; i < FRAME_SIZE / 4; i++)
@@ -110,9 +124,6 @@ int main()
 	set_axisbufw_transmit(1);
 	#endif
 
-	u32 sndbuf_bytes = 0;
-	u32 package_size = 0;
-	u32 total_send_bytes = 0;
 	while(1) 
 	{
 		#ifdef DMA_ENABLE
@@ -142,7 +153,7 @@ int main()
 			#endif
 
 			/* 启动下一次传输 */
-			Status = XAxiDma_SimpleTransfer(&axiDma, (u32)FrameBufferPtr[0], (u32)FRAME_SIZE, XAXIDMA_DEVICE_TO_DMA);
+			Status = XAxiDma_SimpleTransfer(&axiDma, (u32)FrameBufferPtr[RxIndex], (u32)FRAME_SIZE, XAXIDMA_DEVICE_TO_DMA);
 			if(Status != XST_SUCCESS)
 			{
 				RxError = 1;
@@ -152,7 +163,68 @@ int main()
 		#endif
 
 		#ifdef ETH_ENABLE
+
 		xemacif_input(&server_netif);
+
+		if(!client)
+		{
+			continue;
+		}
+
+		if((TxIndex != RxLastIndex) && !LwipSendBusy)
+		{
+			TxIndex = RxLastIndex;
+
+			LwipSendBusy = 1;
+			LwipTotalSendBytes = 0;
+
+			Xil_DCacheInvalidateRange((u32)FrameBufferPtr[TxIndex], FRAME_SIZE);
+		}
+
+		if(LwipSendBusy)
+		{
+			if((LwipTotalSendBytes > FRAME_SIZE + FRAME_FRONT_SIZE))
+			{
+				LwipSendBusy = 0;
+				continue;
+			}
+
+			LwipSendBuffBytes = tcp_sndbuf(client);
+			if(LwipSendBuffBytes == 0)
+			{
+				continue;
+			}
+
+			if(LwipTotalSendBytes < FRAME_FRONT_SIZE)
+			{
+				LwipPackageBytes = (FRAME_FRONT_SIZE - LwipTotalSendBytes > LwipSendBuffBytes) ? LwipSendBuffBytes : (FRAME_FRONT_SIZE - LwipTotalSendBytes);
+				LwipStatus = tcp_write(client, (u8*)(FrameFrontBuffer + LwipTotalSendBytes), LwipPackageBytes, 1);
+				if(LwipStatus != ERR_OK)
+				{
+					xil_printf("[ERROR] Lwip send FRAME_FRONT package failed\n"); return 0;
+				}
+			}
+			else if(LwipTotalSendBytes < FRAME_SIZE + FRAME_FRONT_SIZE)
+			{
+				LwipPackageBytes = (FRAME_SIZE + FRAME_FRONT_SIZE - LwipTotalSendBytes > LwipSendBuffBytes) ? LwipSendBuffBytes : (FRAME_SIZE + FRAME_FRONT_SIZE - LwipTotalSendBytes);
+				LwipStatus = tcp_write(client, (u8*)(FrameBufferPtr[TxIndex] + LwipTotalSendBytes - FRAME_FRONT_SIZE), LwipPackageBytes, 1);
+				if(LwipStatus != ERR_OK)
+				{
+					xil_printf("[ERROR] Lwip send FRAME package failed\n"); return 0;
+				}
+			}
+			else
+			{
+				LwipPackageBytes = 1;
+				LwipStatus = tcp_write(client, "\n", LwipPackageBytes, 1);
+				if(LwipStatus != ERR_OK)
+				{
+					xil_printf("[ERROR] Lwip send FRAME_END package failed\n"); return 0;
+				}
+			}
+			LwipTotalSendBytes += LwipPackageBytes;
+			tcp_output(client);
+		}
 
 		#ifdef DEBUG
 		if(client && (total_send_bytes < FRAME_SIZE))
