@@ -258,7 +258,11 @@ BEGIN LIBRARY
  PARAMETER n_rx_descriptors = 256
  PARAMETER n_tx_descriptors = 256
  PARAMETER pbuf_pool_size = 4096
- PARAMETER tcp_snd_buf = 16384
+ PARAMETER phy_link_speed = CONFIG_LINKSPEED1000
+ PARAMETER tcp_snd_buf = 65535
+ PARAMETER tcp_wnd = 65535
+ PARAMETER use_axieth_on_zynq = 0
+ PARAMETER use_emaclite_on_zynq = 0
 END
 
 

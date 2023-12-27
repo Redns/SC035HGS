@@ -38,6 +38,7 @@
         "xstatus.h": "c",
         "i2cs.h": "c",
         "xgpio.h": "c",
-        "xaxidma.h": "c"
+        "xaxidma.h": "c",
+        "intr.h": "c"
     }
 }

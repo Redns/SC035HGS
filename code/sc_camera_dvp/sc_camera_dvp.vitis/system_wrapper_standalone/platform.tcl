@@ -274,3 +274,27 @@ bsp write
 bsp reload
 catch {bsp regenerate}
 platform generate -domains standalone_ps7_cortexa9_0 
+bsp reload
+bsp config tcp_snd_buf "65535"
+bsp config tcp_wnd "65535"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp write
+bsp reload
+platform generate -domains 
+bsp config use_axieth_on_zynq "0"
+bsp config use_emaclite_on_zynq "0"
+bsp config phy_link_speed "CONFIG_LINKSPEED_AUTODETECT"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
+bsp write
+platform generate -domains 
+bsp config phy_link_speed "CONFIG_LINKSPEED1000"
+bsp write
+bsp reload
+catch {bsp regenerate}
+platform generate -domains standalone_ps7_cortexa9_0 
