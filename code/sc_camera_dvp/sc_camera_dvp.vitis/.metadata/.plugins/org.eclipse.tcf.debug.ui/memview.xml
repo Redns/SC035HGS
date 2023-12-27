@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Memory>
+    <Block Addr="0x18132992" Context="JTAG-jsn-JTAG-SMT2-210251878083-4ba00477-0.0" Size="-1"/>
     <Block Addr="0x01100000" Context="JTAG-jsn-JTAG-SMT2-210251878083-4ba00477-0.0" Size="-1"/>
-    <Block Addr="0x0114b01b" Context="JTAG-jsn-JTAG-SMT2-210251878083-4ba00477-0.0" Size="-1"/>
-    <Block Addr="0x01196036" Context="JTAG-jsn-JTAG-SMT2-210251878083-4ba00477-0.0" Size="-1"/>
 </Memory>

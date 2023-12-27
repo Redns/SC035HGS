@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="lwip_tcp_client_perf" location="D:/Project/sc_camera/code/sc_camera_dvp/sc_camera_dvp.vitis/lwip_tcp_client_perf" platform="D:/Project/sc_camera/code/sc_camera_dvp/sc_camera_dvp.vitis/system_wrapper_standalone/export/system_wrapper_standalone/system_wrapper_standalone.xpfm" platformUID="xilinx:::0.0(custom)" systemProject="lwip_tcp_client_perf_system" sysConfig="system_wrapper_standalone" runtime="C/C++" cpu="standalone_ps7_cortexa9_0" cpuInstance="ps7_cortexa9_0" os="standalone" mssSignature="fa1e55f2809fc94c0bf6d2c7bbcc23d4">
+  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.231621936" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.armv7.exe.release.567355678" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <template appTemplateName="lwip_tcp_perf_client" hasBspSettings="true"/>
+</sdkproject:SdkProject>

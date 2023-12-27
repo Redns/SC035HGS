@@ -2,6 +2,7 @@
 
 s32 Intr_Exception_Setup(XScuGic *InstancePtr)
 {
+    // Xil_ExceptionInit();
 	Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_INT, (Xil_ExceptionHandler)XScuGic_InterruptHandler, InstancePtr);
 	Xil_ExceptionEnable();
 
@@ -18,7 +19,7 @@ s32 Intr_Init(XScuGic *InstancePtr)
 	s32 Status;
 
 	XScuGic_Config *IntcConfig = XScuGic_LookupConfig(XPAR_SCUGIC_SINGLE_DEVICE_ID);
-	if(IntcConfig == NULL) 
+	if(!IntcConfig) 
     {
         xil_printf("[ERROR] No config found for ScuGic\n");
 		return XST_FAILURE;

@@ -74,6 +74,8 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system_standalone/lib/intr}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system_standalone/lib/sc035hgs}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/camera_capture_system_standalone/lib/timer}&quot;"/>
                                     								
                                 </option>
                                 								

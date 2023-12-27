@@ -59,7 +59,7 @@ s32 XAxiDma_Init(XAxiDma *InstancePtr, u16 DeviceId)
 {
     /* 初始化 AXI DMA 设备 */ 
     XAxiDma_Config *CfgPtr = XAxiDma_LookupConfig(DeviceId);
-    if(CfgPtr == NULL)
+    if(!CfgPtr)
     {
         xil_printf("[ERROR] No config found for DMA%d\n", DeviceId);
         return XST_FAILURE;
@@ -91,6 +91,9 @@ s32 XAxiDma_Intr_Setup(XScuGic *ScuGicInstancePtr, XAxiDma *AxiDmaInstancePtr, u
 {
     s32 Status;
 
+    // 设置中断优先级（0xA0）和触发条件（上升沿）
+    XScuGic_SetPriorityTriggerType(ScuGicInstancePtr, RxIntrId, 0xA0, 0x3);
+
     // 初始化中断处理函数
     Status = XScuGic_Connect(ScuGicInstancePtr, RxIntrId, (Xil_InterruptHandler)DMA_RxIntrHandler, AxiDmaInstancePtr);
 	if(Status != XST_SUCCESS) 
@@ -98,9 +101,6 @@ s32 XAxiDma_Intr_Setup(XScuGic *ScuGicInstancePtr, XAxiDma *AxiDmaInstancePtr, u
         xil_printf("[ERROR] Failed to init DMA receive handler\n");
 		return Status;
 	}
-
-    // 设置中断优先级（0xA0）和触发条件（上升沿）
-    XScuGic_SetPriorityTriggerType(ScuGicInstancePtr, RxIntrId, 0xA0, 0x3);
 
 	// 使能全局中断
 	XScuGic_Enable(ScuGicInstancePtr, RxIntrId);
@@ -120,7 +120,7 @@ s32 XAxiDma_Intr_Enable(XAxiDma *InstancePtr)
 	XAxiDma_IntrDisable(InstancePtr, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DMA_TO_DEVICE);
 
     /* 使能 DMA 接收中断 */
-    XAxiDma_IntrEnable(InstancePtr, XAXIDMA_IRQ_IOC_MASK, XAXIDMA_DEVICE_TO_DMA);
+    XAxiDma_IntrEnable(InstancePtr, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
 
     return XST_SUCCESS;
 }
