@@ -1,0 +1,51 @@
+verilog xil_defaultlib --include "C:/Xilinx/Vivado/2023.2/data/xilinx_vip/include" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/f0b6/hdl/verilog" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/35de/hdl/verilog" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/ec67/hdl" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/7fb4/hdl" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/6b2b/hdl" \
+"../../../bd/bd_system/ipshared/31a1/src/asyn_rst_syn.v" \
+"../../../bd/bd_system/ipshared/31a1/src/dvi_encoder.v" \
+"../../../bd/bd_system/ipshared/31a1/src/serializer_10_to_1.v" \
+"../../../bd/bd_system/ipshared/31a1/src/dvi_transmitter_top.v" \
+"../../../bd/bd_system/ip/bd_system_DVI_Transmitter_0_0/sim/bd_system_DVI_Transmitter_0_0.v" \
+"../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/ab26/src/mmcme2_drp.v" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/sim/bd_3952.v" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_0/sim/bd_3952_one_0.v" \
+
+sv xil_defaultlib --include "C:/Xilinx/Vivado/2023.2/data/xilinx_vip/include" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/f0b6/hdl/verilog" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/35de/hdl/verilog" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/ec67/hdl" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/7fb4/hdl" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/6b2b/hdl" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_2/sim/bd_3952_arsw_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_3/sim/bd_3952_rsw_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_4/sim/bd_3952_awsw_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_5/sim/bd_3952_wsw_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_6/sim/bd_3952_bsw_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_7/sim/bd_3952_s00mmu_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_8/sim/bd_3952_s00tr_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_9/sim/bd_3952_s00sic_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_10/sim/bd_3952_s00a2s_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_11/sim/bd_3952_sarn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_12/sim/bd_3952_srn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_13/sim/bd_3952_s01mmu_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_14/sim/bd_3952_s01tr_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_15/sim/bd_3952_s01sic_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_16/sim/bd_3952_s01a2s_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_17/sim/bd_3952_sawn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_18/sim/bd_3952_swn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_19/sim/bd_3952_sbn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_20/sim/bd_3952_m00s2a_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_21/sim/bd_3952_m00arn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_22/sim/bd_3952_m00rn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_23/sim/bd_3952_m00awn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_24/sim/bd_3952_m00wn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_25/sim/bd_3952_m00bn_0.sv" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_26/sim/bd_3952_m00e_0.sv" \
+
+verilog xil_defaultlib --include "C:/Xilinx/Vivado/2023.2/data/xilinx_vip/include" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/f0b6/hdl/verilog" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/35de/hdl/verilog" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/ec67/hdl" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/7fb4/hdl" --include "../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/6b2b/hdl" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/sim/bd_system_axi_smc_0.v" \
+"../../../bd/bd_system/ip/bd_system_processing_system7_0_0/sim/bd_system_processing_system7_0_0.v" \
+"../../../bd/bd_system/ip/bd_system_xbar_0/sim/bd_system_xbar_0.v" \
+"../../../bd/bd_system/ip/bd_system_v_axi4s_vid_out_0_0/sim/bd_system_v_axi4s_vid_out_0_0.v" \
+"../../../bd/bd_system/ip/bd_system_v_vid_in_axi4s_0_0/sim/bd_system_v_vid_in_axi4s_0_0.v" \
+"../../../bd/bd_system/ip/bd_system_sc035hgs_0_0/sim/bd_system_sc035hgs_0_0.v" \
+"../../../bd/bd_system/sim/bd_system.v" \
+"../../../bd/bd_system/ip/bd_system_auto_pc_0/sim/bd_system_auto_pc_0.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

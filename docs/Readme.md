@@ -49,20 +49,20 @@
 
 上图插排俯视图引脚定义如下
 
-|    左     |     右     |
-| :-------: | :--------: |
-|    3V3    |    GND     |
-|    Y4     |     Y3     |
-|    Y5     |     Y2     |
-|    Y6     |    PCLK    |
-|    Y7     |    DGND    |
-|    Y8     |    MCLK    |
-|    Y9     | DOVDD 1.8V |
-| DVDD 1.5V |    HREF    |
-|   PWDN    |   VSYNC    |
-|   RESET   |   SIO_C    |
-| AVDD 2.8V |   SIO_D    |
-|    GND    |     NC     |
+|      左       |      右      |
+| :-----------: | :----------: |
+|      3V3      |     GND      |
+|   Y4（V18）   |  Y3（W18）   |
+|   Y5（U17）   |  Y2（U19）   |
+|   Y6（W15）   | PCLK（U14）  |
+|   Y7（U15）   |     DGND     |
+|   Y8（P20）   | MCLK（Y14）  |
+|   Y9（T20）   |  DOVDD 1.8V  |
+| DVDD 1.5V（） | HREF（N18）  |
+|  PWDN（U20）  | VSYNC（N20） |
+|   RESET（）   | SIO_C（R17） |
+| AVDD 2.8V（） | SIO_D（W20） |
+|    GND（）    |      NC      |
 
 # 2 驱动设计
 

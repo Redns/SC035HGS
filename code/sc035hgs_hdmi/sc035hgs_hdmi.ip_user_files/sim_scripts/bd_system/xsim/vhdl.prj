@@ -1,0 +1,16 @@
+vhdl xil_defaultlib  \
+"../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/ab26/src/axi_dynclk_S00_AXI.vhd" \
+"../../../../sc035hgs_hdmi.gen/sources_1/bd/bd_system/ipshared/ab26/src/axi_dynclk.vhd" \
+"../../../bd/bd_system/ip/bd_system_axi_dynclk_0_0/sim/bd_system_axi_dynclk_0_0.vhd" \
+"../../../bd/bd_system/ip/bd_system_axi_smc_0/bd_0/ip/ip_1/sim/bd_3952_psr_aclk_0.vhd" \
+"../../../bd/bd_system/ip/bd_system_axi_vdma_0_0/sim/bd_system_axi_vdma_0_0.vhd" \
+"../../../bd/bd_system/ip/bd_system_rst_ps7_0_100M_0/sim/bd_system_rst_ps7_0_100M_0.vhd" \
+"../../../bd/bd_system/ip/bd_system_rst_ps7_0_50M_0/sim/bd_system_rst_ps7_0_50M_0.vhd" \
+"../../../bd/bd_system/ip/bd_system_v_tc_0_0/sim/bd_system_v_tc_0_0.vhd" \
+"../../../bd/bd_system/ip/bd_system_axi_gpio_0_0/sim/bd_system_axi_gpio_0_0.vhd" \
+"../../../bd/bd_system/ip/bd_system_axi_gpio_0_1/sim/bd_system_axi_gpio_0_1.vhd" \
+"../../../bd/bd_system/ip/bd_system_axi_gpio_0_2/sim/bd_system_axi_gpio_0_2.vhd" \
+"../../../bd/bd_system/ip/bd_system_axi_gpio_0_3/sim/bd_system_axi_gpio_0_3.vhd" \
+
+# Do not sort compile order
+nosort

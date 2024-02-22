@@ -412,3 +412,25 @@ code/sc_camera_dvp/sc_camera_dvp.gen
 code/sc_camera_dvp/sc_camera_dvp.runs
 
 *.log
+
+*.ila
+*.jou
+*.str
+
+code/sc_camera_dvp/.Xil
+code/sc_camera_dvp/impl_1
+code/sc_camera_dvp/NA
+code/sc_camera_dvp/sc_camera_dvp.sim
+code/sc_camera_dvp/synth_1
+code/sc_camera_dvp/Packages
+code/sc_camera_dvp/sc_camera_dvp.vitis/.metadata
+
+code/sc035hgs_hdmi/.Xil
+code/sc035hgs_hdmi/sc035hgs_hdmi.cache
+code/sc035hgs_hdmi/sc035hgs_hdmi.gen
+code/sc035hgs_hdmi/sc035hgs_hdmi.runs
+code/sc035hgs_hdmi/sc035hgs_hdmi.sim
+code/sc035hgs_hdmi/sc035hgs_hdmi.vitis/.metadata
+code/sc035hgs_hdmi/sc035hgs_hdmi.vitis/RemoteSystemsTempFiles
+code/sc035hgs_hdmi/sc035hgs_hdmi.vitis/.Analytics
+code/sc035hgs_hdmi/sc035hgs_hdmi.vitis/IDE.log

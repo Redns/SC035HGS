@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="sc035hgs_hdmi" location="D:/Project/sc_camera/code/sc035hgs_hdmi/sc035hgs_hdmi.vitis/sc035hgs_hdmi" platform="D:/Project/sc_camera/code/sc035hgs_hdmi/sc035hgs_hdmi.vitis/sc035hgs_hdmi_wrapper/export/sc035hgs_hdmi_wrapper/sc035hgs_hdmi_wrapper.xpfm" platformUID="xilinx:::0.0(custom)" systemProject="sc035hgs_hdmi_system" sysConfig="sc035hgs_hdmi_wrapper" runtime="cpp" cpu="standalone_ps7_cortexa9_0" cpuInstance="ps7_cortexa9_0" os="standalone" mssSignature="0251bf849af997fe8a59a6c108181de4">
+  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.133335860" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+    <lastBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.armv7.exe.release.1556591868" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <template appTemplateName="hello_world"/>
+</sdkproject:SdkProject>
