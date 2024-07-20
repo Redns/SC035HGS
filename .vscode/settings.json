@@ -1,7 +1,5 @@
 {
     "files.associations": {
-        "xiosbase": "c",
-        "vdma_api.h": "c",
-        "xparameters.h": "c"
+        "i2c.h": "c"
     }
 }
